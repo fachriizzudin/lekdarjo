@@ -11,6 +11,7 @@ import org.apache.pdfbox.rendering.PDFRenderer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -96,8 +97,7 @@ public class FileStorageServiceImpl implements FileStorageService {
     @Override
     public FileModel createCoverFromPdf(MultipartFile file) throws IOException {
 
-        File fileObj = convertToFile(file);
-        PDDocument document = PDDocument.load(fileObj);
+        PDDocument document = PDDocument.load(file.getBytes());
 
         PDFRenderer renderer = new PDFRenderer(document);
         BufferedImage image = renderer.renderImageWithDPI(0, 300, ImageType.RGB);
