@@ -63,6 +63,8 @@ public class Utils {
                 return EDistrict.KRIAN;
             case "3515180":
                 return EDistrict.BALONG_BANDO;
+            case "3515":
+                return EDistrict.UMUM;
             default:
                 throw new BadRequestException(ExceptionMessage.DISTRICT_NOT_FOUND);
         }

@@ -39,7 +39,6 @@ public class Publication {
     @Column(name = "publication_no")
     private String publicationNo;
 
-    @NotNull
     @JsonProperty(value = "issn_or_isbn")
     @Size(max = 10)
     @Column(name = "issn_or_isbn")

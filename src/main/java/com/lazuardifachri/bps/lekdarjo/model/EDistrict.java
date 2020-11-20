@@ -43,7 +43,9 @@ public enum EDistrict {
     @JsonProperty("3515170")
     KRIAN("3515170", "Krian"),
     @JsonProperty("3515180")
-    BALONG_BANDO("3515180", "Balong Bendo");
+    BALONG_BANDO("3515180", "Balong Bendo"),
+    @JsonProperty("3515")
+    UMUM("3515", "Umum");
 
     private String code;
     private String name;
