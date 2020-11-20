@@ -35,19 +35,24 @@ public class LekdarjoApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		User admin = new User("bpskabupatensidoarjo@gmail.com",
-				passwordEncoder.encode("@Hero140"));
 
-		Set<Role> roles = new HashSet<>();
+		if (!userRepository.existsByUsername("bpskabupatensidoarjo@gmail.com")){
+			User admin = new User("bpskabupatensidoarjo@gmail.com",
+					passwordEncoder.encode("@Hero140"));
 
-		Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN).orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-		Role userRole = roleRepository.findByName(ERole.ROLE_USER).orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+			Set<Role> roles = new HashSet<>();
 
-		roles.add(adminRole);
-		roles.add(userRole);
+			Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN).orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+			Role userRole = roleRepository.findByName(ERole.ROLE_USER).orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+
+			roles.add(adminRole);
+			roles.add(userRole);
 
 
-		admin.setRoles(roles);
-		userRepository.save(admin);
+			admin.setRoles(roles);
+			userRepository.save(admin);
+		}
+
+
 	}
 }
