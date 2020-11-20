@@ -87,9 +87,9 @@ public class IndicatorController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(value = "/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<Indicator> updateIndicator(@PathVariable String id, @RequestPart("idk") String idkJson, @RequestPart(value = "file", required = false) MultipartFile file) throws IOException, ParseException {
-        Indicator indicator = indicatorService.updateIndicator(id, idkJson, file);
-        return new ResponseEntity<>(indicator, HttpStatus.CREATED);
+    public ResponseEntity<String> updateIndicator(@PathVariable String id, @RequestPart("idk") String idkJson, @RequestPart(value = "file", required = false) MultipartFile file) throws IOException, ParseException {
+        indicatorService.updateIndicator(id, idkJson, file);
+        return new ResponseEntity<>("Updated", HttpStatus.CREATED);
     }
 
     @PreAuthorize("hasRole('ADMIN')")

@@ -24,7 +24,6 @@ public class StatisticalNews {
     @Column(name = "title")
     private String title;
 
-    @NotNull
     @Lob
     @Column(name = "abstraction")
     @Size(min = 120)

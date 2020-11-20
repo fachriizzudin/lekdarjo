@@ -117,7 +117,7 @@ public class GraphController {
 
         if (graphMeta.isPresent()) {
             graphRepository.deleteById(Long.valueOf(dataId));
-            return new ResponseEntity<>("Deleted", HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } else {
             throw new ResourceNotFoundException(ExceptionMessage.DATA_GRAPH_NOT_FOUND);
         }

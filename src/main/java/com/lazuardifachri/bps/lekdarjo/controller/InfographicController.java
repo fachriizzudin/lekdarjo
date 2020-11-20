@@ -91,9 +91,9 @@ public class InfographicController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(value = "/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<Infographic> updateInfographic(@PathVariable String id, @RequestPart("info") String infoJson, @RequestPart(value = "image", required = false) MultipartFile file) throws IOException, ParseException {
-        Infographic infographic = infographicService.updateInfographic(id, infoJson, file);
-        return new ResponseEntity<>(infographic, HttpStatus.CREATED);
+    public ResponseEntity<String> updateInfographic(@PathVariable String id, @RequestPart("info") String infoJson, @RequestPart(value = "image", required = false) MultipartFile file) throws IOException, ParseException {
+        infographicService.updateInfographic(id, infoJson, file);
+        return new ResponseEntity<>("Updated", HttpStatus.CREATED);
     }
 
     @PreAuthorize("hasRole('ADMIN')")

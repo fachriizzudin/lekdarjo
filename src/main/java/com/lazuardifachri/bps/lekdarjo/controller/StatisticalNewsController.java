@@ -43,9 +43,9 @@ public class StatisticalNewsController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<StatisticalNews> addStatisticalNews(@RequestPart("news") String newsJson, @RequestPart("file") MultipartFile newsFile) throws IOException, ParseException {
-        StatisticalNews statisticalNews = statisticalNewsService.createStatisticalNews(newsJson, newsFile);
-        return new ResponseEntity<>(statisticalNews, HttpStatus.CREATED);
+    public ResponseEntity<String> addStatisticalNews(@RequestPart("news") String newsJson, @RequestPart("file") MultipartFile newsFile) throws IOException, ParseException {
+        statisticalNewsService.createStatisticalNews(newsJson, newsFile);
+        return new ResponseEntity<>("Created", HttpStatus.CREATED);
     }
 
     @PreAuthorize("hasRole('USER')")
@@ -121,9 +121,9 @@ public class StatisticalNewsController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(value = "/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<StatisticalNews> updateStatisticalNews(@PathVariable String id, @RequestPart("news") String newsJson, @RequestPart(value = "file", required = false) MultipartFile file) throws IOException, ParseException {
-        StatisticalNews statisticalNews = statisticalNewsService.updateStatisticalNews(id, newsJson, file);
-        return new ResponseEntity<>(statisticalNews, HttpStatus.CREATED);
+    public ResponseEntity<String> updateStatisticalNews(@PathVariable String id, @RequestPart("news") String newsJson, @RequestPart(value = "file", required = false) MultipartFile file) throws IOException, ParseException {
+        statisticalNewsService.updateStatisticalNews(id, newsJson, file);
+        return new ResponseEntity<>("Updated", HttpStatus.CREATED);
     }
 
     @PreAuthorize("hasRole('ADMIN')")

@@ -136,9 +136,9 @@ public class PublicationController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(value = "/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<Publication> updatePublication(@PathVariable String id, @RequestPart("pub") String pubJson, @RequestPart(value = "file", required = false) MultipartFile pubFile) throws IOException, ParseException {
-        Publication publication = publicationService.updatePublication(id, pubJson, pubFile);
-        return new ResponseEntity<>(publication, HttpStatus.CREATED);
+    public ResponseEntity<String> updatePublication(@PathVariable String id, @RequestPart("pub") String pubJson, @RequestPart(value = "file", required = false) MultipartFile pubFile) throws IOException, ParseException {
+        publicationService.updatePublication(id, pubJson, pubFile);
+        return new ResponseEntity<>("Updated", HttpStatus.CREATED);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
