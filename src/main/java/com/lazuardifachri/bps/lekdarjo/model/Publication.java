@@ -50,6 +50,7 @@ public class Publication {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date releaseDate;
 
+    @Lob
     @Column(name = "information")
     private String information;
 
