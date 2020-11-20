@@ -40,7 +40,6 @@ public class Publication {
     private String publicationNo;
 
     @JsonProperty(value = "issn_or_isbn")
-    @Size(max = 10)
     @Column(name = "issn_or_isbn")
     private String issnOrIsbn;
 
@@ -51,8 +50,6 @@ public class Publication {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date releaseDate;
 
-    @NotNull
-    @Size(max = 700, min = 100)
     @Column(name = "information")
     private String information;
 

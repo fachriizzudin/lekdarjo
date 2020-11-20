@@ -26,7 +26,6 @@ public class StatisticalNews {
 
     @Lob
     @Column(name = "abstraction")
-    @Size(min = 120)
     private String abstraction;
 
     @NotNull
