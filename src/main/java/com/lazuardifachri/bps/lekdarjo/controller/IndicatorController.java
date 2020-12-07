@@ -46,13 +46,13 @@ public class IndicatorController {
                                                            @RequestParam(defaultValue = "3") int size) {
 
         List<Indicator> indicators = new ArrayList<>();
-        Pageable paging = PageRequest.of(page, size);
+        Pageable wholePage = Pageable.unpaged();
         Page<Indicator> pageIdk = null;
 
         if (categoryId.isPresent()) {
-            pageIdk = indicatorService.readIndicatorByCategory(categoryId.get(), paging);
+            pageIdk = indicatorService.readIndicatorByCategory(categoryId.get(), wholePage);
         } else {
-            pageIdk = indicatorService.readAllIndicator(paging);
+            pageIdk = indicatorService.readAllIndicator(wholePage);
         }
 
         indicators = pageIdk.getContent();

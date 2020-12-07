@@ -50,13 +50,13 @@ public class InfographicController {
                                                                @RequestParam(defaultValue = "3") int size) {
 
         List<Infographic> infographics = new ArrayList<>();
-        Pageable paging = PageRequest.of(page, size);
+        Pageable wholePage = Pageable.unpaged();
         Page<Infographic> pageinfo = null;
 
         if (subjectId.isPresent()) {
-            pageinfo = infographicService.readInfographicBySubject(subjectId.get(), paging);
+            pageinfo = infographicService.readInfographicBySubject(subjectId.get(), wholePage);
         } else {
-            pageinfo = infographicService.readAllInfographic(paging);
+            pageinfo = infographicService.readAllInfographic(wholePage);
         }
 
         infographics = pageinfo.getContent();

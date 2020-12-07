@@ -57,7 +57,7 @@ public class StatisticalNewsController {
                                                                      @RequestParam(defaultValue = "3") int size){
 
         List<StatisticalNews> statisticalNews;
-        Pageable paging = PageRequest.of(page, size);
+        Pageable wholePage = Pageable.unpaged();
         Page<StatisticalNews> pageNews = null;
 
         int switchvar = 0;
@@ -69,22 +69,22 @@ public class StatisticalNewsController {
 
         switch (switchvar) {
             case (0):
-                pageNews = statisticalNewsService.readAllStatisticalNews(paging);
+                pageNews = statisticalNewsService.readAllStatisticalNews(wholePage);
                 break;
             case (1):
-                pageNews = statisticalNewsService.readStatisticalNewsByCategory(categoryId.get(), paging);
+                pageNews = statisticalNewsService.readStatisticalNewsByCategory(categoryId.get(), wholePage);
                 break;
             case (11):
-                pageNews = statisticalNewsService.readStatisticalNewsByCategoryAndYear(categoryId.get(), year.get(), paging);
+                pageNews = statisticalNewsService.readStatisticalNewsByCategoryAndYear(categoryId.get(), year.get(), wholePage);
                 break;
             case (111):
-                pageNews = statisticalNewsService.readStatisticalNewsByCategoryAndYearAndMonth(categoryId.get(), year.get(), month.get(), paging);
+                pageNews = statisticalNewsService.readStatisticalNewsByCategoryAndYearAndMonth(categoryId.get(), year.get(), month.get(), wholePage);
                 break;
             case (10):
-                pageNews = statisticalNewsService.readStatisticalNewsByYear(year.get(), paging);
+                pageNews = statisticalNewsService.readStatisticalNewsByYear(year.get(), wholePage);
                 break;
             case (110):
-                pageNews = statisticalNewsService.readStatisticalNewsByYearAndMonth(year.get(), month.get(), paging);
+                pageNews = statisticalNewsService.readStatisticalNewsByYearAndMonth(year.get(), month.get(), wholePage);
                 break;
             default: throw new ResourceNotFoundException(ExceptionMessage.FILTER_NOT_SUPPORTED);
         }
