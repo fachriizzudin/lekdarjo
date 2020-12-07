@@ -47,7 +47,7 @@ public class PublicationController {
     }
 
     @PreAuthorize("hasRole('USER')")
-    @GetMapping(value = "/page")
+    @GetMapping(value = "")
     public ResponseEntity<Map<String, Object>> getAllPublicationByPage(@RequestParam(name = "district", required = false) Optional<String> districtCode,
                                                                        @RequestParam(name = "year", required = false) Optional<String> year,
                                                                        @RequestParam(name = "subject", required = false) Optional<String> subjectId,
