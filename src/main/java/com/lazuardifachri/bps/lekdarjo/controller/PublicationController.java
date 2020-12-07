@@ -47,16 +47,17 @@ public class PublicationController {
     }
 
     @PreAuthorize("hasRole('USER')")
-    @GetMapping(value = "")
-    public ResponseEntity<Map<String, Object>> getAllPublication(@RequestParam(name = "district", required = false) Optional<String> districtCode,
-                                                               @RequestParam(name = "year", required = false) Optional<String> year,
-                                                               @RequestParam(name = "subject", required = false) Optional<String> subjectId,
-                                                               @RequestParam(defaultValue = "0") int page,
-                                                               @RequestParam(defaultValue = "3") int size){
+    @GetMapping(value = "/page")
+    public ResponseEntity<Map<String, Object>> getAllPublicationByPage(@RequestParam(name = "district", required = false) Optional<String> districtCode,
+                                                                       @RequestParam(name = "year", required = false) Optional<String> year,
+                                                                       @RequestParam(name = "subject", required = false) Optional<String> subjectId,
+                                                                       @RequestParam(defaultValue = "0") int page,
+                                                                       @RequestParam(defaultValue = "3") int size){
 
 
         List<Publication> publications = new ArrayList<>();
-        Pageable paging = PageRequest.of(page, size);
+//        Pageable paging = PageRequest.of(page, size);
+        Pageable wholePage = Pageable.unpaged();
         Page<Publication> pagePub = null;
 
         int switchvar = 0;
@@ -69,24 +70,24 @@ public class PublicationController {
 
         switch (switchvar) {
             case (0):
-                pagePub = publicationService.readAllPublication(paging);
+                pagePub = publicationService.readAllPublication(wholePage);
                 break;
             case (1):
                 eDistrict = Utils.getEDistrictByCode(districtCode.get());
-                pagePub = publicationService.readPublicationByDistrict(eDistrict, paging);
+                pagePub = publicationService.readPublicationByDistrict(eDistrict, wholePage);
                 break;
             case (10):
-                pagePub = publicationService.readPublicationByYear(year.get(), paging);
+                pagePub = publicationService.readPublicationByYear(year.get(), wholePage);
                 break;
             case (11):
                 eDistrict = Utils.getEDistrictByCode(districtCode.get());
-                pagePub = publicationService.readPublicationByDistrictAndYear(eDistrict, year.get(), paging);
+                pagePub = publicationService.readPublicationByDistrictAndYear(eDistrict, year.get(), wholePage);
                 break;
             case (100):
-                pagePub = publicationService.readPublicationBySubject(subjectId.get(), paging);
+                pagePub = publicationService.readPublicationBySubject(subjectId.get(), wholePage);
                 break;
             case (110):
-                pagePub = publicationService.readPublicationBySubjectAndYear(subjectId.get(), year.get(), paging);
+                pagePub = publicationService.readPublicationBySubjectAndYear(subjectId.get(), year.get(), wholePage);
                 break;
             default: throw new ResourceNotFoundException(ExceptionMessage.FILTER_NOT_SUPPORTED);
         }
@@ -101,6 +102,60 @@ public class PublicationController {
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+//    @PreAuthorize("hasRole('USER')")
+//    @GetMapping(value = "")
+//    public ResponseEntity<List<Publication>> getAllPublication(@RequestParam(name = "district", required = false) Optional<String> districtCode,
+//                                                                       @RequestParam(name = "year", required = false) Optional<String> year,
+//                                                                       @RequestParam(name = "subject", required = false) Optional<String> subjectId) {
+//
+//
+//        List<Publication> publications = new ArrayList<>();
+//        Page<Publication> pagePub = null;
+//
+//        int switchvar = 0;
+//
+//        if (districtCode.isPresent()) {switchvar += 1;}
+//        if (year.isPresent()) {switchvar += 10;}
+//        if (subjectId.isPresent()) {switchvar += 100;}
+//
+//        EDistrict eDistrict;
+//
+//        switch (switchvar) {
+//            case (0):
+//                pagePub = publicationService.readAllPublication(paging);
+//                break;
+//            case (1):
+//                eDistrict = Utils.getEDistrictByCode(districtCode.get());
+//                pagePub = publicationService.readPublicationByDistrict(eDistrict, paging);
+//                break;
+//            case (10):
+//                pagePub = publicationService.readPublicationByYear(year.get(), paging);
+//                break;
+//            case (11):
+//                eDistrict = Utils.getEDistrictByCode(districtCode.get());
+//                pagePub = publicationService.readPublicationByDistrictAndYear(eDistrict, year.get(), paging);
+//                break;
+//            case (100):
+//                pagePub = publicationService.readPublicationBySubject(subjectId.get(), paging);
+//                break;
+//            case (110):
+//                pagePub = publicationService.readPublicationBySubjectAndYear(subjectId.get(), year.get(), paging);
+//                break;
+//            default: throw new ResourceNotFoundException(ExceptionMessage.FILTER_NOT_SUPPORTED);
+//        }
+//
+//        publications = pagePub.getContent();
+//
+//        Map<String, Object> response = new HashMap<>();
+//        response.put("publications", publications);
+//        response.put("current_page", pagePub.getNumber());
+//        response.put("total_items", pagePub.getTotalElements());
+//        response.put("total_pages", pagePub.getTotalPages());
+//
+//        return new ResponseEntity<>(response, HttpStatus.OK);
+//    }
+
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping(value = "/{id}")
