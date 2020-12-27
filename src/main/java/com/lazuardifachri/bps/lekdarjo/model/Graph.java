@@ -12,8 +12,7 @@ public class Graph {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @NotNull
-    private long value;
+    private double value;
 
     @NotNull
     private int year;
@@ -23,7 +22,7 @@ public class Graph {
     @JoinColumn(name = "meta_fk", nullable = false)
     private GraphMeta meta;
 
-    public Graph(long id, @NotNull long value, @NotNull int year) {
+    public Graph(long id, double value, @NotNull int year) {
         this.id = id;
         this.value = value;
         this.year = year;
@@ -36,11 +35,11 @@ public class Graph {
         return id;
     }
 
-    public long getValue() {
+    public double getValue() {
         return value;
     }
 
-    public void setValue(long value) {
+    public void setValue(double value) {
         this.value = value;
     }
 
