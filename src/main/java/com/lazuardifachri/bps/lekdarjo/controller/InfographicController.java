@@ -61,12 +61,6 @@ public class InfographicController {
 
         infographics = pageinfo.getContent();
 
-        Map<String, Object> response = new HashMap<>();
-        response.put("infographics", infographics);
-        response.put("current_page", pageinfo.getNumber());
-        response.put("total_items", pageinfo.getTotalElements());
-        response.put("total_pages", pageinfo.getTotalPages());
-
         return new ResponseEntity<>(infographics, HttpStatus.OK);
     }
 

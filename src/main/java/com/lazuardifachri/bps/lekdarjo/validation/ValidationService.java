@@ -51,6 +51,13 @@ public class ValidationService {
         }
     }
 
+    public void validateGraphMeta(GraphMeta graphMeta){
+        Set<ConstraintViolation<GraphMeta>> violations = validator.validate(graphMeta);
+        if (!violations.isEmpty()) {
+            throw new ConstraintViolationException(violations);
+        }
+    }
+
     public void validatePdfFile(FileModel file) {
         if (file.getType().equals("application/pdf")) {
             Set<ConstraintViolation<FileModel>> violations = validator.validate(file);

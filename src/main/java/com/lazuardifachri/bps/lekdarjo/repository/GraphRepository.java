@@ -12,4 +12,7 @@ public interface GraphRepository extends JpaRepository<Graph, Long> {
     @Query("SELECT new Graph(g.id, g.value, g.year) FROM Graph g WHERE g.meta.id = :id")
     List<Graph> findAllByGraphMeta(@Param("id") Long id);
 
+    @Query("DELETE FROM Graph g WHERE meta_fk = :id")
+    List<Graph> deleteAllByGraphMeta(@Param("id") Long id);
+
 }

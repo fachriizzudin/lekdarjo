@@ -1,15 +1,18 @@
 package com.lazuardifachri.bps.lekdarjo.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 @Entity
 @Table(name = "graph_meta")
 public class GraphMeta {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     @NotNull
@@ -22,9 +25,27 @@ public class GraphMeta {
     private String vertical;
 
     @NotNull
+    @JsonProperty(value = "vertical_unit")
+    @Column(name = "vertical_unit")
     private String verticalUnit;
 
+    @Lob
+    private String description;
+
+    @JsonIgnore
+    @OneToMany(mappedBy="meta", orphanRemoval = true, cascade = CascadeType.PERSIST)
+    private Set<Graph> graphs;
+
     public GraphMeta() {
+    }
+
+    public GraphMeta(long id, @NotNull String title, @NotNull String horizontal, @NotNull String vertical, @NotNull String verticalUnit, String description) {
+        this.id = id;
+        this.title = title;
+        this.horizontal = horizontal;
+        this.vertical = vertical;
+        this.verticalUnit = verticalUnit;
+        this.description = description;
     }
 
     public long getId() {
@@ -61,5 +82,13 @@ public class GraphMeta {
 
     public void setVerticalUnit(String verticalUnit) {
         this.verticalUnit = verticalUnit;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
