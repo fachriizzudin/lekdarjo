@@ -84,15 +84,15 @@ public class InfographicController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping(value = "/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<String> updateInfographic(@PathVariable String id, @RequestPart("info") String infoJson, @RequestPart(value = "image", required = false) MultipartFile file) throws IOException, ParseException {
+    @PutMapping(value = "", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<String> updateInfographic(@RequestPart("id") String id, @RequestPart("info") String infoJson, @RequestPart(value = "image", required = false) MultipartFile file) throws IOException, ParseException {
         infographicService.updateInfographic(id, infoJson, file);
         return new ResponseEntity<>("Updated", HttpStatus.CREATED);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity<HttpStatus> removeStatisticalNews(@PathVariable String id) {
+    @DeleteMapping(value = "")
+    public ResponseEntity<HttpStatus> removeStatisticalNews(@RequestParam("id") String id) {
         infographicService.deleteInfographic(id);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }

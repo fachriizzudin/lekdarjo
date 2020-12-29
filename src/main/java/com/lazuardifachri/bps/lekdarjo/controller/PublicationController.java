@@ -135,15 +135,15 @@ public class PublicationController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping(value = "/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<String> updatePublication(@PathVariable String id, @RequestPart("pub") String pubJson, @RequestPart(value = "file", required = false) MultipartFile pubFile) throws IOException, ParseException {
+    @PutMapping(value = "", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<String> updatePublication(@RequestPart("id") String id, @RequestPart("pub") String pubJson, @RequestPart(value = "file", required = false) MultipartFile pubFile) throws IOException, ParseException {
         publicationService.updatePublication(id, pubJson, pubFile);
         return new ResponseEntity<>("Updated", HttpStatus.CREATED);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity<HttpStatus> removePublication(@PathVariable String id) {
+    @DeleteMapping(value = "")
+    public ResponseEntity<HttpStatus> removePublication(@RequestParam("id") String id) {
         publicationService.deletePublication(id);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }

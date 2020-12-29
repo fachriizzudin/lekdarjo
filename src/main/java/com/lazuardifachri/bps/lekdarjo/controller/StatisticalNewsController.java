@@ -120,15 +120,15 @@ public class StatisticalNewsController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping(value = "/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<String> updateStatisticalNews(@PathVariable String id, @RequestPart("news") String newsJson, @RequestPart(value = "file", required = false) MultipartFile file) throws IOException, ParseException {
+    @PutMapping(value = "", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<String> updateStatisticalNews(@RequestPart("id") String id, @RequestPart("news") String newsJson, @RequestPart(value = "file", required = false) MultipartFile file) throws IOException, ParseException {
         statisticalNewsService.updateStatisticalNews(id, newsJson, file);
         return new ResponseEntity<>("Updated", HttpStatus.CREATED);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity<HttpStatus> removeStatisticalNews(@PathVariable String id) {
+    @DeleteMapping(value = "")
+    public ResponseEntity<HttpStatus> removeStatisticalNews(@RequestParam("id") String id) {
         statisticalNewsService.deleteStatisticalNews(id);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }

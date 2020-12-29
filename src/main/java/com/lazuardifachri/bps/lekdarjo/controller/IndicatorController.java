@@ -86,15 +86,15 @@ public class IndicatorController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping(value = "/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<String> updateIndicator(@PathVariable String id, @RequestPart("idk") String idkJson, @RequestPart(value = "file", required = false) MultipartFile file) throws IOException, ParseException {
+    @PutMapping(value = "", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<String> updateIndicator(@RequestPart("id") String id, @RequestPart("idk") String idkJson, @RequestPart(value = "file", required = false) MultipartFile file) throws IOException, ParseException {
         indicatorService.updateIndicator(id, idkJson, file);
         return new ResponseEntity<>("Updated", HttpStatus.CREATED);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity<HttpStatus> removeIndicator(@PathVariable String id) {
+    @DeleteMapping(value = "")
+    public ResponseEntity<HttpStatus> removeIndicator(@RequestParam("id") String id) {
         indicatorService.deleteIndicator(id);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
