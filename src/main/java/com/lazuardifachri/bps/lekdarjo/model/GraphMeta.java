@@ -33,7 +33,7 @@ public class GraphMeta {
     private String description;
 
     @JsonIgnore
-    @OneToMany(mappedBy="meta", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy="meta", cascade = CascadeType.ALL)
     private Set<Graph> graphs;
 
     public GraphMeta() {
