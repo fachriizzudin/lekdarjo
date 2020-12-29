@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface GraphRepository extends JpaRepository<Graph, Double> {
+public interface GraphRepository extends JpaRepository<Graph, Long> {
 
     @Query("SELECT new Graph(g.id, g.value, g.year) FROM Graph g WHERE g.meta.id = :id")
     List<Graph> findAllByGraphMeta(@Param("id") Long id);

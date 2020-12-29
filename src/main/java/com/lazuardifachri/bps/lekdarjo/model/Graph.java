@@ -12,7 +12,7 @@ public class Graph {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    private double value;
+    private Double value;
 
     @NotNull
     private int year;
