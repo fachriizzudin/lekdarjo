@@ -22,7 +22,7 @@ public class Graph {
     @JoinColumn(name = "meta_fk", nullable = false)
     private GraphMeta meta;
 
-    public Graph(long id, double value, @NotNull int year) {
+    public Graph(long id, Double value, @NotNull int year) {
         this.id = id;
         this.value = value;
         this.year = year;
@@ -35,11 +35,11 @@ public class Graph {
         return id;
     }
 
-    public double getValue() {
+    public Double getValue() {
         return value;
     }
 
-    public void setValue(double value) {
+    public void setValue(Double value) {
         this.value = value;
     }
 
