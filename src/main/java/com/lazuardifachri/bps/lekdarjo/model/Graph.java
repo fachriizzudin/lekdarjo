@@ -59,4 +59,14 @@ public class Graph {
     public void setMeta(GraphMeta meta) {
         this.meta = meta;
     }
+
+    @Override
+    public String toString() {
+        return "Graph{" +
+                "id=" + id +
+                ", value=" + value +
+                ", year=" + year +
+                ", meta=" + meta +
+                '}';
+    }
 }

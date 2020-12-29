@@ -6,6 +6,9 @@ import com.lazuardifachri.bps.lekdarjo.exception.ResourceNotFoundException;
 import com.lazuardifachri.bps.lekdarjo.model.Graph;
 import com.lazuardifachri.bps.lekdarjo.model.GraphMeta;
 import com.lazuardifachri.bps.lekdarjo.repository.GraphRepository;
+import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +32,8 @@ public class GraphServiceImpl implements GraphService{
     @Autowired
     GraphRepository graphRepository;
 
+    Logger log = LoggerFactory.getLogger(GraphServiceImpl.class);
+
     @Override
     public List<Graph> createGraphBulk(String graphJson, String metaId) throws IOException, ParseException {
 
@@ -37,6 +42,7 @@ public class GraphServiceImpl implements GraphService{
         Graph[] data = objectMapper.readValue(graphJson, Graph[].class);
 
         for (Graph graphData : data) {
+            log.info(graphData.toString());
             graphData.setMeta(graphMeta);
         }
 
@@ -56,7 +62,11 @@ public class GraphServiceImpl implements GraphService{
 
     @Override
     public List<Graph> readAllGraph(String metaId) {
-        return graphRepository.findAllByGraphMeta(Long.parseLong(metaId));
+        List<Graph> graphs = graphRepository.findAllByGraphMeta(Long.parseLong(metaId));
+        for(Graph g: graphs) {
+            log.info(g.toString());
+        }
+        return graphs;
     }
 
     @Override
