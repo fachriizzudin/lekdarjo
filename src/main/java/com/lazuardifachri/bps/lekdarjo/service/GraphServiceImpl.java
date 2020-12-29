@@ -61,7 +61,7 @@ public class GraphServiceImpl implements GraphService{
 
     @Override
     public Graph readById(String dataId) {
-        Optional<Graph> graphOptional = graphRepository.findById(Long.parseLong(dataId));
+        Optional<Graph> graphOptional = graphRepository.findById(Double.parseDouble(dataId));
         return graphOptional.orElseThrow(() -> new ResourceNotFoundException(ExceptionMessage.GRAPH_NOT_FOUND));
     }
 
@@ -82,6 +82,6 @@ public class GraphServiceImpl implements GraphService{
 
     @Override
     public void deleteGraph(String dataId) {
-        graphRepository.deleteById(Long.parseLong(dataId));
+        graphRepository.deleteById(Double.parseDouble(dataId));
     }
 }
