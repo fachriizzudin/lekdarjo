@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Repository
 public interface GraphMetaRepository extends JpaRepository<GraphMeta, Long> {
-    String QUERY = "SELECT new GraphMeta(g.id, g.title, g.horizontal, g.vertical, g.verticalUnit, g.description) FROM GraphMeta g ";
+    String QUERY = "SELECT new GraphMeta(g.id, g.title, g.subject, g.horizontal, g.vertical, g.verticalUnit, g.description) FROM GraphMeta g ";
 
     String ORDER = " ORDER by g.id ASC";
 

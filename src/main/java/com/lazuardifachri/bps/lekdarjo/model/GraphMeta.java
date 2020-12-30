@@ -2,6 +2,8 @@ package com.lazuardifachri.bps.lekdarjo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.lazuardifachri.bps.lekdarjo.serializer.SubjectDeserializer;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -12,11 +14,15 @@ import java.util.Set;
 public class GraphMeta {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     @NotNull
     private String title;
+
+    @JsonDeserialize(using = SubjectDeserializer.class)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @JoinColumn(name = "subject_fk", nullable = false)
+    private Subject subject;
 
     @NotNull
     private String horizontal;
@@ -39,9 +45,10 @@ public class GraphMeta {
     public GraphMeta() {
     }
 
-    public GraphMeta(long id, @NotNull String title, @NotNull String horizontal, @NotNull String vertical, @NotNull String verticalUnit, String description) {
+    public GraphMeta(long id, @NotNull String title, @NotNull Subject subject, @NotNull String horizontal, @NotNull String vertical, @NotNull String verticalUnit, String description) {
         this.id = id;
         this.title = title;
+        this.subject = subject;
         this.horizontal = horizontal;
         this.vertical = vertical;
         this.verticalUnit = verticalUnit;
@@ -90,5 +97,13 @@ public class GraphMeta {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Subject getSubject() {
+        return subject;
+    }
+
+    public void setSubject(Subject subject) {
+        this.subject = subject;
     }
 }
