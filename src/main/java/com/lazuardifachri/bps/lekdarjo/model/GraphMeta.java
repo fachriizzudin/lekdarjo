@@ -19,6 +19,7 @@ public class GraphMeta {
     @NotNull
     private String title;
 
+
     @JsonDeserialize(using = SubjectDeserializer.class)
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "subject_fk", nullable = false)
