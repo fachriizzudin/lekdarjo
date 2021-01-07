@@ -9,7 +9,9 @@ import java.util.List;
 
 public interface GraphRepository extends JpaRepository<Graph, Long> {
 
-    @Query("SELECT new Graph(g.id, g.value, g.year) FROM Graph g WHERE g.meta.id = :id")
+    String ORDER = " ORDER by g.year ASC";
+
+    @Query("SELECT new Graph(g.id, g.value, g.year) FROM Graph g WHERE g.meta.id = :id" + ORDER)
     List<Graph> findAllByGraphMeta(@Param("id") Long id);
 
     @Query("DELETE FROM Graph g WHERE meta_fk = :id")
