@@ -75,6 +75,7 @@ public class AuthController {
     }
 
     @PostMapping(value = "/signup")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return new ResponseEntity<>(new MessageResponse("Error: Username or Email is already taken!"), HttpStatus.BAD_REQUEST);
