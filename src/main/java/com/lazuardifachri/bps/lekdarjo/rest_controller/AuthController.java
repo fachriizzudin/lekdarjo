@@ -1,4 +1,4 @@
-package com.lazuardifachri.bps.lekdarjo.controller;
+package com.lazuardifachri.bps.lekdarjo.rest_controller;
 
 
 import com.lazuardifachri.bps.lekdarjo.security.model.ERole;

@@ -3,9 +3,7 @@ package com.lazuardifachri.bps.lekdarjo.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lazuardifachri.bps.lekdarjo.exception.ExceptionMessage;
 import com.lazuardifachri.bps.lekdarjo.exception.ResourceNotFoundException;
-import com.lazuardifachri.bps.lekdarjo.model.Graph;
 import com.lazuardifachri.bps.lekdarjo.model.GraphMeta;
-import com.lazuardifachri.bps.lekdarjo.model.Publication;
 import com.lazuardifachri.bps.lekdarjo.repository.GraphMetaRepository;
 import com.lazuardifachri.bps.lekdarjo.validation.ValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +55,7 @@ public class GraphMetaServiceImpl implements GraphMetaService{
         if (graphMetaOptional.isPresent()) {
             graphMeta = graphMetaOptional.get();
             graphMeta.setTitle(newGraphMeta.getTitle());
+            graphMeta.setSubject(newGraphMeta.getSubject());
             graphMeta.setHorizontal(newGraphMeta.getHorizontal());
             graphMeta.setVertical(newGraphMeta.getVertical());
             graphMeta.setVerticalUnit(newGraphMeta.getVerticalUnit());

@@ -1,7 +1,6 @@
 package com.lazuardifachri.bps.lekdarjo.repository;
 
 import com.lazuardifachri.bps.lekdarjo.model.GraphMeta;
-import com.lazuardifachri.bps.lekdarjo.model.Publication;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

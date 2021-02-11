@@ -6,9 +6,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.lazuardifachri.bps.lekdarjo.serializer.CategoryDeserializer;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
@@ -20,7 +24,7 @@ public class StatisticalNews {
     private long id;
 
     @NotNull
-    @Size(max = 100, min = 20)
+    @Size(max = 100)
     @Column(name = "title")
     private String title;
 
@@ -33,6 +37,7 @@ public class StatisticalNews {
     @Temporal(TemporalType.DATE)
     @Column(name = "release_date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private Date releaseDate;
 
     @NotNull
@@ -57,6 +62,15 @@ public class StatisticalNews {
         this.releaseDate = releaseDate;
         this.category = category;
         this.documentUri = documentUri;
+    }
+
+
+
+    public StatisticalNews(String title, String abstraction, Date releaseDate, Category category) {
+        this.title = title;
+        this.abstraction = abstraction;
+        this.releaseDate = releaseDate;
+        this.category = category;
     }
 
     public StatisticalNews() {
@@ -112,6 +126,17 @@ public class StatisticalNews {
 
     public void setDocumentUri(String documentUri) {
         this.documentUri = documentUri;
+    }
+
+    public String getFormattedReleaseDate() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        return dateFormat.format(this.releaseDate);
+    }
+
+    public String apiString() {
+        return "{" + "\"title\":\"" + getTitle() + "\"" + ", \"abstraction\":\"" + getAbstraction() + "\""
+                + ", \"release_date\":\"" + getFormattedReleaseDate() + "\"" 
+                + ", \"category\":" + getCategory().getId() + "}";
     }
 }
 

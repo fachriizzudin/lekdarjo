@@ -15,6 +15,11 @@ import java.util.stream.Collectors;
 
 public class UserDetailsImpl implements UserDetails {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+
     Logger log = LoggerFactory.getLogger(UserDetailsImpl.class);
 
     private Long id;

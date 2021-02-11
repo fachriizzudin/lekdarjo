@@ -8,11 +8,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.lazuardifachri.bps.lekdarjo.serializer.SubjectDeserializer;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Date;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Entity
 @Table(name = "publications")
@@ -24,7 +27,7 @@ public class Publication {
     private long id;
 
     @NotNull
-    @Size(max = 100, min = 20)
+    @Size(max = 100)
     private String title;
 
     @NotNull
@@ -48,6 +51,7 @@ public class Publication {
     @Temporal(TemporalType.DATE)
     @Column(name = "release_date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private Date releaseDate;
 
     @Lob
@@ -84,7 +88,9 @@ public class Publication {
     private String documentUri;
 
     // untuk mengembalikan detail data beserta bytes image
-    public Publication(long id, String title, String catalogNo, String publicationNo, String issnOrIsbn, Date releaseDate, String information, EDistrict district, Subject subject, FileModel image, String imageUri, String documentUri) {
+    public Publication(long id, String title, String catalogNo, String publicationNo, String issnOrIsbn,
+            Date releaseDate, String information, EDistrict district, Subject subject, FileModel image, String imageUri,
+            String documentUri) {
         this.id = id;
         this.title = title;
         this.catalogNo = catalogNo;
@@ -100,7 +106,9 @@ public class Publication {
     }
 
     // untuk memgambil data publikasi dari repositori menggunakan hql
-    public Publication(long id, String title, String catalogNo, String publicationNo, String issnOrIsbn, Date releaseDate, String information, EDistrict district, Subject subject, String imageUri, String documentUri) {
+    public Publication(long id, String title, String catalogNo, String publicationNo, String issnOrIsbn,
+            Date releaseDate, String information, EDistrict district, Subject subject, String imageUri,
+            String documentUri) {
         this.id = id;
         this.title = title;
         this.catalogNo = catalogNo;
@@ -115,7 +123,8 @@ public class Publication {
     }
 
     // untuk pembuatan objek di publication service
-    public Publication(String title, String catalogNo, String publicationNo, String issnOrIsbn, Date releaseDate, String information, EDistrict district, Subject subject, FileModel image, FileModel document) {
+    public Publication(String title, String catalogNo, String publicationNo, String issnOrIsbn, Date releaseDate,
+            String information, EDistrict district, Subject subject, FileModel image, FileModel document) {
         this.title = title;
         this.catalogNo = catalogNo;
         this.publicationNo = publicationNo;
@@ -128,7 +137,8 @@ public class Publication {
         this.document = document;
     }
 
-    public Publication(long id, String title, String catalogNo, String publicationNo, String issnOrIsbn, Date releaseDate, String information, String imageUri, String documentUri) {
+    public Publication(long id, String title, String catalogNo, String publicationNo, String issnOrIsbn,
+            Date releaseDate, String information, String imageUri, String documentUri) {
         this.id = id;
         this.title = title;
         this.catalogNo = catalogNo;
@@ -246,5 +256,28 @@ public class Publication {
 
     public void setDocumentUri(String documentUri) {
         this.documentUri = documentUri;
+    }
+
+    public String getFormattedReleaseDate() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        return dateFormat.format(this.releaseDate);
+    }
+
+    @Override
+    public String toString() {
+        return "{" + " id='" + getId() + "'" + ", title='" + getTitle() + "'" + ", catalogNo='" + getCatalogNo() + "'"
+                + ", publicationNo='" + getPublicationNo() + "'" + ", issnOrIsbn='" + getIssnOrIsbn() + "'"
+                + ", releaseDate='" + getReleaseDate() + "'" + ", information='" + getInformation() + "'"
+                + ", district='" + getDistrict() + "'" + ", subject='" + getSubject() + "'" + ", image='" + getImage()
+                + "'" + ", imageUri='" + getImageUri() + "'" + ", document='" + getDocument() + "'" + ", documentUri='"
+                + getDocumentUri() + "'" + "}";
+    }
+
+    public String apiString() {
+        return "{" + "\"title\":\"" + getTitle() + "\"" + ", \"catalog_no\":\""
+                + getCatalogNo() + "\"" + ", \"publication_no\":\"" + getPublicationNo() + "\""
+                + ", \"issn_or_isbn\":\"" + getIssnOrIsbn() + "\"" + ", \"release_date\":\"" +  getFormattedReleaseDate() + "\""
+                + ", \"information\":\"" + getInformation() + "\"" + ", \"subject\":" + getSubject().getId()
+                + ", \"district\":\"" + getDistrict().getCode() + "\"" + "}";
     }
 }

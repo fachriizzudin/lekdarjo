@@ -2,10 +2,8 @@ package com.lazuardifachri.bps.lekdarjo.serializer;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.lazuardifachri.bps.lekdarjo.exception.ExceptionMessage;
 import com.lazuardifachri.bps.lekdarjo.exception.ResourceNotFoundException;
 import com.lazuardifachri.bps.lekdarjo.model.Subject;
@@ -26,8 +24,6 @@ public class SubjectDeserializer extends JsonDeserializer<Subject> {
 
     @Override
     public Subject deserialize(JsonParser jp, DeserializationContext ctx) throws IOException, JsonProcessingException {
-
-        Subject subject = new Subject();
 
         String id = jp.getText();
 

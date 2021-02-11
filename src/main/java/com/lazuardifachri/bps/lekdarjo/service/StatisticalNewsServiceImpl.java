@@ -24,7 +24,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.List;
 import java.util.Optional;
 
 import static com.lazuardifachri.bps.lekdarjo.Utils.parseComplicatedDate;

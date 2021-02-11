@@ -7,8 +7,6 @@ import com.lazuardifachri.bps.lekdarjo.exception.ExceptionMessage;
 import com.lazuardifachri.bps.lekdarjo.exception.ResourceNotFoundException;
 import com.lazuardifachri.bps.lekdarjo.model.FileModel;
 import com.lazuardifachri.bps.lekdarjo.model.Indicator;
-import com.lazuardifachri.bps.lekdarjo.model.Indicator;
-import com.lazuardifachri.bps.lekdarjo.model.Indicator;
 import com.lazuardifachri.bps.lekdarjo.repository.IndicatorRepository;
 import com.lazuardifachri.bps.lekdarjo.validation.ValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +20,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.List;
 import java.util.Optional;
 
 import static com.lazuardifachri.bps.lekdarjo.Utils.parseComplicatedDate;

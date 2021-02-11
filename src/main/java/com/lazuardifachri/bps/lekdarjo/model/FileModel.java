@@ -1,8 +1,5 @@
 package com.lazuardifachri.bps.lekdarjo.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.Type;
-
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 

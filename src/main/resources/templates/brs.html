@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<th:block th:replace="general.html :: headerfiles"></th:block>
+
+<body>
+    <div th:replace="general.html :: navbar"></div>
+
+    <div class="content-wrapper" style="margin-left: 0px;">
+
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <h1 class="m-0 text-dark">Publikasi</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <a class="btn btn-primary btn-sm" th:href="@{/admin/brs/add}"><i
+                                        class="fas fa-plus mr-1"></i>Tambah</a>
+                            </div>
+                            <div class="card-body">
+                                <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <table id="example1"
+                                                class="table table-bordered table-striped dataTable dtr-inline table-responsive">
+                                                <thead>
+                                                    <tr role="row">
+                                                        <th style="width: 20%;">Judul</th>
+                                                        <th style="width: 45%;">Abstraksi</th>
+                                                        <th style="width: 10%;">Tanggal Rilis</th>
+                                                        <th style="width: 10%;">Kategori</th>
+                                                        <th style="width: 15%;">Aksi</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr th:each="brs : ${brsPage.content}">
+                                                        <td th:text="${brs.title}">BRS Ketenagakerjaan Agustus 2020</td>
+                                                        <td th:text="${brs.abstraction}">Jumlah</td>
+                                                        <td th:text="${brs.releaseDate}">16-11-2020</td>
+                                                        <td th:text="${brs.category.name}">Agama</td>
+                                                        <td>
+                                                            <a class="btn btn-info btn-sm"
+                                                                th:href="@{/admin/brs/edit/{id}(id=${brs.id})}"><i
+                                                                    class="fas fa-pencil-alt mr-1"></i>Edit</a>
+                                                            <button type="button" class="btn btn-danger btn-sm"
+                                                                th:attr=" data-id=${brs.id}" data-toggle="modal"
+                                                                data-target="#modal-delete"><i
+                                                                    class="fas fa-trash mr-1"></i>Delete</button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-footer clearfix">
+                                <ul class="pagination pagination-sm m-0 float-right">
+                                    <li class="page-item"><a class="page-link"
+                                            th:style="${prev < 0} ? 'display : none;'"
+                                            th:href="@{/admin/brs/(page=${prev})}">«</a></li>
+                                    <li class="page-item"><a class="page-link" th:style="${no1 < 0} ? 'display : none;'"
+                                            th:href="@{/admin/brs/(page=${no1})}" th:text=${no1+1}></a></li>
+                                    <li class="page-item"><a class="page-link" th:style="${no2 < 0} ? 'display : none;'"
+                                            th:href="@{/admin/brs/(page=${no2})}" th:text=${no2+1}></a></li>
+                                    <li class="page-item"><a class="page-link" th:style="${no3 < 0} ? 'display : none;'"
+                                            th:href="@{/admin/brs/(page=${no3})}" th:text=${no3+1}></a></li>
+                                    <li class="page-item"><a class="page-link"
+                                            th:style="${next >= brsPage.totalPages} ? 'display : none;'"
+                                            th:href="@{/admin/brs/(page=${next})}">»</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal fade" id="modal-delete">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Konfirmasi Delete</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body text-center">
+                            <p>Hapus data?</p>
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <a class="btn btn-danger" id="delete-confirm">Delete</a>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+        </section>
+
+    </div>
+
+    <div th:replace="general.html :: footer"></div>
+
+    <div th:replace="general.html :: javascripts"></div>
+
+    <script>
+        $('#modal-delete').on('show.bs.modal', function (event) {
+            console.log("modal default");
+            var id = $(event.relatedTarget).data('id');
+            $(this).find("#delete-confirm").attr("href", "/admin/brs/delete/" + id);
+        });
+    </script>
+</body>
+
+</html>

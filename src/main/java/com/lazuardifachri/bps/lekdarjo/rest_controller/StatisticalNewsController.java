@@ -1,9 +1,8 @@
-package com.lazuardifachri.bps.lekdarjo.controller;
+package com.lazuardifachri.bps.lekdarjo.rest_controller;
 
 import com.lazuardifachri.bps.lekdarjo.exception.ExceptionMessage;
 import com.lazuardifachri.bps.lekdarjo.exception.ResourceNotFoundException;
 import com.lazuardifachri.bps.lekdarjo.model.FileModel;
-import com.lazuardifachri.bps.lekdarjo.model.Publication;
 import com.lazuardifachri.bps.lekdarjo.model.StatisticalNews;
 import com.lazuardifachri.bps.lekdarjo.service.FileStorageService;
 import com.lazuardifachri.bps.lekdarjo.service.StatisticalNewsService;
@@ -11,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -103,7 +101,7 @@ public class StatisticalNewsController {
     @PreAuthorize("hasRole('USER')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<StatisticalNews> getStatisticalNewsById(@PathVariable String id){
-        StatisticalNews statisticalNews = statisticalNews = statisticalNewsService.readStatisticalNewsById(id);
+        StatisticalNews statisticalNews = statisticalNewsService.readStatisticalNewsById(id);
         return new ResponseEntity<>(statisticalNews, HttpStatus.OK);
     }
 

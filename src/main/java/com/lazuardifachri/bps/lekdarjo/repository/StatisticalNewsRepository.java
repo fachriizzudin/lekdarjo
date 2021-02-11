@@ -1,6 +1,5 @@
 package com.lazuardifachri.bps.lekdarjo.repository;
 
-import com.lazuardifachri.bps.lekdarjo.model.Category;
 import com.lazuardifachri.bps.lekdarjo.model.StatisticalNews;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

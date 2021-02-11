@@ -107,4 +107,31 @@ public class GraphMeta {
     public void setSubject(Subject subject) {
         this.subject = subject;
     }
+
+
+    @Override
+    public String toString() {
+        return "{" +
+            " id='" + getId() + "'" +
+            ", title='" + getTitle() + "'" +
+            ", subject='" + getSubject().getId() + "'" +
+            ", horizontal='" + getHorizontal() + "'" +
+            ", vertical='" + getVertical() + "'" +
+            ", verticalUnit='" + getVerticalUnit() + "'" +
+            ", description='" + getDescription() + "'" +
+            "}";
+    }
+
+    public String apiString() {
+        return "{" +
+            " \"id\":\"" + getId() + "\"" +
+            ", \"title\":\"" + getTitle() + "\"" +
+            ", \"subject\":" + getSubject().getId() + 
+            ", \"horizontal\":\"" + getHorizontal() + "\"" +
+            ", \"vertical\":\"" + getVertical() + "\"" +
+            ", \"vertical_unit\":\"" + getVerticalUnit() + "\"" +
+            ", \"description\":\"" + getDescription() + "\"" +
+            "}";
+    }
+
 }

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<th:block th:replace="general.html :: headerfiles"></th:block>
+
+<body>
+    <div th:replace="general.html :: navbar"></div>
+
+    <div class="content-wrapper" style="margin-left: 0px;">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <h1 class="m-0 text-dark">Tambah Publikasi</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">Isi Detail Publikasi</h3>
+                            </div>
+                            <form role="form" th:action="@{/admin/publication/add}" th:object="${publication}" enctype="multipart/form-data" method="post">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="inputTitle">Judul</label>
+                                        <input type="text" class="form-control" id="inputTitle" th:field="*{title}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputCatalogNo">Nomor Katalog</label>
+                                        <input type="text" class="form-control" id="inputCatalogNo" th:field="*{catalogNo}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputPublicationNo">Nomor Publikasi</label>
+                                        <input type="text" class="form-control" id="inputPublicationNo" th:field="*{publicationNo}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputISSNOrISBN">ISSN/ISBN</label>
+                                        <input type="text" class="form-control" id="inputISSNOrISBN" th:field="*{issnOrIsbn}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Tanggal Rilis</label>
+                                        <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                                            <input type="text" class="form-control datetimepicker-input"
+                                                data-target="#reservationdate" id="inputReleaseDate" th:field="*{releaseDate}" />
+                                            <div class="input-group-append" data-target="#reservationdate"
+                                                data-toggle="datetimepicker">
+                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Informasi</label>
+                                        <textarea class="form-control" rows="3"
+                                            placeholder="Keterangan singkat isi publikasi.."
+                                            id="inputInformation" th:field="*{information}"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputDistrict">Distrik</label>
+                                        <select class="form-control custom-select" id="inputDistrict" th:field="*{district}">
+                                            <option th:value="UMUM" selected>Umum</option>
+                                            <option th:value="TARIK">Tarik</option>
+                                            <option th:value="PRAMBON">Prambon</option>
+                                            <option th:value="KREMBUNG">Krembung</option>
+                                            <option th:value="PORONG">Porong</option>
+                                            <option th:value="JABON">Jabon</option>
+                                            <option th:value="TANGGULANGIN">Tanggulangin</option>
+                                            <option th:value="CANDI">Candi</option>
+                                            <option th:value="TULANGAN">Tulangan</option>
+                                            <option th:value="WONOAYU">Wonoayu</option>
+                                            <option th:value="SUKODONO">Sukodono</option>
+                                            <option th:value="SIDOARJO">Sidoarjo</option>
+                                            <option th:value="BUDURAN">Buduran</option>
+                                            <option th:value="SEDATI">Sedati</option>
+                                            <option th:value="WARU">Waru</option>
+                                            <option th:value="GEDANGAN">Gedangan</option>
+                                            <option th:value="TAMAN">Taman</option>
+                                            <option th:value="KRIAN">Krian</option>
+                                            <option th:value="BALONG_BANDO">Balong Bendo</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputSubjek">Subjek</label>
+                                        <select class="form-control custom-select" id="inputSubjek" th:field="*{subject}">
+                                            <option th:value="1" selected>Sosial dan Kependudukan</option>
+                                            <option th:value="2">Ekonomi dan Perdagangan</option>
+                                            <option th:value="3">Pertanian dan Pertambangan</option>
+                                            <option th:value="4">Umum</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputFile">File input</label>
+                                        <input type="file" class="form-control-file" id="inputFile" name="file">
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary float-right">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div th:replace="general.html :: footer"></div>
+
+    <div th:replace="general.html :: javascripts"></div>
+
+    <script>
+        $(function () {
+            //Date range picker
+            $('#reservationdate').datetimepicker({
+                format: 'DD-MM-YYYY'
+            });
+        })
+    </script>
+
+</body>
+
+</html>

@@ -1,7 +1,5 @@
 package com.lazuardifachri.bps.lekdarjo.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
 
 @Entity

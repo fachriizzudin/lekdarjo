@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<th:block th:replace ="general.html :: headerfiles"></th:block>
+
+<body>
+    <div th:replace="general.html :: navbar"></div>
+
+    <div class="content-wrapper" style="margin-left: 0px;">
+
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <h1 class="m-0 text-dark">Grafik</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="content">
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Daftar Grafik</h3>
+                            </div>
+                            <div class="card-body p-0">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 10%">#</th>
+                                            <th style="width: 70%">Judul</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1.</td>
+                                            <td>Pertumbuhan Penduduk</td>
+                                            <td><a class="btn btn-info btn-sm" th:href="@{/admin/graph/1}"><i
+                                                        class="fas fa-pencil-alt mr-1"></i>Update</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2.</td>
+                                            <td>Jumlah Penduduk Laki-Laki</td>
+                                            <td><a class="btn btn-info btn-sm" th:href="@{/admin/graph/2}"><i
+                                                        class="fas fa-pencil-alt mr-1"></i>Update</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>3.</td>
+                                            <td>Jumlah Penduduk Perempuan</td>
+                                            <td><a class="btn btn-info btn-sm" th:href="@{/admin/graph/3}"><i
+                                                        class="fas fa-pencil-alt mr-1"></i>Update</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>4.</td>
+                                            <td>Persentase Penduduk Miskin</td>
+                                            <td><a class="btn btn-info btn-sm" th:href="@{/admin/graph/4}"><i
+                                                        class="fas fa-pencil-alt mr-1"></i>Update</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>5.</td>
+                                            <td>Tingkat Pengangguran Terbuka</td>
+                                            <td><a class="btn btn-info btn-sm" th:href="@{/admin/graph/5}"><i
+                                                        class="fas fa-pencil-alt mr-1"></i>Update</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>6.</td>
+                                            <td>Indeks Pembangunan Manusia</td>
+                                            <td><a class="btn btn-info btn-sm" th:href="@{/admin/graph/6}"><i
+                                                        class="fas fa-pencil-alt mr-1"></i>Update</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>7.</td>
+                                            <td>Produksi Padi</td>
+                                            <td><a class="btn btn-info btn-sm" th:href="@{/admin/graph/7}"><i
+                                                        class="fas fa-pencil-alt mr-1"></i>Update</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>8.</td>
+                                            <td>Produktifitas Padi</td>
+                                            <td><a class="btn btn-info btn-sm" th:href="@{/admin/graph/8}"><i
+                                                        class="fas fa-pencil-alt mr-1"></i>Update</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+
+    <div th:replace="general.html :: footer"></div>
+
+    <div th:replace="general.html :: javascripts"></div>
+</body>
+
+</html>

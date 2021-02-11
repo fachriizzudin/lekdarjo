@@ -7,7 +7,6 @@ import com.lazuardifachri.bps.lekdarjo.exception.ExceptionMessage;
 import com.lazuardifachri.bps.lekdarjo.exception.ResourceNotFoundException;
 import com.lazuardifachri.bps.lekdarjo.model.FileModel;
 import com.lazuardifachri.bps.lekdarjo.model.Infographic;
-import com.lazuardifachri.bps.lekdarjo.model.Publication;
 import com.lazuardifachri.bps.lekdarjo.repository.InfographicRepository;
 import com.lazuardifachri.bps.lekdarjo.validation.ValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.swing.text.html.Option;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.List;
 import java.util.Optional;
 
 import static com.lazuardifachri.bps.lekdarjo.Utils.parseComplicatedDate;

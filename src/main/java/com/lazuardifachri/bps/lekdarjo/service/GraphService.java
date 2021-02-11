@@ -1,10 +1,6 @@
 package com.lazuardifachri.bps.lekdarjo.service;
 
 import com.lazuardifachri.bps.lekdarjo.model.Graph;
-import com.lazuardifachri.bps.lekdarjo.model.Graph;
-import com.lazuardifachri.bps.lekdarjo.model.GraphMeta;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import java.io.IOException;
 import java.text.ParseException;

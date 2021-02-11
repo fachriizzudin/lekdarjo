@@ -6,8 +6,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.lazuardifachri.bps.lekdarjo.serializer.SubjectDeserializer;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
@@ -31,6 +35,7 @@ public class Infographic {
     @Temporal(TemporalType.DATE)
     @Column(name = "release_date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private Date releaseDate;
 
     @JsonIgnore
@@ -48,6 +53,12 @@ public class Infographic {
         this.subject = subject;
         this.releaseDate = releaseDate;
         this.imageUri = imageUri;
+    }
+
+    public Infographic(String title, Subject subject, Date releaseDate) {
+        this.title = title;
+        this.subject = subject;
+        this.releaseDate = releaseDate;
     }
 
     public Infographic() {
@@ -95,5 +106,16 @@ public class Infographic {
 
     public void setImageUri(String imageUri) {
         this.imageUri = imageUri;
+    }
+
+    public String getFormattedReleaseDate() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        return dateFormat.format(this.releaseDate);
+    }
+
+    public String apiString() {
+        return "{" + "\"title\":\"" + getTitle() + "\"" 
+                + ", \"release_date\":\"" + getFormattedReleaseDate() + "\"" 
+                + ", \"subject\":\"" + getSubject().getId() + "\"" + "}";
     }
 }

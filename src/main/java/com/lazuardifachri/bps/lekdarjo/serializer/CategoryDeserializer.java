@@ -2,10 +2,8 @@ package com.lazuardifachri.bps.lekdarjo.serializer;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.lazuardifachri.bps.lekdarjo.exception.ExceptionMessage;
 import com.lazuardifachri.bps.lekdarjo.exception.ResourceNotFoundException;
 import com.lazuardifachri.bps.lekdarjo.model.Category;
@@ -22,8 +20,6 @@ public class CategoryDeserializer extends JsonDeserializer<Category> {
 
     @Override
     public Category deserialize(JsonParser jp, DeserializationContext ctx) throws IOException, JsonProcessingException {
-
-        Category category = new Category();
 
         String id = jp.getText();
 

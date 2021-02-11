@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<th:block th:replace ="general.html :: headerfiles"></th:block>
+
+<body>
+
+  <div th:replace="general.html :: navbar"></div>
+
+  <div class="content-wrapper" style="margin-left: 0px;">
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-12">
+            <h1 class="m-0 text-dark">Grafik</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card card-info">
+              <div class="card-header">
+                <h3 class="card-title">Edit Data Grafik</h3>
+              </div>
+              <form th:action="@{/admin/graph/{id}/meta/edit(id=${graphMeta.id})}" th:object="${graphMeta}"
+                method="post">
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="inputTitle">Judul</label>
+                    <input type="text" class="form-control" id="inputTitle" th:field="*{title}">
+                    <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="text-danger"></span>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputSubjek">Subjek</label>
+                    <select class="form-control custom-select" id="inputSubjek" th:field="*{subject}">
+                      <option th:value="1">Sosial dan Kependudukan</option>
+                      <option th:value="2">Ekonomi dan Perdagangan</option>
+                      <option th:value="3">Pertanian dan Pertambangan</option>
+                    </select>
+                    <span th:if="${#fields.hasErrors('subject')}" th:errors="*{subject}" class="text-danger"></span>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputVertical">Vertikal</label>
+                    <input type="text" class="form-control" id="inputVertical" th:field="*{vertical}">
+                    <span th:if="${#fields.hasErrors('vertical')}" th:errors="*{vertical}" class="text-danger"></span>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputUnitVertical">Unit Vertikal</label>
+                    <input type="text" class="form-control" id="inputUnitVertical" th:field="*{verticalUnit}">
+                    <span th:if="${#fields.hasErrors('verticalUnit')}" th:errors="*{verticalUnit}"
+                      class="text-danger"></span>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputHorizontal">Horizontal</label>
+                    <input type="text" class="form-control" id="inputHorizontal" th:field="*{horizontal}">
+                    <span th:if="${#fields.hasErrors('horizontal')}" th:errors="*{horizontal}"
+                      class="text-danger"></span>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputDescription">Deskripsi</label>
+                    <textarea class="form-control" rows="3" placeholder="Keterangan singkat isi publikasi.."
+                      id="inputDescription" th:field="*{description}"></textarea>
+                    <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
+                      class="text-danger"></span>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-info float-right">Simpan</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <div th:replace="general.html :: footer"></div>
+
+  <div th:replace="general.html :: javascripts"></div>
+</body>
+
+</html>

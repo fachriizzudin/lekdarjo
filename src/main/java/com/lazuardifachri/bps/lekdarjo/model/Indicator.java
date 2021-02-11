@@ -4,11 +4,14 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.lazuardifachri.bps.lekdarjo.serializer.CategoryDeserializer;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
@@ -29,6 +32,7 @@ public class Indicator {
     @Temporal(TemporalType.DATE)
     @Column(name = "release_date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private Date releaseDate;
 
     @NotNull
@@ -58,6 +62,13 @@ public class Indicator {
         this.category = category;
         this.statType = statType;
         this.documentUri = documentUri;
+    }
+
+    public Indicator(String title, Date releaseDate, Category category, EStatType statType) {
+        this.title = title;
+        this.releaseDate = releaseDate;
+        this.category = category;
+        this.statType = statType;
     }
 
     public Indicator() {
@@ -113,5 +124,17 @@ public class Indicator {
 
     public void setDocumentUri(String documentUri) {
         this.documentUri = documentUri;
+    }
+
+    public String getFormattedReleaseDate() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        return dateFormat.format(this.releaseDate);
+    }
+
+    public String apiString() {
+        return "{" + "\"title\":\"" + getTitle() + "\"" 
+                + ", \"release_date\":\"" + getFormattedReleaseDate() + "\"" 
+                + ", \"category\":\"" + getCategory().getId() + "\"" 
+                + ", \"stat_type\":" + getStatType().getCode() + "}";
     }
 }

@@ -12,6 +12,7 @@ public class Graph {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @NotNull
     @Column(precision=8, scale=2)
     private Double value;
 
