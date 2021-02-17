@@ -9,6 +9,7 @@ import com.lazuardifachri.bps.lekdarjo.serializer.CategoryDeserializer;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import java.text.SimpleDateFormat;
@@ -24,7 +25,7 @@ public class Indicator {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @NotNull
+    @NotEmpty
     private String title;
 
     @NotNull

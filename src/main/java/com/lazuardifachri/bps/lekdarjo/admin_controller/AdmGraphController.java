@@ -1,3 +1,4 @@
+
 package com.lazuardifachri.bps.lekdarjo.admin_controller;
 
 import javax.validation.Valid;
@@ -73,14 +74,13 @@ public class AdmGraphController {
     public String graphDataEditForm(@PathVariable("id") String id, @PathVariable("dataId") String dataId, Model model) {
         Graph graphData = graphService.readById(dataId);
         model.addAttribute("id", id);
-        model.addAttribute("dataId", dataId);
         model.addAttribute("graphData", graphData);
         return "graph_data_edit";
     }
 
     @PostMapping("/admin/graph/{id}/edit/{dataId}")
     public String graphDataEdit(@PathVariable("id") String id, @PathVariable("dataId") String dataId,
-            @Valid Graph graphData, BindingResult result) {
+            @Valid Graph graphData, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "redirect:/admin/graph/" + id + "/edit/" + dataId;
         }
@@ -110,11 +110,8 @@ public class AdmGraphController {
     @PostMapping("/admin/graph/{id}/meta/edit")
     public String graphMetaEdit(@PathVariable("id") String id, @Valid GraphMeta graphMeta, BindingResult result) {
         if (result.hasErrors()) {
-            log.info(result.getFieldError().toString());
-            return "redirect:/admin/graph/" + id + "/meta/edit";
+            return "graph_meta_edit";
         }
-
-        log.info(graphMeta.apiString());
 
         try {
             graphMetaService.updateGraphMeta(id, graphMeta.apiString());

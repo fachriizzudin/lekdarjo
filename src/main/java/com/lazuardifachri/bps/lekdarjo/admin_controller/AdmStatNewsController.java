@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 
+
 @Controller
 @RequestMapping("/admin/brs")
 public class AdmStatNewsController {
@@ -48,7 +49,7 @@ public class AdmStatNewsController {
 
         log.info(String.valueOf(pageNumber));
 
-        Pageable paging = PageRequest.of(pageNumber, 2);
+        Pageable paging = PageRequest.of(pageNumber, 5);
         Page<StatisticalNews> pageTuts = statisticalNewsService.readAllStatisticalNews(paging);
 
         log.info(String.valueOf(pageTuts.getTotalPages()));
@@ -75,14 +76,19 @@ public class AdmStatNewsController {
 
     @GetMapping("/add")
     public String brsAddForm(Model model) {
-        model.addAttribute("brs", new StatisticalNews());
+        model.addAttribute("statisticalNews", new StatisticalNews());
         return "brs_add";
     }
 
     @PostMapping("/add")
-    public String brsAdd(@RequestParam("file") MultipartFile file, @Valid StatisticalNews brs, BindingResult result) {
+    public String brsAdd(@RequestParam("file") MultipartFile file, @Valid StatisticalNews brs, BindingResult result, 
+            Model model) {
         if (result.hasErrors()) {
-            log.info(result.getFieldError().toString());
+            return "brs_add";
+        }
+
+        if (file.isEmpty()) {
+            model.addAttribute("message", "File input can not be empty");
             return "brs_add";
         }
 
@@ -97,7 +103,7 @@ public class AdmStatNewsController {
 
     @GetMapping("/edit/{id}")
     public String brsEditForm(@PathVariable("id") String id, Model model) {
-        model.addAttribute("brs", statisticalNewsService.readStatisticalNewsById(id));
+        model.addAttribute("statisticalNews", statisticalNewsService.readStatisticalNewsById(id));
         return "brs_edit";
     }
 
@@ -107,17 +113,15 @@ public class AdmStatNewsController {
 
         if (result.hasErrors()) {
             log.info(result.getFieldError().toString());
-            return "redirect:/admin/brs/edit/" + id;
+            return "brs_edit";
         }
 
-        if (file.isEmpty()) log.info("file empty");
+        log.info("no errors");
 
         try {
             if (!file.isEmpty()) {
-                log.info("file exist");
                 statisticalNewsService.updateStatisticalNews(id, brs.apiString(), file);
             } else {
-                log.info("file null");
                 statisticalNewsService.updateStatisticalNews(id, brs.apiString(), null);
             }
 

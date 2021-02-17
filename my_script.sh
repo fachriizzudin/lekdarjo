@@ -1,0 +1,1 @@
+docker exec -t dev-postgres pg_dumpall -c -U lekdarjo -W "hehettenandayo" > dump_first.sql

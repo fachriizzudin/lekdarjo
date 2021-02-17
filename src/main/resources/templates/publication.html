@@ -35,38 +35,25 @@
                                                 class="table table-bordered table-striped dataTable dtr-inline table-responsive">
                                                 <thead>
                                                     <tr role="row">
-                                                        <th style="width:7%">Judul</th>
-                                                        <th style="width:3%">No. Katalog</th>
-                                                        <th style="width:7%">No. Publikasi</th>
-                                                        <th style="width:5%">ISSN/ISBN</th>
+                                                        <th style="width:20%">Judul</th>
+                                                        <th style="width:10%">No. Katalog</th>
+                                                        <th style="width:10%">No. Publikasi</th>
+                                                        <th style="width:10%">ISSN/ISBN</th>
                                                         <th style="width:10%">Tanggal Rilis</th>
-                                                        <th style="width:20%">Informasi</th>
-                                                        <th style="width:5%">Distrik</th>
-                                                        <th style="width:7%">Subjek</th>
-                                                        <th style="width:11%">Aksi</th>
+                                                        <th style="width:10%">Distrik</th>
+                                                        <th style="width:10%">Subjek</th>
+                                                        <th style="width:20%">Aksi</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr th:each="pub : ${publicationsPage.content}">
-                                                        <td th:text="${pub.title}">Statistik Kesejahteraan Rakyat
-                                                            Kabupaten Sidoarjo 2020</td>
-                                                        <td th:text="${pub.catalogNo}">4101002.3515</td>
-                                                        <td th:text="${pub.publicationNo}">35150.2026</td>
-                                                        <td th:text="${pub.issnOrIsbn}">-</td>
-                                                        <td th:text="${pub.releaseDate}">30-12-2020</td>
-                                                        <td th:text="${pub.information}">Publikasi Statistik
-                                                            Kesejahteraan Rakyat Kabupaten Sidoarjo
-                                                            Tahun 2020 merupakan hasil
-                                                            pengumpulan data melalui Susenas Maret 2020. Publikasi ini
-                                                            disajikan dalam bentuk angka
-                                                            persentase dari suatu populasi yang dipilah menurut
-                                                            kabupaten/kota sehingga pengguna data
-                                                            dapat mengetahui perbedaan tingkat kesejahteraan antar
-                                                            wilayah. Sejumlah data dibedakan
-                                                            pula menurut jenis kelamin untuk memenuhi kebutuhan analisis
-                                                            kesenjangan gender.</td>
-                                                        <td th:text="${pub.district.name}">3515</td>
-                                                        <td th:text="${pub.subject.name}">1</td>
+                                                        <td th:text="${pub.title}"></td>
+                                                        <td th:text="${pub.catalogNo}"></td>
+                                                        <td th:text="${pub.publicationNo}"></td>
+                                                        <td th:text="${pub.issnOrIsbn}"></td>
+                                                        <td th:text="${pub.releaseDate}"></td>
+                                                        <td th:text="${pub.district.name}"></td>
+                                                        <td th:text="${pub.subject.name}"></td>
                                                         <td>
                                                             <a class="btn btn-info btn-sm"
                                                                 th:href="@{/admin/publication/edit/{id}(id=${pub.id})}"><i

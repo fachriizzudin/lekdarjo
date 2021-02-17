@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 
-<th:block th:replace ="general.html :: headerfiles"></th:block>
+<th:block th:replace="general.html :: headerfiles"></th:block>
 
 <body>
 
@@ -32,7 +32,7 @@
                 <div class="card-body">
                   <div class="form-group">
                     <label for="inputYear">Tahun</label>
-                    <input type="text" class="form-control" id="inputYear" name="year">
+                    <select class="form-control custom-select" id="inputYear" name="year"></select>
                   </div>
                   <div class="form-group">
                     <label for="inputValue">Nilai</label>
@@ -55,6 +55,18 @@
   <div th:replace="general.html :: footer"></div>
 
   <div th:replace="general.html :: javascripts"></div>
+
+  <script>
+
+    var start = 2015;
+    var end = new Date().getFullYear();
+    var options = "";
+    for (var year = end; year >= start; year--) {
+      options += "<option value=\"" + year + "\">" + year + "</option>";
+    }
+    document.getElementById("inputYear").innerHTML = options;
+
+  </script>
 </body>
 
 </html>

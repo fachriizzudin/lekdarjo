@@ -47,7 +47,7 @@ public class AdmIndicatorController {
 
         log.info(String.valueOf(pageNumber));
 
-        Pageable paging = PageRequest.of(pageNumber, 2);
+        Pageable paging = PageRequest.of(pageNumber, 5);
         Page<Indicator> pageTuts = indicatorService.readAllIndicator(paging);
 
         log.info(String.valueOf(pageTuts.getTotalPages()));
@@ -79,9 +79,14 @@ public class AdmIndicatorController {
     }
 
     @PostMapping("/add")
-    public String indicatorAdd(@RequestParam("file") MultipartFile file, @Valid Indicator indicator, BindingResult result) {
+    public String indicatorAdd(@RequestParam("file") MultipartFile file, @Valid Indicator indicator, BindingResult result, Model model) {
         if (result.hasErrors()) {
             log.info(result.getFieldError().toString());
+            return "indicator_add";
+        }
+
+        if (file.isEmpty()) {
+            model.addAttribute("message", "File input can not be empty");
             return "indicator_add";
         }
 
@@ -105,19 +110,13 @@ public class AdmIndicatorController {
             @Valid Indicator indicator, BindingResult result, Model model) {
 
         if (result.hasErrors()) {
-            log.info(result.getFieldError().toString());
-            return "redirect:/admin/indicator/edit/" + id;
+            return "indicator_edit";
         }
-
-        if (file.isEmpty())
-            log.info("file empty");
 
         try {
             if (!file.isEmpty()) {
-                log.info("file exist");
                 indicatorService.updateIndicator(id, indicator.apiString(), file);
             } else {
-                log.info("file null");
                 indicatorService.updateIndicator(id, indicator.apiString(), null);
             }
 

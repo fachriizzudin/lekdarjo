@@ -11,7 +11,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-12">
-                        <h1 class="m-0 text-dark">Edit Indicator</h1>
+                        <h1 class="m-0 text-dark">Edit Indikator</h1>
                     </div>
                 </div>
             </div>
@@ -23,7 +23,7 @@
                     <div class="col-md-6">
                         <div class="card card-info">
                             <div class="card-header">
-                                <h3 class="card-title">Isi Detail Indicator</h3>
+                                <h3 class="card-title">Isi Detail Indikator</h3>
                             </div>
                             <form role="form" th:action="@{/admin/indicator/edit/{id}(id=${indicator.id})}" th:object="${indicator}"
                                 enctype="multipart/form-data" method="post">
@@ -31,6 +31,7 @@
                                     <div class="form-group">
                                         <label for="inputTitle">Judul</label>
                                         <input type="text" class="form-control" id="inputTitle" th:field="*{title}">
+                                        <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="text-danger"></span>
                                     </div>
                                     <div class="form-group">
                                         <label>Tanggal Rilis</label>
@@ -43,10 +44,11 @@
                                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                             </div>
                                         </div>
+                                        <span th:if="${#fields.hasErrors('releaseDate')}" th:errors="*{releaseDate}" class="text-danger"></span>
                                     </div>
                                     <div class="form-group">
-                                        <label for="inputDistrict">Kategori</label>
-                                        <select class="form-control custom-select" id="inputDistrict" th:field="*{category}">
+                                        <label for="inputCategory">Kategori</label>
+                                        <select class="form-control custom-select" id="inputCategory" th:field="*{category}">
                                             <option th:value="1">Agama</option>
                                             <option th:value="2">Geografi</option>
                                             <option th:value="3">Iklim</option>
@@ -89,7 +91,7 @@
                                         <label for="inputFile">File input</label>
                                         <input type="file" class="form-control-file" id="inputFile" name="file">
                                     </div>
-                                    <p>File saved : <span th:text="${indicator.documentUri}"></span></p>
+                                    <p>File tersimpan : <a th:href="@{${indicator.documentUri}}">link</a></p>
                                 </div>
                                 <div class="card-footer">
                                     <button type="submit" class="btn btn-info float-right">Simpan</button>

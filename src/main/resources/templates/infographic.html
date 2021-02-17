@@ -44,9 +44,8 @@
                                                 </thead>
                                                 <tbody>
                                                     <tr th:each="info : ${infographicPage.content}">
-                                                        <td th:text="${info.title}">Luas Lahan Panen dan Produksi Tanaman Sayur-sayuran Menurut
-                                                            Jenisnya 2018</td>
-                                                        <td th:text="${info.subject.name}">Hortikultura</td>
+                                                        <td th:text="${info.title}"></td>
+                                                        <td th:text="${info.subject.name}"></td>
                                                         <td th:text="${info.releaseDate}"></td>
                                                         <td><img th:src="@{${info.imageUri}}" width="150px"></td>
                                                         <td>

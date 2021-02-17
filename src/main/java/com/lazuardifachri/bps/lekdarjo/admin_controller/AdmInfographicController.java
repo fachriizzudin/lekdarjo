@@ -47,7 +47,7 @@ public class AdmInfographicController {
 
         log.info(String.valueOf(pageNumber));
 
-        Pageable paging = PageRequest.of(pageNumber, 2);
+        Pageable paging = PageRequest.of(pageNumber, 5);
         Page<Infographic> pageTuts = infographicService.readAllInfographic(paging);
 
         log.info(String.valueOf(pageTuts.getTotalPages()));
@@ -79,10 +79,15 @@ public class AdmInfographicController {
     }
 
     @PostMapping("/add")
-    public String infographicAdd(@RequestParam("file") MultipartFile file, @Valid Infographic infographic, BindingResult result) {
+    public String infographicAdd(@RequestParam("file") MultipartFile file, @Valid Infographic infographic, BindingResult result, Model model) {
         if (result.hasErrors()) {
             log.info(result.getFieldError().toString());
             return "infographic_add";
+        }
+
+        if (file.isEmpty()) {
+            model.addAttribute("message", "File input can not be empty");
+            return "brs_add";
         }
 
         try {
@@ -105,19 +110,13 @@ public class AdmInfographicController {
             @Valid Infographic infographic, BindingResult result, Model model) {
 
         if (result.hasErrors()) {
-            log.info(result.getFieldError().toString());
-            return "redirect:/admin/infographic/edit/" + id;
+            return "infographic_edit";
         }
-
-        if (file.isEmpty())
-            log.info("file empty");
 
         try {
             if (!file.isEmpty()) {
-                log.info("file exist");
                 infographicService.updateInfographic(id, infographic.apiString(), file);
             } else {
-                log.info("file null");
                 infographicService.updateInfographic(id, infographic.apiString(), null);
             }
 

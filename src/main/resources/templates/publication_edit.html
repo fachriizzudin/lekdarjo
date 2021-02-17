@@ -30,18 +30,22 @@
                                     <div class="form-group">
                                         <label for="inputTitle">Judul</label>
                                         <input type="text" class="form-control" id="inputTitle" th:field="*{title}">
+                                        <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="text-danger"></span>
                                     </div>
                                     <div class="form-group">
                                         <label for="inputCatalogNo">Nomor Katalog</label>
                                         <input type="text" class="form-control" id="inputCatalogNo" th:field="*{catalogNo}">
+                                        <span th:if="${#fields.hasErrors('catalogNo')}" th:errors="*{catalogNo}" class="text-danger"></span>
                                     </div>
                                     <div class="form-group">
                                         <label for="inputPublicationNo">Nomor Publikasi</label>
                                         <input type="text" class="form-control" id="inputPublicationNo" th:field="*{publicationNo}">
+                                        <span th:if="${#fields.hasErrors('publicationNo')}" th:errors="*{publicationNo}" class="text-danger"></span>
                                     </div>
                                     <div class="form-group">
                                         <label for="inputISSNOrISBN">ISSN/ISBN</label>
                                         <input type="text" class="form-control" id="inputISSNOrISBN" th:field="*{issnOrIsbn}">
+                                        <span th:if="${#fields.hasErrors('issnOrIsbn')}" th:errors="*{issnOrIsbn}" class="text-danger"></span>
                                     </div>
                                     <div class="form-group">
                                         <label>Tanggal Rilis</label>
@@ -53,12 +57,14 @@
                                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                             </div>
                                         </div>
+                                        <span th:if="${#fields.hasErrors('releaseDate')}" th:errors="*{releaseDate}" class="text-danger"></span>
                                     </div>
                                     <div class="form-group">
                                         <label>Informasi</label>
                                         <textarea class="form-control" rows="3"
                                             placeholder="Keterangan singkat isi publikasi.."
                                             id="inputInformation" th:field="*{information}"></textarea>
+                                        <span th:if="${#fields.hasErrors('information')}" th:errors="*{information}" class="text-danger"></span>
                                     </div>
                                     <div class="form-group">
                                         <label for="inputDistrict">Distrik</label>
@@ -97,7 +103,7 @@
                                         <label for="inputFile">File</label>
                                         <input type="file" class="form-control-file" id="inputFile" name="file" >
                                     </div>
-                                    <p>File saved : <span th:text="${publication.documentUri}"></span></p>
+                                    <p>File tersimpan : <a th:href="@{${publication.documentUri}}">link</a></p>
                                 </div>
                                 <div class="card-footer">
                                     <button type="submit" class="btn btn-info float-right">Submit</button>

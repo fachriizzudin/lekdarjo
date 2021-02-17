@@ -25,18 +25,20 @@
                             <div class="card-header">
                                 <h3 class="card-title">Isi Detail BRS</h3>
                             </div>
-                            <form role="form" th:action="@{/admin/brs/add}" th:object="${brs}"
+                            <form role="form" th:action="@{/admin/brs/add}" th:object="${statisticalNews}"
                                 enctype="multipart/form-data" method="post">
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="inputTitle">Judul</label>
                                         <input type="text" class="form-control" id="inputTitle" th:field="*{title}">
+                                        <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="text-danger"></span>
                                     </div>
                                     <div class="form-group">
                                         <label>Abstraksi</label>
                                         <textarea class="form-control" rows="3"
                                             placeholder="Keterangan singkat isi publikasi.." id="inputInformation"
                                             th:field="*{abstraction}"></textarea>
+                                        <span th:if="${#fields.hasErrors('abstraction')}" th:errors="*{abstraction}" class="text-danger"></span>
                                     </div>
                                     <div class="form-group">
                                         <label>Tanggal Rilis</label>
@@ -49,6 +51,7 @@
                                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                             </div>
                                         </div>
+                                        <span th:if="${#fields.hasErrors('releaseDate')}" th:errors="*{releaseDate}" class="text-danger"></span>
                                     </div>
                                     <div class="form-group">
                                         <label for="inputDistrict">Kategori</label>
@@ -85,8 +88,9 @@
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="inputFile">File input</label>
-                                        <input type="file" class="form-control-file" id="inputFile" name="file">
+                                        <label for="inputFile">Files input</label>
+                                        <input type="file" class="form-control-file" id="inputFile" name="file" required>
+                                        <p th:text="${message}" class="text-danger"></p>
                                     </div>
                                 </div>
                                 <div class="card-footer">

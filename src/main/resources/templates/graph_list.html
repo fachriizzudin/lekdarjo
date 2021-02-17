@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 
-<th:block th:replace ="general.html :: headerfiles"></th:block>
+<th:block th:replace="general.html :: headerfiles"></th:block>
 
 <body>
 
@@ -33,7 +33,6 @@
                 <table class="table table-bordered">
                   <thead>
                     <tr>
-                      <th style="width: 20px">id</th>
                       <th style="width: 25px">Tahun</th>
                       <th style="width: 20px">Nilai</th>
                       <th style="width: 15px">Aksi</th>
@@ -41,7 +40,6 @@
                   </thead>
                   <tbody>
                     <tr th:each="graph : ${graphs}">
-                      <td th:text="${graph.id}">1</td>
                       <td th:text="${graph.year}">2020</td>
                       <td th:text="${graph.value}">78.8</td>
                       <td>
@@ -67,38 +65,46 @@
               </div>
 
               <div class="card-body">
-                <strong>Id</strong>
-                <p class="text-muted" th:text="${graphMeta.id}">1</p>
-                <hr />
-                <strong>Judul</strong>
-                <p class="text-muted" th:text="${graphMeta.title}">Indeks Pembangunan Manusia</p>
-                <hr />
-                <strong>Subjek</strong>
-                <p class="text-muted" th:text="${graphMeta.subject.name}">1</p>
-                <hr />
-                <strong>Vertikal</strong>
-                <p class="text-muted" th:text="${graphMeta.vertical}">Indeks Pembangunan Manusia</p>
-                <hr />
-                <strong>Unit Vertikal</strong>
-                <p class="text-muted" th:text="${graphMeta.verticalUnit}">Persen</p>
-                <hr />
-                <strong>Horizontal</strong>
-                <p class="text-muted" th:text="${graphMeta.horizontal}">Indeks Pembangunan Manusia</p>
-                <hr />
-                <strong>Deskripsi</strong>
-                <p class="text-muted" th:text="${graphMeta.description}">
-                  Menurut UNDP, Indeks Pembangunan Manusia (IPM) mengukur
-                  capaian pembangunan manusia berbasis sejumlah komponen dasar
-                  kualitas hidup. Sebagai ukuran kualitas hidup, IPM dibangun
-                  melalui pendekatan tiga dimensi dasar. Dimensi tersebut
-                  mencakup umur panjang dan sehat; penegtahuan, dan kehidupan
-                  yang layak. Angka IPM memberikan gambaran komprehensip
-                  mengenai tingkat pencapaian pembagunan manusia sebagai
-                  dampak dari kegiatan pembangunan yang akan dilakukan oleh
-                  suatu negara/daerah. Semakin tinggi nilai IPM suatu
-                  negara/daerah, menunjukkan pencapaian pembangunan manusianya
-                  semakin baik
-                </p>
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <strong>Judul</strong>
+                      <p class="text-muted" th:text="${graphMeta.title}">Indeks Pembangunan Manusia</p>
+                      
+                      <strong>Subjek</strong>
+                      <p class="text-muted" th:text="${graphMeta.subject.name}">1</p>
+                      
+                      <strong>Vertikal</strong>
+                      <p class="text-muted" th:text="${graphMeta.vertical}">Indeks Pembangunan Manusia</p>
+                      
+                      <strong>Unit Vertikal</strong>
+                      <p class="text-muted" th:text="${graphMeta.verticalUnit}">Persen</p>
+                      
+                      <strong>Horizontal</strong>
+                      <p class="text-muted" th:text="${graphMeta.horizontal}">Indeks Pembangunan Manusia</p>
+                      
+                    </div>
+                    <div class="col-md-6">
+                      <strong>Deskripsi</strong>
+                      <p class="text-muted" th:text="${graphMeta.description}">
+                        Menurut UNDP, Indeks Pembangunan Manusia (IPM) mengukur
+                        capaian pembangunan manusia berbasis sejumlah komponen dasar
+                        kualitas hidup. Sebagai ukuran kualitas hidup, IPM dibangun
+                        melalui pendekatan tiga dimensi dasar. Dimensi tersebut
+                        mencakup umur panjang dan sehat; penegtahuan, dan kehidupan
+                        yang layak. Angka IPM memberikan gambaran komprehensip
+                        mengenai tingkat pencapaian pembagunan manusia sebagai
+                        dampak dari kegiatan pembangunan yang akan dilakukan oleh
+                        suatu negara/daerah. Semakin tinggi nilai IPM suatu
+                        negara/daerah, menunjukkan pencapaian pembangunan manusianya
+                        semakin baik
+                      </p>
+                      
+                    </div>
+                  </div>
+                </div>
+
+
               </div>
             </div>
           </div>

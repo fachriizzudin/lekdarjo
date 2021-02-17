@@ -11,7 +11,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-12">
-                        <h1 class="m-0 text-dark">Edit infographic</h1>
+                        <h1 class="m-0 text-dark">Edit infografis</h1>
                     </div>
                 </div>
             </div>
@@ -23,7 +23,7 @@
                     <div class="col-md-6">
                         <div class="card card-info">
                             <div class="card-header">
-                                <h3 class="card-title">Isi Detail infographic</h3>
+                                <h3 class="card-title">Isi Detail infografis</h3>
                             </div>
                             <form role="form" th:action="@{/admin/infographic/edit/{id}(id=${infographic.id})}" th:object="${infographic}"
                                 enctype="multipart/form-data" method="post">
@@ -31,6 +31,7 @@
                                     <div class="form-group">
                                         <label for="inputTitle">Judul</label>
                                         <input type="text" class="form-control" id="inputTitle" th:field="*{title}">
+                                        <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="text-danger"></span>
                                     </div>
                                     <div class="form-group">
                                         <label>Tanggal Rilis</label>
@@ -43,11 +44,12 @@
                                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                             </div>
                                         </div>
+                                        <span th:if="${#fields.hasErrors('releaseDate')}" th:errors="*{releaseDate}" class="text-danger"></span>
                                     </div>
                                     <div class="form-group">
                                         <label for="inputSubjek">Subjek</label>
                                         <select class="form-control custom-select" id="inputSubjek" th:field="*{subject}">
-                                            <option th:value="1" selected>Sosial dan Kependudukan</option>
+                                            <option th:value="1">Sosial dan Kependudukan</option>
                                             <option th:value="2">Ekonomi dan Perdagangan</option>
                                             <option th:value="3">Pertanian dan Pertambangan</option>
                                             <option th:value="4">Umum</option>
@@ -57,10 +59,10 @@
                                         <label for="inputFile">File input</label>
                                         <input type="file" class="form-control-file" id="inputFile" name="file">
                                     </div>
-                                    <p>File saved : <span th:text="${infographic.imageUri}"></span></p>
+                                    <p>File tersimpan : <a th:href="@{${infographic.imageUri}}">link</a></p>
                                 </div>
                                 <div class="card-footer">
-                                    <button type="submit" class="btn btn-info float-right">Simpan</button>
+                                    <button type="submit" class="btn btn-info float-right">Submit</button>
                                 </div>
                             </form>
                         </div>

@@ -49,7 +49,7 @@ public class AdmPublicationController {
 
         log.info(String.valueOf(pageNumber));
 
-        Pageable paging = PageRequest.of(pageNumber, 2);
+        Pageable paging = PageRequest.of(pageNumber, 5);
         Page<Publication> pageTuts = publicationService.readAllPublication(paging);
 
         log.info(String.valueOf(pageTuts.getTotalPages()));
@@ -81,8 +81,13 @@ public class AdmPublicationController {
     }
 
     @PostMapping("/add")
-    public String publicationAdd(@RequestParam("file") MultipartFile file, @Valid Publication publication, BindingResult result) {
+    public String publicationAdd(@RequestParam("file") MultipartFile file, @Valid Publication publication, BindingResult result, Model model) {
         if (result.hasErrors()) {
+            return "publication_add";
+        }
+
+        if (file.isEmpty()) {
+            model.addAttribute("message", "File input can not be empty");
             return "publication_add";
         }
 
@@ -106,10 +111,9 @@ public class AdmPublicationController {
             @Valid Publication publication, BindingResult result, Model model) {
         
         if (result.hasErrors()) {
-            log.info(result.getFieldError().toString());
-            return "redirect:/admin/publication/edit/"+id;
+            return "publication_edit";
         }
-
+ 
         try {
             if (!file.isEmpty()) {
                 publicationService.updatePublication(id, publication.apiString(), file);

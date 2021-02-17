@@ -11,8 +11,8 @@ import com.lazuardifachri.bps.lekdarjo.serializer.SubjectDeserializer;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -26,22 +26,20 @@ public class Publication {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @NotNull
-    @Size(max = 100)
+    @NotEmpty
     private String title;
 
-    @NotNull
+    @NotEmpty
     @JsonProperty(value = "catalog_no")
-    @Size(max = 16)
     @Column(name = "catalog_no")
     private String catalogNo;
 
-    @NotNull
+    @NotEmpty
     @JsonProperty(value = "publication_no")
-    @Size(max = 11)
     @Column(name = "publication_no")
     private String publicationNo;
 
+    @NotEmpty
     @JsonProperty(value = "issn_or_isbn")
     @Column(name = "issn_or_isbn")
     private String issnOrIsbn;
@@ -54,6 +52,7 @@ public class Publication {
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     private Date releaseDate;
 
+    @NotEmpty
     @Lob
     @Column(name = "information")
     private String information;

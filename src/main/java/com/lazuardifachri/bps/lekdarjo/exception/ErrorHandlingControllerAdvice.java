@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
 import javax.validation.ConstraintViolationException;
 import java.text.ParseException;
@@ -154,6 +155,16 @@ class ErrorHandlingControllerAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     ValidationErrorResponse onConversionFailedException(ConversionFailedException e) {
+        ValidationErrorResponse error = new ValidationErrorResponse();
+        Violation violation = new Violation(e.getMessage());
+        error.getViolations().add(violation);
+        return error;
+    }
+
+    @ExceptionHandler(MissingServletRequestPartException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    ValidationErrorResponse onMissingServletRequestPartException(MissingServletRequestPartException e) {
         ValidationErrorResponse error = new ValidationErrorResponse();
         Violation violation = new Violation(e.getMessage());
         error.getViolations().add(violation);

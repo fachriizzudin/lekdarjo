@@ -44,11 +44,10 @@
                                                 </thead>
                                                 <tbody>
                                                     <tr th:each="idx : ${indicatorPage.content}">
-                                                        <td th:text="${idx.title}">Luas Lahan Panen dan Produksi Tanaman Sayur-sayuran Menurut
-                                                            Jenisnya 2018</td>
-                                                        <td th:text="${idx.category.name}">Hortikultura</td>
-                                                        <td th:text="${idx.releaseDate}">10-10-2019</td>
-                                                        <td th:text="${idx.statType.name}">Statistik Dasar</td>
+                                                        <td th:text="${idx.title}"></td>
+                                                        <td th:text="${idx.category.name}"></td>
+                                                        <td th:text="${idx.releaseDate}"></td>
+                                                        <td th:text="${idx.statType.name}"></td>
                                                         <td>
                                                             <a class="btn btn-info btn-sm"
                                                                 th:href="@{/admin/indicator/edit/{id}(id=${idx.id})}"><i

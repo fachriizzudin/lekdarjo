@@ -72,6 +72,9 @@ public class StatisticalNewsServiceImpl implements StatisticalNewsService {
 
         if (statisticalNewsRepository.existsByTitle(statisticalNews.getTitle())) throw new BadRequestException(ExceptionMessage.ALREADY_EXIST);
 
+        if (file.isEmpty()) 
+            throw new BadRequestException(ExceptionMessage.FILE_REQUIRED);
+
         FileModel documentFile = fileStorageService.createFileObject(file);
 
         validationService.validatePdfFile(documentFile);

@@ -24,7 +24,7 @@ public class Graph {
     @JoinColumn(name = "meta_fk", nullable = false)
     private GraphMeta meta;
 
-    public Graph(long id, Double value, @NotNull int year) {
+    public Graph(long id, Double value,int year) {
         this.id = id;
         this.value = value;
         this.year = year;

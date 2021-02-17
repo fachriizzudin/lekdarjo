@@ -9,6 +9,7 @@ import com.lazuardifachri.bps.lekdarjo.serializer.SubjectDeserializer;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import java.text.SimpleDateFormat;
@@ -22,9 +23,11 @@ public class Infographic {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long Id;
 
+    @NotEmpty
     @Column(name = "title")
     private String title;
 
+    @NotNull
     @JsonDeserialize(using = SubjectDeserializer.class)
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "subject_fk", nullable = false)

@@ -24,7 +24,7 @@
           <div class="col-md-6">
             <div class="card card-info">
               <div class="card-header">
-                <h3 class="card-title">Edit Data Grafik</h3>
+                <h3 class="card-title">Edit Meta Grafik</h3>
               </div>
               <form th:action="@{/admin/graph/{id}/meta/edit(id=${graphMeta.id})}" th:object="${graphMeta}"
                 method="post">
@@ -32,7 +32,7 @@
                   <div class="form-group">
                     <label for="inputTitle">Judul</label>
                     <input type="text" class="form-control" id="inputTitle" th:field="*{title}">
-                    <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="text-danger"></span>
+                    <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="text-danger"></p>
                   </div>
                   <div class="form-group">
                     <label for="inputSubjek">Subjek</label>

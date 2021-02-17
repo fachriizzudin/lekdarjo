@@ -6,7 +6,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.lazuardifachri.bps.lekdarjo.serializer.SubjectDeserializer;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
+
 import java.util.Set;
 
 @Entity
@@ -16,7 +17,7 @@ public class GraphMeta {
     @Id
     private long id;
 
-    @NotNull
+    @NotEmpty    
     private String title;
 
 
@@ -25,18 +26,19 @@ public class GraphMeta {
     @JoinColumn(name = "subject_fk", nullable = false)
     private Subject subject;
 
-    @NotNull
+    @NotEmpty
     private String horizontal;
 
-    @NotNull
+    @NotEmpty
     private String vertical;
 
-    @NotNull
+    @NotEmpty
     @JsonProperty(value = "vertical_unit")
     @Column(name = "vertical_unit")
     private String verticalUnit;
 
     @Lob
+    @NotEmpty
     private String description;
 
     @JsonIgnore
@@ -46,7 +48,7 @@ public class GraphMeta {
     public GraphMeta() {
     }
 
-    public GraphMeta(long id, @NotNull String title, @NotNull Subject subject, @NotNull String horizontal, @NotNull String vertical, @NotNull String verticalUnit, String description) {
+    public GraphMeta(long id, String title, Subject subject, String horizontal, String vertical, String verticalUnit, String description) {
         this.id = id;
         this.title = title;
         this.subject = subject;
