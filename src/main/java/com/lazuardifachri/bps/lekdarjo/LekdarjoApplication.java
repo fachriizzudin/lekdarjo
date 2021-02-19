@@ -34,6 +34,10 @@ public class LekdarjoApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
+		// 	android app
+		// 	username : androidapp@mail.com
+		//	password : l1e2k3d4r5j6o
+
 		if (!userRepository.existsByUsername("bpskabupatensidoarjo@gmail.com")){
 			User admin = new User("bpskabupatensidoarjo@gmail.com",
 					passwordEncoder.encode("@Hero140"));
