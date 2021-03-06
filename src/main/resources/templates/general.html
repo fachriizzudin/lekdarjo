@@ -2,20 +2,15 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 
 <head>
-
     <head th:fragment="headerfiles">
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="shortcut icon" type="image/png" th:href="@{/img/favicon.png}"/>
-        <link rel="stylesheet" type="text/css"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
-        <link rel="stylesheet" type="text/css" th:href="@{/css/jquery-ui.min.css}" />
-        <!-- <link rel="stylesheet" type="text/css" th:href="@{/css/adminlte.min.css}" /> -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.0.5/css/adminlte.min.css">
-        <link rel="stylesheet" type="text/css" th:href="@{/css/daterangepicker.css}" />
-        <link rel="stylesheet" type="text/css" th:href="@{/css/tempusdominus-bootstrap-4.min.css}" />
-        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+        <link rel="shortcut icon" type="image/png" th:href="@{/img/favicon.png}" />
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.0.5/css/adminlte.min.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/3.0.5/daterangepicker.min.css" />
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/css/tempusdominus-bootstrap-4.min.css" />
         <title>Admin LekDarjo</title>
     </head>
 </head>
@@ -35,8 +30,16 @@
             <li class="nav-item d-none d-sm-inline-block">
                 <a th:href="@{/admin/brs}" class="nav-link">BRS</a>
             </li>
-            <li class="nav-item d-none d-sm-inline-block">
-                <a th:href="@{/admin/indicator}" class="nav-link">Indikator</a>
+            <li class="nav-item dropdown d-none d-sm-inline-block">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    Indikator
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" th:href="@{/admin/indicator/social}">Sosial dan Kependudukan</a>
+                    <a class="dropdown-item" th:href="@{/admin/indicator/economy}">Ekonomi dan Pertambangan</a>
+                    <a class="dropdown-item" th:href="@{/admin/indicator/agriculture}">Pertanian dan Pertambangan</a>
+                </div>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
                 <a th:href="@{/admin/infographic}" class="nav-link">Infografis</a>
@@ -63,15 +66,12 @@
     </footer>
 
     <div style="display: none;" th:fragment="javascripts">
-        <script th:src="@{/js/jquery.min.js}"></script>
-        <script th:src="@{/js/jquery-ui.min.js}"></script>
-        <script>$.widget.bridge('uibutton', $.ui.button)</script>
-        <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
-        <script th:src="@{/js/moment.min.js}"></script>
-        <script th:src="@{/js/daterangepicker.js}"></script>
-        <script th:src="@{/js/tempusdominus-bootstrap-4.min.js}"></script>
-        <!-- <script th:src="@{/js/adminlte.min.js}"></script> -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.0.5/js/adminlte.min.js"></script>    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/3.0.5/daterangepicker.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/js/tempusdominus-bootstrap-4.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.0.5/js/adminlte.min.js"></script>
     </div>
 
 

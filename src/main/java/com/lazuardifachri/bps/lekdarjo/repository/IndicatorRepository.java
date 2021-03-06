@@ -24,5 +24,8 @@ public interface IndicatorRepository extends JpaRepository<Indicator, Long> {
     @Query(QUERY + "WHERE i.category.id = :categoryId" + ORDER)
     Page<Indicator> findByCategory(@Param("categoryId") Long categoryid, Pageable pageable);
 
+    @Query(QUERY + "WHERE i.category.subject.id = :subjectId" + ORDER)
+    Page<Indicator> findBySubject(@Param("subjectId") Long subjectId, Pageable pageable);
+
     Boolean existsByTitle(String title);
 }

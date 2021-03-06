@@ -18,6 +18,8 @@ public interface IndicatorService {
 
     Page<Indicator> readIndicatorByCategory(String categoryId, Pageable pageable);
 
+    Page<Indicator> readIndicatorBySubject(String subjectId, Pageable pageable);
+
     Indicator updateIndicator(String idkId, String idkJson, MultipartFile file) throws IOException, ParseException;
 
     void deleteIndicator(String idkId);

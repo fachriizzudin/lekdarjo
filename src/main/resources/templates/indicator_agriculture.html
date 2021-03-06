@@ -12,7 +12,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-12">
-                        <h1 class="m-0 text-dark">Indikator</h1>
+                        <h1 class="m-0 text-dark">Indikator Pertanian dan Pertambangan</h1>
                     </div>
                 </div>
             </div>
@@ -24,7 +24,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <a class="btn btn-primary btn-sm" th:href="@{/admin/indicator/add}"><i
+                                <a class="btn btn-primary btn-sm" th:href="@{/admin/indicator/agriculture/add}"><i
                                         class="fas fa-plus mr-1"></i>Tambah</a>
                             </div>
                             <div class="card-body">
@@ -50,7 +50,7 @@
                                                         <td th:text="${idx.statType.name}"></td>
                                                         <td>
                                                             <a class="btn btn-info btn-sm"
-                                                                th:href="@{/admin/indicator/edit/{id}(id=${idx.id})}"><i
+                                                                th:href="@{/admin/indicator/agriculture/edit/{id}(id=${idx.id})}"><i
                                                                     class="fas fa-pencil-alt mr-1"></i>Edit</a>
                                                             <button type="button" class="btn btn-danger btn-sm"
                                                                 th:attr=" data-id=${idx.id}" data-toggle="modal"
@@ -69,19 +69,19 @@
                                 <ul class="pagination pagination-sm m-0 float-right">
                                     <li class="page-item"><a class="page-link"
                                             th:style="${prev < 0} ? 'display : none;'"
-                                            th:href="@{/admin/indicator/(page=${prev})}">«</a></li>
+                                            th:href="@{/admin/indicator/agriculture/(page=${prev})}">«</a></li>
                                     <li class="page-item"><a class="page-link"
-                                            th:href="@{/admin/indicator/(page=${no1})}"
+                                            th:href="@{/admin/indicator/agriculture/(page=${no1})}"
                                             th:style="${no1 < 0} ? 'display : none;'" th:text=${no1+1}></a></li>
                                     <li class="page-item"><a class="page-link"
-                                            th:href="@{/admin/indicator/(page=${no2})}"
+                                            th:href="@{/admin/indicator/agriculture/(page=${no2})}"
                                             th:style="${no2 < 0} ? 'display : none;'" th:text=${no2+1}></a></li>
                                     <li class="page-item"><a class="page-link"
-                                            th:href="@{/admin/indicator/(page=${no3})}"
+                                            th:href="@{/admin/indicator/agriculture/(page=${no3})}"
                                             th:style="${no3 < 0} ? 'display : none;'" th:text=${no3+1}></a></li>
                                     <li class="page-item"><a class="page-link"
                                             th:style="${next >= indicatorPage.totalPages} ? 'display : none;'"
-                                            th:href="@{/admin/indicator/(page=${next})}">»</a></li>
+                                            th:href="@{/admin/indicator/agriculture/(page=${next})}">»</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -123,7 +123,7 @@
         $('#modal-delete').on('show.bs.modal', function (event) {
             console.log("modal default");
             var id = $(event.relatedTarget).data('id');
-            $(this).find("#delete-confirm").attr("href", "/admin/indicator/delete/" + id);
+            $(this).find("#delete-confirm").attr("href", "/admin/indicator/agriculture/delete/" + id);
         });
     </script>
 </body>

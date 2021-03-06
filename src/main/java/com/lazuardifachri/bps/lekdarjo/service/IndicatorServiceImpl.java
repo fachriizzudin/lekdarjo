@@ -92,6 +92,11 @@ public class IndicatorServiceImpl implements IndicatorService{
     }
 
     @Override
+    public Page<Indicator> readIndicatorBySubject(String subjectdId, Pageable pageable) {
+        return indicatorRepository.findBySubject(Long.valueOf(subjectdId), pageable);
+    }
+
+    @Override
     public Indicator updateIndicator(String idkId, String idkJson, MultipartFile file) throws IOException, ParseException {
         Optional<Indicator> indicatorOptional = indicatorRepository.findById(Long.valueOf(idkId));
         Indicator indicator;

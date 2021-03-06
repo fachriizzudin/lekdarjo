@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<th:block th:replace="general.html :: headerfiles"></th:block>
+
+<body>
+    <div th:replace="general.html :: navbar"></div>
+
+    <div class="content-wrapper" style="margin-left: 0px;">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <h1 class="m-0 text-dark">Tambah Indikator</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">Isi Detail Indikator</h3>
+                            </div>
+                            <form role="form" th:action="@{/admin/indicator/social/add}" th:object="${indicator}"
+                                enctype="multipart/form-data" method="post">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="inputTitle">Judul</label>
+                                        <input type="text" class="form-control" id="inputTitle" th:field="*{title}">
+                                        <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Tanggal Rilis</label>
+                                        <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                                            <input type="text" class="form-control datetimepicker-input"
+                                                data-target="#reservationdate" id="inputReleaseDate"
+                                                th:field="*{releaseDate}" />
+                                            <div class="input-group-append" data-target="#reservationdate"
+                                                data-toggle="datetimepicker">
+                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                            </div>
+                                        </div>
+                                        <span th:if="${#fields.hasErrors('releaseDate')}" th:errors="*{releaseDate}" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputDistrict">Kategori</label>
+                                        <select class="form-control custom-select" id="inputDistrict" th:field="*{category}">
+                                            <option th:value="1">Agama</option>
+                                            <option th:value="2">Geografi</option>
+                                            <option th:value="3">Iklim</option>
+                                            <option th:value="4">Indeks Pembangunan Manusia</option>
+                                            <option th:value="5">Kemiskinan</option>
+                                            <option th:value="6">Kependudukan</option>
+                                            <option th:value="7">Kesehatan</option>
+                                            <option th:value="8">Konsumsi dan Pengeluaran</option>
+                                            <option th:value="9">Pemerintahan</option>
+                                            <option th:value="10">Pendidikan</option>
+                                            <option th:value="11">Perumahan</option>
+                                            <option th:value="12">Politik dan Keamanan</option>
+                                            <option th:value="13">Sosial Budaya</option>
+                                            <option th:value="14">Tenaga Kerja</option>
+                                            <option th:value="15">Energi</option>
+                                            <option th:value="16">Industri</option>
+                                            <option th:value="17">Inflasi</option>
+                                            <option th:value="18">Keuangan</option>
+                                            <option th:value="19">Komunikasi</option>
+                                            <option th:value="20">Konstruksi</option>
+                                            <option th:value="21">Pariwisata</option>
+                                            <option th:value="22">Produk Domestik Regional Bruto</option>
+                                            <option th:value="23">Transportasi</option>
+                                            <option th:value="24">Hortikultura</option>
+                                            <option th:value="25">Perikanan</option>
+                                            <option th:value="26">Perkebunan</option>
+                                            <option th:value="27">Pertambangan</option>
+                                            <option th:value="28">Peternakan</option>
+                                            <option th:value="29">Tanaman Pangan</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputStatType">Tipe Statistik</label>
+                                        <select class="form-control custom-select" id="inputStatType" th:field="*{statType}">
+                                            <option th:value="STATISTIK_DASAR">Statistik Dasar</option>
+                                            <option th:value="STATISTIK_SEKTORAL">Statistik Sektoral</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputFile">File input</label>
+                                        <input type="file" class="form-control-file" id="inputFile" name="file">
+                                        <p th:text="${message}" class="text-danger"></p>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary float-right">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div th:replace="general.html :: footer"></div>
+
+    <div th:replace="general.html :: javascripts"></div>
+
+    <script>
+        $(function () {
+            //Date range picker
+            $('#reservationdate').datetimepicker({
+                format: 'DD-MM-YYYY'
+            });
+        })
+    </script>
+
+</body>
+
+</html>
