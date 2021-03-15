@@ -16,8 +16,8 @@ INSERT INTO categories(id, name, subject_fk) VALUES (10,'Pendidikan', 1);
 INSERT INTO categories(id, name, subject_fk) VALUES (11,'Perumahan', 1);
 INSERT INTO categories(id, name, subject_fk) VALUES (12,'Politik dan Keamanan', 1);
 INSERT INTO categories(id, name, subject_fk) VALUES (13,'Sosial Budaya', 1);
-INSERT INTO categories(id, name, subject_fk) VALUES (14,'Tenaga Kerja', 1);
 
+INSERT INTO categories(id, name, subject_fk) VALUES (14,'Tenaga Kerja', 2);
 INSERT INTO categories(id, name, subject_fk) VALUES (15,'Energi', 2);
 INSERT INTO categories(id, name, subject_fk) VALUES (16,'Industri', 2);
 INSERT INTO categories(id, name, subject_fk) VALUES (17,'Inflasi', 2);
