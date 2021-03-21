@@ -81,7 +81,7 @@ public class ValidationService {
     }
 
     public void validateExcelFile(FileModel file) {
-        if (file.getType().equals("application/vnd.ms-excel")) {
+        if (file.getType().equals("application/vnd.ms-excel") || file.getType().equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")) {
             Set<ConstraintViolation<FileModel>> violations = validator.validate(file);
             if (!violations.isEmpty()) {
                 throw new ConstraintViolationException(violations);
