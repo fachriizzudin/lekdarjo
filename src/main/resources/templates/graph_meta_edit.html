@@ -62,7 +62,7 @@
                   </div>
                   <div class="form-group">
                     <label for="inputDescription">Deskripsi</label>
-                    <textarea class="form-control" rows="3" placeholder="Keterangan singkat isi publikasi.."
+                    <textarea class="form-control" rows="5" placeholder="Keterangan singkat isi publikasi.."
                       id="inputDescription" th:field="*{description}"></textarea>
                     <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
                       class="text-danger"></span>
