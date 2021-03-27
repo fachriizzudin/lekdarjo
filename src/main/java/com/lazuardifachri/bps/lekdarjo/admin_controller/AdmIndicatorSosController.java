@@ -46,6 +46,7 @@ public class AdmIndicatorSosController {
         }
 
         log.info(String.valueOf(pageNumber));
+        log.info(indicatorService.readIndicatorBySubject("1",PageRequest.of(0, Integer.MAX_VALUE)).toString());
 
         Pageable paging = PageRequest.of(pageNumber, 5);
         Page<Indicator> pageTuts = indicatorService.readIndicatorBySubject("1",paging);
