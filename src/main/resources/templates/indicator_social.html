@@ -69,19 +69,19 @@
                                 <ul class="pagination pagination-sm m-0 float-right">
                                     <li class="page-item"><a class="page-link"
                                             th:style="${prev < 0} ? 'display : none;'"
-                                            th:href="@{/admin/indicator/social/(page=${prev})}">«</a></li>
+                                            th:href="@{/admin/indicator/social/(page=${prev-1})}">«</a></li>
                                     <li class="page-item"><a class="page-link"
                                             th:href="@{/admin/indicator/social/(page=${no1})}"
-                                            th:style="${no1 < 0} ? 'display : none;'" th:text=${no1+1}></a></li>
+                                            th:style="${no1 < 0} ? 'display : none;'" th:text=${no1}></a></li>
                                     <li class="page-item"><a class="page-link"
                                             th:href="@{/admin/indicator/social/(page=${no2})}"
-                                            th:style="${no2 < 0} ? 'display : none;'" th:text=${no2+1}></a></li>
+                                            th:style="${no2 < 0} ? 'display : none;'" th:text=${no2}></a></li>
                                     <li class="page-item"><a class="page-link"
                                             th:href="@{/admin/indicator/social/(page=${no3})}"
-                                            th:style="${no3 < 0} ? 'display : none;'" th:text=${no3+1}></a></li>
+                                            th:style="${no3 < 0} ? 'display : none;'" th:text=${no3}></a></li>
                                     <li class="page-item"><a class="page-link"
                                             th:style="${next >= indicatorPage.totalPages} ? 'display : none;'"
-                                            th:href="@{/admin/indicator/social/(page=${next})}">»</a></li>
+                                            th:href="@{/admin/indicator/social/(page=${next-1})}">»</a></li>
                                 </ul>
                             </div>
                         </div>
