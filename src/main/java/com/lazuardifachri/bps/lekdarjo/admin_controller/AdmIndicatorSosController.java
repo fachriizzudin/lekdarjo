@@ -42,15 +42,11 @@ public class AdmIndicatorSosController {
         int pageNumber = 0;
 
         if (number.isPresent()) {
-            pageNumber = number.get();
+            pageNumber = number.get() - 1;
         }
-
-        log.info(String.valueOf(pageNumber));
 
         Pageable paging = PageRequest.of(pageNumber, 15);
         Page<Indicator> pageTuts = indicatorService.readIndicatorBySubject("1",paging);
-
-        log.info(String.valueOf(pageTuts.getTotalPages()));
 
         model.addAttribute("indicatorPage", pageTuts);
 
