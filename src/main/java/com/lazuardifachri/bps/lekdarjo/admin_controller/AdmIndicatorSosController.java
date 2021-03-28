@@ -39,24 +39,24 @@ public class AdmIndicatorSosController {
     @GetMapping("")
     public String indicator(@RequestParam("page") Optional<Integer> number, Model model) {
 
-        int pageNumber = 0;
+        int pageNumber = 1;
 
         if (number.isPresent()) {
-            pageNumber = number.get() - 1;
+            pageNumber = number.get() ;
         }
 
-        Pageable paging = PageRequest.of(pageNumber, 15);
+        Pageable paging = PageRequest.of(pageNumber-1, 15);
         Page<Indicator> pageTuts = indicatorService.readIndicatorBySubject("1",paging);
 
         model.addAttribute("indicatorPage", pageTuts);
 
-        if (pageNumber + 3 <= pageTuts.getTotalPages()) {
+        if (pageNumber + 3 <= pageTuts.getTotalPages() + 1) {
             model.addAttribute("prev", pageNumber - 1);
             model.addAttribute("no1", pageNumber);
             model.addAttribute("no2", pageNumber + 1);
             model.addAttribute("no3", pageNumber + 2);
             model.addAttribute("next", pageNumber + 3);
-        } else if (pageNumber + 3 > pageTuts.getTotalPages()) {
+        } else if (pageNumber + 3 > pageTuts.getTotalPages() + 1) {
             int overlap = pageNumber + 3 - pageTuts.getTotalPages();
             model.addAttribute("prev", pageNumber - 1 - overlap);
             model.addAttribute("no1", pageNumber - overlap);
