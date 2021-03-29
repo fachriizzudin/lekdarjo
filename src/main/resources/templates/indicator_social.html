@@ -69,7 +69,7 @@
                                 <ul class="pagination pagination-sm m-0 float-right">
                                     <li class="page-item"><a class="page-link"
                                             th:style="${prev < 1} ? 'display : none;'"
-                                            th:href="@{/admin/indicator/social/(page=${prev-1})}">«</a></li>
+                                            th:href="@{/admin/indicator/social/(page=${prev})}">«</a></li>
                                     <li class="page-item"><a class="page-link"
                                             th:href="@{/admin/indicator/social/(page=${no1})}"
                                             th:style="${no1 < 1} ? 'display : none;'" th:text=${no1}></a></li>
@@ -81,7 +81,7 @@
                                             th:style="${no3 < 1} ? 'display : none;'" th:text=${no3}></a></li>
                                     <li class="page-item"><a class="page-link"
                                             th:style="${next >= indicatorPage.totalPages+1} ? 'display : none;'"
-                                            th:href="@{/admin/indicator/social/(page=${next-1})}">»</a></li>
+                                            th:href="@{/admin/indicator/social/(page=${next})}">»</a></li>
                                 </ul>
                             </div>
                         </div>
