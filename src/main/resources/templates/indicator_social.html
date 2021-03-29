@@ -80,7 +80,7 @@
                                             th:href="@{/admin/indicator/social/(page=${no3})}"
                                             th:style="${no3 < 1} ? 'display : none;'" th:text=${no3}></a></li>
                                     <li class="page-item"><a class="page-link"
-                                            th:style="${next >= indicatorPage.totalPages} ? 'display : none;'"
+                                            th:style="${next >= indicatorPage.totalPages+1} ? 'display : none;'"
                                             th:href="@{/admin/indicator/social/(page=${next-1})}">»</a></li>
                                 </ul>
                             </div>
