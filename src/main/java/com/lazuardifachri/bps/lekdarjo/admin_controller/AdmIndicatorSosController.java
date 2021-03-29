@@ -62,7 +62,7 @@ public class AdmIndicatorSosController {
             model.addAttribute("next", pageNumber + 3);
         } else if (pageNumber + 3 > pageTuts.getTotalPages() + 1) {
             int overlap = pageNumber + 3 - pageTuts.getTotalPages() + 1;
-            log.info("pageNumber: "+ overlap);
+            log.info("pageNumber: "+ pageNumber);
             log.info("pageTuts.getTotalPages(): "+ pageTuts.getTotalPages());
             log.info("overlap: "+ overlap);
             model.addAttribute("prev", pageNumber - 1 - overlap);
