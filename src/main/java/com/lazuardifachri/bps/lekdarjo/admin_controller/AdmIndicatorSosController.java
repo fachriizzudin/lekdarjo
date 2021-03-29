@@ -45,7 +45,7 @@ public class AdmIndicatorSosController {
             pageNumber = number.get() ;
         }
 
-        Pageable paging = PageRequest.of(pageNumber-1, 15);
+        Pageable paging = PageRequest.of(pageNumber-1, 5);
         Page<Indicator> pageTuts = indicatorService.readIndicatorBySubject("1",paging);
 
         model.addAttribute("indicatorPage", pageTuts);
@@ -57,7 +57,7 @@ public class AdmIndicatorSosController {
             model.addAttribute("no3", pageNumber + 2);
             model.addAttribute("next", pageNumber + 3);
         } else if (pageNumber + 3 > pageTuts.getTotalPages() + 1) {
-            int overlap = pageNumber + 3 - pageTuts.getTotalPages();
+            int overlap = pageNumber + 3 - pageTuts.getTotalPages() + 1;
             model.addAttribute("prev", pageNumber - 1 - overlap);
             model.addAttribute("no1", pageNumber - overlap);
             model.addAttribute("no2", pageNumber + 1 - overlap);
