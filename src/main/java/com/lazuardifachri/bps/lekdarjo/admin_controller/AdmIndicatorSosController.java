@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lazuardifachri.bps.lekdarjo.Constant;
 import com.lazuardifachri.bps.lekdarjo.model.Indicator;
 import com.lazuardifachri.bps.lekdarjo.service.IndicatorService;
 
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/admin/indicator/social")
@@ -45,13 +47,10 @@ public class AdmIndicatorSosController {
             pageNumber = number.get() ;
         }
 
-        Pageable paging = PageRequest.of(pageNumber-1, 5);
+        Pageable paging = PageRequest.of(pageNumber-1, Constant.PAGE_NUMBER);
         Page<Indicator> pageTuts = indicatorService.readIndicatorBySubject("1",paging);
 
         model.addAttribute("indicatorPage", pageTuts);
-
-//        log.info("total page: "+ pageTuts.getTotalPages());
-//        log.info("page number: "+ pageNumber);
 
         if (pageNumber + 3 <= pageTuts.getTotalPages() + 1) {
             log.info("not overlap");
@@ -62,9 +61,6 @@ public class AdmIndicatorSosController {
             model.addAttribute("next", pageNumber + 3);
         } else if (pageNumber + 3 > pageTuts.getTotalPages() + 1) {
             int overlap = pageNumber + 3 - pageTuts.getTotalPages() - 1;
-//            log.info("pageNumber: "+ pageNumber);
-//            log.info("pageTuts.getTotalPages(): "+ pageTuts.getTotalPages());
-//            log.info("overlap: "+ overlap);
             model.addAttribute("prev", pageNumber - 1 - overlap);
             model.addAttribute("no1", pageNumber - overlap);
             model.addAttribute("no2", pageNumber + 1 - overlap);
@@ -82,7 +78,8 @@ public class AdmIndicatorSosController {
     }
 
     @PostMapping("/add")
-    public String indicatorAdd(@RequestParam("file") MultipartFile file, @Valid Indicator indicator, BindingResult result, Model model) {
+    public String indicatorAdd(@RequestParam("file") MultipartFile file, @Valid Indicator indicator, BindingResult result, Model model, 
+            RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             log.info(result.getFieldError().toString());
             return "indicator_social_add";

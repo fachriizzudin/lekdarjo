@@ -15,25 +15,27 @@ public interface StatisticalNewsRepository extends JpaRepository<StatisticalNews
 
     String ORDER = " ORDER by s.releaseDate DESC";
 
-    @Query(QUERY + ORDER)
+    String ORDERID = " ORDER by s.id DESC";
+
+    @Query(QUERY + ORDERID)
     Page<StatisticalNews> findAllInfo(Pageable pageable);
 
     @Query(QUERY + "WHERE s.id = :id")
     Optional<StatisticalNews> findByIdInfo(@Param("id") Long id);
 
-    @Query(QUERY + "WHERE s.category.id = :categoryId" + ORDER)
+    @Query(QUERY + "WHERE s.category.id = :categoryId" + ORDERID)
     Page<StatisticalNews> findByCategory(@Param("categoryId") Long categoryid, Pageable pageable);
 
-    @Query(QUERY + "WHERE s.category.id = :categoryId AND EXTRACT (year FROM s.releaseDate) = :year" + ORDER)
+    @Query(QUERY + "WHERE s.category.id = :categoryId AND EXTRACT (year FROM s.releaseDate) = :year" + ORDERID)
     Page<StatisticalNews> findByCategoryAndYear(@Param("categoryId") Long categoryid, @Param("year") Integer year, Pageable pageable);
 
-    @Query(QUERY + "WHERE s.category.id = :categoryId AND EXTRACT (year FROM s.releaseDate) = :year AND EXTRACT (month FROM s.releaseDate) = :month" + ORDER)
+    @Query(QUERY + "WHERE s.category.id = :categoryId AND EXTRACT (year FROM s.releaseDate) = :year AND EXTRACT (month FROM s.releaseDate) = :month" + ORDERID)
     Page<StatisticalNews> findByCategoryAndYearAndMonth(@Param("categoryId") Long categoryid, @Param("year") Integer year, @Param("month") Integer month, Pageable pageable);
 
-    @Query(QUERY + "WHERE EXTRACT (year FROM s.releaseDate) = :year" + ORDER)
+    @Query(QUERY + "WHERE EXTRACT (year FROM s.releaseDate) = :year" + ORDERID)
     Page<StatisticalNews> findByYear(@Param("year") Integer year, Pageable pageable);
 
-    @Query(QUERY + "WHERE EXTRACT (year FROM s.releaseDate) = :year AND EXTRACT (month FROM s.releaseDate) = :month" + ORDER)
+    @Query(QUERY + "WHERE EXTRACT (year FROM s.releaseDate) = :year AND EXTRACT (month FROM s.releaseDate) = :month" + ORDERID)
     Page<StatisticalNews> findByYearAndMonth(@Param("year") Integer year, @Param("month") Integer month, Pageable pageable);
 
     Boolean existsByTitle(String title);

@@ -68,20 +68,20 @@
                             <div class="card-footer clearfix">
                                 <ul class="pagination pagination-sm m-0 float-right">
                                     <li class="page-item"><a class="page-link"
-                                            th:style="${prev < 0} ? 'display : none;'"
-                                            th:href="@{/admin/indicator/economy/(page=${prev})}">«</a></li>
+                                                             th:style="${prev < 1} ? 'display : none;'"
+                                                             th:href="@{/admin/indicator/economy/(page=${prev})}">«</a></li>
                                     <li class="page-item"><a class="page-link"
-                                            th:href="@{/admin/indicator/economy/(page=${no1})}"
-                                            th:style="${no1 < 0} ? 'display : none;'" th:text=${no1+1}></a></li>
+                                                             th:href="@{/admin/indicator/economy/(page=${no1})}"
+                                                             th:style="${no1 < 1} ? 'display : none;'" th:text=${no1}></a></li>
                                     <li class="page-item"><a class="page-link"
-                                            th:href="@{/admin/indicator/economy/(page=${no2})}"
-                                            th:style="${no2 < 0} ? 'display : none;'" th:text=${no2+1}></a></li>
+                                                             th:href="@{/admin/indicator/economy/(page=${no2})}"
+                                                             th:style="${no2 < 1} ? 'display : none;'" th:text=${no2}></a></li>
                                     <li class="page-item"><a class="page-link"
-                                            th:href="@{/admin/indicator/economy/(page=${no3})}"
-                                            th:style="${no3 < 0} ? 'display : none;'" th:text=${no3+1}></a></li>
+                                                             th:href="@{/admin/indicator/economy/(page=${no3})}"
+                                                             th:style="${no3 < 1} ? 'display : none;'" th:text=${no3}></a></li>
                                     <li class="page-item"><a class="page-link"
-                                            th:style="${next >= indicatorPage.totalPages} ? 'display : none;'"
-                                            th:href="@{/admin/indicator/economy/(page=${next})}">»</a></li>
+                                                             th:style="${next >= indicatorPage.totalPages+1} ? 'display : none;'"
+                                                             th:href="@{/admin/indicator/economy/(page=${next})}">»</a></li>
                                 </ul>
                             </div>
                         </div>

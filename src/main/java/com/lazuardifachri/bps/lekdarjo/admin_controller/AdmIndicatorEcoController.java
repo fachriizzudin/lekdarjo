@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lazuardifachri.bps.lekdarjo.Constant;
 import com.lazuardifachri.bps.lekdarjo.model.Indicator;
 import com.lazuardifachri.bps.lekdarjo.service.IndicatorService;
 
@@ -39,29 +40,26 @@ public class AdmIndicatorEcoController {
     @GetMapping("")
     public String indicator(@RequestParam("page") Optional<Integer> number, Model model) {
 
-        int pageNumber = 0;
+        int pageNumber = 1;
 
         if (number.isPresent()) {
-            pageNumber = number.get();
+            pageNumber = number.get() ;
         }
 
-        log.info(String.valueOf(pageNumber));
-
-        Pageable paging = PageRequest.of(pageNumber, 5);
+        Pageable paging = PageRequest.of(pageNumber-1, Constant.PAGE_NUMBER);
         Page<Indicator> pageTuts = indicatorService.readIndicatorBySubject("2",paging);
-
-        log.info(String.valueOf(pageTuts.getTotalPages()));
 
         model.addAttribute("indicatorPage", pageTuts);
 
-        if (pageNumber + 3 <= pageTuts.getTotalPages()) {
+        if (pageNumber + 3 <= pageTuts.getTotalPages() + 1) {
+            log.info("not overlap");
             model.addAttribute("prev", pageNumber - 1);
             model.addAttribute("no1", pageNumber);
             model.addAttribute("no2", pageNumber + 1);
             model.addAttribute("no3", pageNumber + 2);
             model.addAttribute("next", pageNumber + 3);
-        } else if (pageNumber + 3 > pageTuts.getTotalPages()) {
-            int overlap = pageNumber + 3 - pageTuts.getTotalPages();
+        } else if (pageNumber + 3 > pageTuts.getTotalPages() + 1) {
+            int overlap = pageNumber + 3 - pageTuts.getTotalPages() - 1;
             model.addAttribute("prev", pageNumber - 1 - overlap);
             model.addAttribute("no1", pageNumber - overlap);
             model.addAttribute("no2", pageNumber + 1 - overlap);

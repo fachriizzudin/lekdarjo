@@ -111,6 +111,7 @@
                 </div>
                 <!-- /.modal-dialog -->
             </div>
+
         </section>
 
     </div>
@@ -118,6 +119,10 @@
     <div th:replace="general.html :: footer"></div>
 
     <div th:replace="general.html :: javascripts"></div>
+
+    <script>
+	$('.toast').toast('show');
+    </script>
 
     <script>
         $('#modal-delete').on('show.bs.modal', function (event) {

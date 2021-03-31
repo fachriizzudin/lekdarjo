@@ -18,7 +18,9 @@ public interface PublicationRepository extends JpaRepository<Publication, Long> 
 
     String ORDER = " ORDER by p.releaseDate DESC";
 
-    @Query(QUERY + ORDER)
+    String ORDERID = " ORDER by p.id DESC";
+
+    @Query(QUERY + ORDERID)
     Page<Publication> findAllInfo(Pageable pageable);
 
     @Query(QUERY + "WHERE p.id = :id")
@@ -26,13 +28,13 @@ public interface PublicationRepository extends JpaRepository<Publication, Long> 
 
     String EDistrictPath = "com.lazuardifachri.bps.lekdarjo.model.";
 
-    @Query(QUERY + "WHERE p.district = :code" + ORDER)
+    @Query(QUERY + "WHERE p.district = :code" + ORDERID)
     Page<Publication> findByDistrict(@Param("code") EDistrict code, Pageable pageable);
 
-    @Query(QUERY + "WHERE EXTRACT (year FROM p.releaseDate) = :year" + ORDER)
+    @Query(QUERY + "WHERE EXTRACT (year FROM p.releaseDate) = :year" + ORDERID)
     Page<Publication> findByYear(@Param("year") Integer year, Pageable pageable);
 
-    @Query(QUERY + "WHERE p.district = :code AND EXTRACT (year FROM p.releaseDate) = :year" + ORDER)
+    @Query(QUERY + "WHERE p.district = :code AND EXTRACT (year FROM p.releaseDate) = :year" + ORDERID)
     Page<Publication> findByDistrictAndYear(@Param("code") EDistrict code, @Param("year") Integer year, Pageable pageable);
 
     @Query(QUERY + "WHERE p.subject.id = :subjectId")
