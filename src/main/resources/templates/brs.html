@@ -48,10 +48,10 @@
                                                 class="table table-bordered table-striped dataTable dtr-inline">
                                                 <thead>
                                                     <tr role="row">
-                                                        <th style="width: 30%;">Judul</th>
+                                                        <th style="width: 25%;">Judul</th>
                                                         <th style="width: 40%;">Abstraksi</th>
                                                         <th style="width: 10%;">Tanggal Rilis</th>
-                                                        <th style="width: 10%;">Kategori</th>
+                                                        <th style="width: 15%;">Kategori</th>
                                                         <th style="width: 10%;text-align: center;">Aksi</th>
                                                     </tr>
                                                 </thead>
@@ -138,6 +138,7 @@
             var id = $(event.relatedTarget).data('id');
             $(this).find("#delete-confirm").attr("href", "/admin/brs/delete/" + id);
         });
+        $('.toast').toast('show');
     </script>
 </body>
 

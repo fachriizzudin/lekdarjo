@@ -144,7 +144,9 @@
             var id = $(event.relatedTarget).data('id');
             $(this).find("#delete-confirm").attr("href", "/admin/publication/delete/" + id);
         });
+        $('.toast').toast('show');
     </script>
+
 </body>
 
 </html>

@@ -137,15 +137,12 @@
     <div th:replace="general.html :: javascripts"></div>
 
     <script>
-        $('.toast').toast('show');
-    </script>
-
-    <script>
         $('#modal-delete').on('show.bs.modal', function (event) {
             console.log("modal default");
             var id = $(event.relatedTarget).data('id');
             $(this).find("#delete-confirm").attr("href", "/admin/indicator/social/delete/" + id);
         });
+        $('.toast').toast('show');
     </script>
 </body>
 
