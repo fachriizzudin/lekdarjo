@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/admin/indicator/agriculture")
@@ -77,11 +78,13 @@ public class AdmIndicatorAgriController {
     }
 
     @PostMapping("/add")
-    public String indicatorAdd(@RequestParam("file") MultipartFile file, @Valid Indicator indicator, BindingResult result, Model model) {
+    public String indicatorAdd(@RequestParam("file") MultipartFile file, @Valid Indicator indicator, BindingResult result,
+                               Model model, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-            log.info(result.getFieldError().toString());
             return "indicator_agriculture_add";
         }
+
+        redirectAttributes.addFlashAttribute("toast", true);
 
         if (file.isEmpty()) {
             model.addAttribute("message", "File input can not be empty");
@@ -91,8 +94,13 @@ public class AdmIndicatorAgriController {
         try {
             indicatorService.createIndicator(indicator.apiString(), file);
         } catch (Exception e) {
-            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("success", false);
+            redirectAttributes.addFlashAttribute("message", "Penambahan data gagal");
+            return "redirect:/admin/indicator/agriculture";
         }
+
+        redirectAttributes.addFlashAttribute("success", true);
+        redirectAttributes.addFlashAttribute("message", "Penambahan data berhasil");
 
         return "redirect:/admin/indicator/agriculture";
     }

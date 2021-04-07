@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 @Controller
@@ -81,7 +82,8 @@ public class AdmPublicationController {
     }
 
     @PostMapping("/add")
-    public String publicationAdd(@RequestParam("file") MultipartFile file, @Valid Publication publication, BindingResult result, Model model) {
+    public String publicationAdd(@RequestParam("file") MultipartFile file, @Valid Publication publication, BindingResult result,
+                                 Model model, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             return "publication_add";
         }
@@ -91,11 +93,18 @@ public class AdmPublicationController {
             return "publication_add";
         }
 
+        redirectAttributes.addFlashAttribute("toast", true);
+
         try {
             publicationService.createPublication(publication.apiString(), file);
         } catch (Exception e) {
-            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("success", false);
+            redirectAttributes.addFlashAttribute("message", "Penambahan data gagal");
+            return "redirect:/admin/publication";
         }
+
+        redirectAttributes.addFlashAttribute("success", true);
+        redirectAttributes.addFlashAttribute("message", "Penambahan data berhasil");
 
         return "redirect:/admin/publication";
     }

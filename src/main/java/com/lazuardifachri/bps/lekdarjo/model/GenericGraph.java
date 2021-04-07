@@ -1,21 +1,18 @@
 package com.lazuardifachri.bps.lekdarjo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.lazuardifachri.bps.lekdarjo.validation.GraphDataConstraint;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-@Entity
-@Table(name = "graph")
-public class Graph {
+public class GenericGraph<T> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     @NotNull
     @Column(precision=8, scale=2)
-    private Double value;
+    private T value;
 
     @NotNull
     private int year;
@@ -25,24 +22,24 @@ public class Graph {
     @JoinColumn(name = "meta_fk", nullable = false)
     private GraphMeta meta;
 
-    public Graph(long id, Double value,int year) {
+    public GenericGraph(long id, T value, int year) {
         this.id = id;
         this.value = value;
         this.year = year;
     }
 
-    public Graph() {
+    public GenericGraph() {
     }
 
     public long getId() {
         return id;
     }
 
-    public Double getValue() {
+    public T getValue() {
         return value;
     }
 
-    public void setValue(Double value) {
+    public void setValue(T value) {
         this.value = value;
     }
 

@@ -15,6 +15,7 @@ public class ExceptionMessage {
     public final static String GRAPH_NOT_FOUND = "Graph with the specified id was not found";
     public final static String DATA_GRAPH_NOT_FOUND = "Data graph with the specified id was not found";
     public final static String ALREADY_EXIST = "Title or name already exist in database";
+    public final static String YEAR_EXIST = "Data already exist in database";
     public final static String DISTRICT_NOT_FOUND = "District with the specified code was not found";
     public final static String FILE_REQUIRED = "File upload is required";
 }

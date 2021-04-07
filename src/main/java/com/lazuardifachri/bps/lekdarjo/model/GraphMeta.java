@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.lazuardifachri.bps.lekdarjo.serializer.SubjectDeserializer;
+import com.lazuardifachri.bps.lekdarjo.validation.DoubleQuoteConstraint;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -17,7 +18,8 @@ public class GraphMeta {
     @Id
     private long id;
 
-    @NotEmpty    
+    @NotEmpty
+    @DoubleQuoteConstraint
     private String title;
 
 
@@ -27,18 +29,22 @@ public class GraphMeta {
     private Subject subject;
 
     @NotEmpty
+    @DoubleQuoteConstraint
     private String horizontal;
 
     @NotEmpty
+    @DoubleQuoteConstraint
     private String vertical;
 
     @NotEmpty
     @JsonProperty(value = "vertical_unit")
     @Column(name = "vertical_unit")
+    @DoubleQuoteConstraint
     private String verticalUnit;
 
     @Lob
     @NotEmpty
+    @DoubleQuoteConstraint
     private String description;
 
     @JsonIgnore

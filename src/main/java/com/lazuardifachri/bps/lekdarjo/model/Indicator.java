@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.lazuardifachri.bps.lekdarjo.serializer.CategoryDeserializer;
 
+import com.lazuardifachri.bps.lekdarjo.validation.DoubleQuoteConstraint;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -26,6 +27,7 @@ public class Indicator {
     private long id;
 
     @NotEmpty
+    @DoubleQuoteConstraint
     private String title;
 
     @NotNull

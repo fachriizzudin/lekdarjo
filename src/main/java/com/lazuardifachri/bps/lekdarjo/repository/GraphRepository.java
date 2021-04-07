@@ -17,4 +17,7 @@ public interface GraphRepository extends JpaRepository<Graph, Long> {
     @Query("DELETE FROM Graph g WHERE meta_fk = :id")
     List<Graph> deleteAllByGraphMeta(@Param("id") Long id);
 
+    @Query("SELECT COUNT(*) FROM Graph g WHERE g.year = :year AND g.meta.id = :id")
+    Long existByYear(@Param("id") Long id, @Param("year") int year);
+
 }

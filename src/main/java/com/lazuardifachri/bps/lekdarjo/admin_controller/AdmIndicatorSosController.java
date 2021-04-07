@@ -81,7 +81,6 @@ public class AdmIndicatorSosController {
     public String indicatorAdd(@RequestParam("file") MultipartFile file, @Valid Indicator indicator, BindingResult result, Model model, 
             RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-            log.info(result.getFieldError().toString());
             return "indicator_social_add";
         }
 
@@ -90,11 +89,18 @@ public class AdmIndicatorSosController {
             return "indicator_social_add";
         }
 
+        redirectAttributes.addFlashAttribute("toast", true);
+
         try {
             indicatorService.createIndicator(indicator.apiString(), file);
         } catch (Exception e) {
-            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("success", false);
+            redirectAttributes.addFlashAttribute("message", "Penambahan data gagal");
+            return "redirect:/admin/indicator/social";
         }
+
+        redirectAttributes.addFlashAttribute("success", true);
+        redirectAttributes.addFlashAttribute("message", "Penambahan data berhasil");
 
         return "redirect:/admin/indicator/social";
     }

@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/admin/infographic")
@@ -79,9 +80,9 @@ public class AdmInfographicController {
     }
 
     @PostMapping("/add")
-    public String infographicAdd(@RequestParam("file") MultipartFile file, @Valid Infographic infographic, BindingResult result, Model model) {
+    public String infographicAdd(@RequestParam("file") MultipartFile file, @Valid Infographic infographic, BindingResult result,
+                                 Model model, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-            log.info(result.getFieldError().toString());
             return "infographic_add";
         }
 
@@ -90,11 +91,18 @@ public class AdmInfographicController {
             return "brs_add";
         }
 
+        redirectAttributes.addFlashAttribute("toast", true);
+
         try {
             infographicService.createInfographic(infographic.apiString(), file);
         } catch (Exception e) {
-            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("success", false);
+            redirectAttributes.addFlashAttribute("message", "Penambahan data gagal");
+            return "redirect:/admin/infographic";
         }
+
+        redirectAttributes.addFlashAttribute("success", true);
+        redirectAttributes.addFlashAttribute("message", "Penambahan data berhasil");
 
         return "redirect:/admin/infographic";
     }

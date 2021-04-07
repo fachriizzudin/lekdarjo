@@ -33,13 +33,16 @@
                 <div class="card-body">
                   <div class="form-group">
                     <label for="inputYear">Tahun</label>
-                    <input type="text" class="form-control" id="inputYear" th:field="*{year}">
-                    <span th:if="${#fields.hasErrors('year')}" th:errors="*{year}" class="text-danger"></span>
+<!--                    <input type="text" class="form-control" id="inputYear" th:field="*{year}">-->
+                    <select class="form-control custom-select" id="inputYear" th:field="*{year}">
+                      <option th:each="i : ${yearOptions}" th:value="${i}" th:text="${i}"
+                              th:selected="${i} == ${graphData.year}"></option>
+                    </select>
                   </div>
                   <div class="form-group">
                     <label for="inputValue">Nilai</label>
                     <input type="text" class="form-control" id="inputValue" th:field="*{value}">
-                    <span th:if="${#fields.hasErrors('value')}" th:errors="*{value}" class="text-danger"></span>
+                    <p th:text="${message}" class="text-danger"></p>
                   </div>
                 </div>
                 <div class="card-footer">
@@ -58,6 +61,8 @@
   <div th:replace="general.html :: footer"></div>
 
   <div th:replace="general.html :: javascripts"></div>
+
+
 </body>
 
 </html>

@@ -1,8 +1,10 @@
 package com.lazuardifachri.bps.lekdarjo.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lazuardifachri.bps.lekdarjo.exception.BadRequestException;
 import com.lazuardifachri.bps.lekdarjo.exception.ExceptionMessage;
 import com.lazuardifachri.bps.lekdarjo.exception.ResourceNotFoundException;
+import com.lazuardifachri.bps.lekdarjo.model.GenericGraph;
 import com.lazuardifachri.bps.lekdarjo.model.Graph;
 import com.lazuardifachri.bps.lekdarjo.model.GraphMeta;
 import com.lazuardifachri.bps.lekdarjo.repository.GraphRepository;
@@ -54,6 +56,12 @@ public class GraphServiceImpl implements GraphService{
         GraphMeta graphMeta = graphMetaService.readGraphMetaByid(metaId);
 
         Graph data = objectMapper.readValue(graphJson, Graph.class);
+
+        log.info(graphJson);
+        log.info(metaId);
+
+        if (graphRepository.existByYear(Long.parseLong(metaId), data.getYear()) > 0) throw new BadRequestException(ExceptionMessage.ALREADY_EXIST);
+
         data.setMeta(graphMeta);
 
         return graphRepository.save(data);
@@ -62,9 +70,6 @@ public class GraphServiceImpl implements GraphService{
     @Override
     public List<Graph> readAllGraph(String metaId) {
         List<Graph> graphs = graphRepository.findAllByGraphMeta(Long.parseLong(metaId));
-        for(Graph g: graphs) {
-            log.info(g.toString());
-        }
         return graphs;
     }
 
