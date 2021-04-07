@@ -50,7 +50,7 @@ public class AdmGraphController {
     public String graph(@PathVariable("id") String id, Model model) {
         List<Graph> graphs = graphService.readAllGraph(id);
 
-        if (id.equals("5") || id.equals("7") || id.equals("8") || id.equals("10") || id.equals("12")) {
+        if (id.equals("5") || id.equals("7") || id.equals("8") || id.equals("10") || id.equals("11")) {
             model.addAttribute("graphs", convertToIntGraphs(graphs));
         } else {
             model.addAttribute("graphs", graphService.readAllGraph(id));
@@ -93,7 +93,7 @@ public class AdmGraphController {
         Graph graphData = graphService.readById(dataId);
         model.addAttribute("id", id);
 
-        if (id.equals("5") || id.equals("7") || id.equals("8") || id.equals("10") || id.equals("12")) {
+        if (id.equals("5") || id.equals("7") || id.equals("8") || id.equals("10") || id.equals("11")) {
             model.addAttribute("graphData", convertToIntGraph(graphData));
         } else {
             model.addAttribute("graphData", graphData);
