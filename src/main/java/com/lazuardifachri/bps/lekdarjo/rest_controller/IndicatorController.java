@@ -79,7 +79,7 @@ public class IndicatorController {
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + indicatorFile.getName() + "\"");
-
+        headers.add("Content-Type", indicatorFile.getType());
         return new ResponseEntity<>(indicatorFile.getBytes(), headers, HttpStatus.OK);
     }
 
