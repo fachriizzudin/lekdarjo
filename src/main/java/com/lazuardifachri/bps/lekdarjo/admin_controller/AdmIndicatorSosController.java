@@ -113,11 +113,13 @@ public class AdmIndicatorSosController {
 
     @PostMapping("/edit/{id}")
     public String indicatorEdit(@PathVariable("id") String id, @RequestParam("file") MultipartFile file,
-            @Valid Indicator indicator, BindingResult result, Model model) {
+            @Valid Indicator indicator, BindingResult result, RedirectAttributes redirectAttributes) {
 
         if (result.hasErrors()) {
             return "indicator_social_edit";
         }
+
+        redirectAttributes.addFlashAttribute("toast", true);
 
         try {
             if (!file.isEmpty()) {
@@ -127,8 +129,13 @@ public class AdmIndicatorSosController {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("success", false);
+            redirectAttributes.addFlashAttribute("message", "Pembaruan data gagal");
+            return "redirect:/admin/indicator/social";
         }
+
+        redirectAttributes.addFlashAttribute("success", true);
+        redirectAttributes.addFlashAttribute("message", "Pembaruan data berhasil");
 
         return "redirect:/admin/indicator/social";
     }

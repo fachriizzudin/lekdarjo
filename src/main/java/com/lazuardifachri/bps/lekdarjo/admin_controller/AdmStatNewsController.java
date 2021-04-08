@@ -116,14 +116,13 @@ public class AdmStatNewsController {
 
     @PostMapping("/edit/{id}")
     public String brsEdit(@PathVariable("id") String id, @RequestParam("file") MultipartFile file,
-            @Valid StatisticalNews brs, BindingResult result, Model model) {
+            @Valid StatisticalNews brs, BindingResult result, RedirectAttributes redirectAttributes) {
 
         if (result.hasErrors()) {
-            log.info(result.getFieldError().toString());
             return "brs_edit";
         }
 
-        log.info("no errors");
+        redirectAttributes.addFlashAttribute("toast", true);
 
         try {
             if (!file.isEmpty()) {
@@ -133,8 +132,13 @@ public class AdmStatNewsController {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("success", false);
+            redirectAttributes.addFlashAttribute("message", "Pembaruan data gagal");
+            return "redirect:/admin/brs";
         }
+
+        redirectAttributes.addFlashAttribute("success", true);
+        redirectAttributes.addFlashAttribute("message", "Pembaruan data berhasil");
 
         return "redirect:/admin/brs";
     }

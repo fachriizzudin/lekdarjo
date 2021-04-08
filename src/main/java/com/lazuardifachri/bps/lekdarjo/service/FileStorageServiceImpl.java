@@ -37,6 +37,7 @@ public class FileStorageServiceImpl implements FileStorageService {
 
     @Override
     public FileModel createFileObject(MultipartFile file) throws IOException {
+        log.info("content Type: " + file.getContentType());
         return new FileModel(file.getOriginalFilename(), file.getContentType(), file.getSize(), file.getBytes());
     }
 

@@ -48,7 +48,8 @@
                                                 class="table table-bordered table-striped dataTable dtr-inline">
                                                 <thead>
                                                     <tr role="row">
-                                                        <th style="width: 25%;">Judul</th>
+                                                        <th style="width: 7%;text-align: center;">Id</th>
+                                                        <th style="width: 18%;">Judul</th>
                                                         <th style="width: 40%;">Abstraksi</th>
                                                         <th style="width: 10%;">Tanggal Rilis</th>
                                                         <th style="width: 15%;">Kategori</th>
@@ -57,6 +58,7 @@
                                                 </thead>
                                                 <tbody>
                                                     <tr th:each="brs : ${brsPage.content}">
+                                                        <td style="text-align: center;" th:text="${brs.id}"></td>
                                                         <td th:text="${brs.title}"></td>
                                                         <td th:text="${brs.abstraction}"></td>
                                                         <td th:text="${brs.releaseDate}"></td>

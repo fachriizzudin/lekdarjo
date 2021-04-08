@@ -48,7 +48,8 @@
                                                 class="table table-bordered table-striped dataTable dtr-inline">
                                                 <thead>
                                                     <tr role="row">
-                                                        <th style="width: 45%;">Judul</th>
+                                                        <th style="width: 7%;text-align: center;">Id</th>
+                                                        <th style="width: 38%;">Judul</th>
                                                         <th style="width: 15%;">Kategori</th>
                                                         <th style="width: 15%;">Tanggal Rilis</th>
                                                         <th style="width: 15%;">Tipe Statistik</th>
@@ -57,6 +58,7 @@
                                                 </thead>
                                                 <tbody>
                                                     <tr th:each="idx : ${indicatorPage.content}">
+                                                        <td style="text-align: center;" th:text="${idx.id}"></td>
                                                         <td th:text="${idx.title}"></td>
                                                         <td th:text="${idx.category.name}"></td>
                                                         <td th:text="${idx.releaseDate}"></td>

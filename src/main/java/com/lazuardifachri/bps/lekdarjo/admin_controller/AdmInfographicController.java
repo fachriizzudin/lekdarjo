@@ -115,11 +115,13 @@ public class AdmInfographicController {
 
     @PostMapping("/edit/{id}")
     public String infographicEdit(@PathVariable("id") String id, @RequestParam("file") MultipartFile file,
-            @Valid Infographic infographic, BindingResult result, Model model) {
+            @Valid Infographic infographic, BindingResult result, RedirectAttributes redirectAttributes) {
 
         if (result.hasErrors()) {
             return "infographic_edit";
         }
+
+        redirectAttributes.addFlashAttribute("toast", true);
 
         try {
             if (!file.isEmpty()) {
@@ -129,8 +131,13 @@ public class AdmInfographicController {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("success", false);
+            redirectAttributes.addFlashAttribute("message", "Pembaruan data gagal");
+            return "redirect:/admin/infographic";
         }
+
+        redirectAttributes.addFlashAttribute("success", true);
+        redirectAttributes.addFlashAttribute("message", "Pembaruan data berhasil");
 
         return "redirect:/admin/infographic";
     }

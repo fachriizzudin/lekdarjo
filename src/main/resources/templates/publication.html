@@ -48,7 +48,8 @@
                                                 class="table table-bordered table-striped dataTable dtr-inline">
                                                 <thead>
                                                     <tr role="row">
-                                                        <th style="width:30%">Judul</th>
+                                                        <th style="width:7%;text-align: center;">Id</th>
+                                                        <th style="width:23%">Judul</th>
                                                         <th style="width:10%">No. Katalog</th>
                                                         <th style="width:10%">No. Publikasi</th>
                                                         <th style="width:10%">ISSN/ISBN</th>
@@ -60,6 +61,7 @@
                                                 </thead>
                                                 <tbody>
                                                     <tr th:each="pub : ${publicationsPage.content}">
+                                                        <td style="text-align: center;" th:text="${pub.id}"></td>
                                                         <td th:text="${pub.title}"></td>
                                                         <td th:text="${pub.catalogNo}"></td>
                                                         <td th:text="${pub.publicationNo}"></td>

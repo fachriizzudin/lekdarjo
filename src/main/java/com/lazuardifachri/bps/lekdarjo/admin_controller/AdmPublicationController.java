@@ -117,11 +117,13 @@ public class AdmPublicationController {
 
     @PostMapping("/edit/{id}")
     public String publicationEdit(@PathVariable("id") String id, @RequestParam("file") MultipartFile file,
-            @Valid Publication publication, BindingResult result, Model model) {
+            @Valid Publication publication, BindingResult result, RedirectAttributes redirectAttributes) {
         
         if (result.hasErrors()) {
             return "publication_edit";
         }
+
+        redirectAttributes.addFlashAttribute("toast", true);
  
         try {
             if (!file.isEmpty()) {
@@ -131,8 +133,13 @@ public class AdmPublicationController {
             }
             
         } catch (Exception e) {
-            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("success", false);
+            redirectAttributes.addFlashAttribute("message", "Pembaruan data gagal");
+            return "redirect:/admin/publication";
         }
+
+        redirectAttributes.addFlashAttribute("success", true);
+        redirectAttributes.addFlashAttribute("message", "Pembaruan data berhasil");
 
         return "redirect:/admin/publication";
     }
