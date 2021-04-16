@@ -77,7 +77,8 @@ public class FileStorageServiceImpl implements FileStorageService {
         PDDocument document = PDDocument.load(file.getBytes());
 
         PDFRenderer renderer = new PDFRenderer(document);
-        BufferedImage image = renderer.renderImageWithDPI(0, 100, ImageType.RGB);
+        // BufferedImage image = renderer.renderImageWithDPI(0, 100, ImageType.RGB);
+        BufferedImage image = renderer.renderImage(0);
 
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
