@@ -101,8 +101,18 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="inputFile">File input</label>
-                                        <input type="file" class="form-control-file" id="inputFile" name="file" required>
+                                        <input type="file" class="form-control-file" id="inputFile" name="file">
                                         <p th:text="${message}" class="text-danger"></p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputImageUri">Link Cover</label>
+                                        <input type="text" class="form-control" id="inputImageUri" th:field="*{imageUri}">
+                                        <span th:if="${#fields.hasErrors('imageUri')}" th:errors="*{imageUri}" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputDocumentUri">Link File</label>
+                                        <input type="text" class="form-control" id="inputDocumentUri" th:field="*{documentUri}">
+                                        <span th:if="${#fields.hasErrors('documentUri')}" th:errors="*{documentUri}" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="card-footer">

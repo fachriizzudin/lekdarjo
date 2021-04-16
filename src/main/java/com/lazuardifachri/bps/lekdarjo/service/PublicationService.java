@@ -1,5 +1,6 @@
 package com.lazuardifachri.bps.lekdarjo.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.lazuardifachri.bps.lekdarjo.model.EDistrict;
 import com.lazuardifachri.bps.lekdarjo.model.Publication;
 import org.springframework.data.domain.Page;

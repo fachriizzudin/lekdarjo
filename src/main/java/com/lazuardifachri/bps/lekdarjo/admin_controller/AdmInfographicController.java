@@ -86,15 +86,19 @@ public class AdmInfographicController {
             return "infographic_add";
         }
 
-        if (file.isEmpty()) {
-            model.addAttribute("message", "File input can not be empty");
-            return "brs_add";
-        }
+//        if (file.isEmpty()) {
+//            model.addAttribute("message", "File input can not be empty");
+//            return "brs_add";
+//        }
 
         redirectAttributes.addFlashAttribute("toast", true);
 
         try {
-            infographicService.createInfographic(infographic.apiString(), file);
+            if (file.isEmpty()) {
+                infographicService.createInfographic(infographic.apiStringWithUri(), null);
+            } else {
+                infographicService.createInfographic(infographic.apiString(), file);
+            }
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("success", false);
             redirectAttributes.addFlashAttribute("message", "Penambahan data gagal");
@@ -127,7 +131,7 @@ public class AdmInfographicController {
             if (!file.isEmpty()) {
                 infographicService.updateInfographic(id, infographic.apiString(), file);
             } else {
-                infographicService.updateInfographic(id, infographic.apiString(), null);
+                infographicService.updateInfographic(id, infographic.apiStringWithUri(), null);
             }
 
         } catch (Exception e) {

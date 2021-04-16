@@ -84,15 +84,19 @@ public class AdmIndicatorSosController {
             return "indicator_social_add";
         }
 
-        if (file.isEmpty()) {
-            model.addAttribute("message", "File input can not be empty");
-            return "indicator_social_add";
-        }
+//        if (file.isEmpty()) {
+//            model.addAttribute("message", "File input can not be empty");
+//            return "indicator_social_add";
+//        }
 
         redirectAttributes.addFlashAttribute("toast", true);
 
         try {
-            indicatorService.createIndicator(indicator.apiString(), file);
+            if (file.isEmpty()) {
+                indicatorService.createIndicator(indicator.apiStringWithUri(), null);
+            } else {
+                indicatorService.createIndicator(indicator.apiString(), file);
+            }
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("success", false);
             redirectAttributes.addFlashAttribute("message", "Penambahan data gagal");
@@ -125,7 +129,7 @@ public class AdmIndicatorSosController {
             if (!file.isEmpty()) {
                 indicatorService.updateIndicator(id, indicator.apiString(), file);
             } else {
-                indicatorService.updateIndicator(id, indicator.apiString(), null);
+                indicatorService.updateIndicator(id, indicator.apiStringWithUri(), null);
             }
 
         } catch (Exception e) {

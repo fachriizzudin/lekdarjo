@@ -46,6 +46,7 @@ public class Infographic {
     @JoinColumn(name = "image_fk", referencedColumnName = "id")
     private FileModel image;
 
+    @Lob
     @JsonProperty(value = "image_uri")
     @Column(name = "image_uri")
     private String imageUri;
@@ -120,5 +121,13 @@ public class Infographic {
         return "{" + "\"title\":\"" + getTitle() + "\"" 
                 + ", \"release_date\":\"" + getFormattedReleaseDate() + "\"" 
                 + ", \"subject\":\"" + getSubject().getId() + "\"" + "}";
+    }
+
+    public String apiStringWithUri() {
+        return "{" + "\"title\":\"" + getTitle() + "\""
+                + ", \"release_date\":\"" + getFormattedReleaseDate() + "\""
+                + ", \"subject\":\"" + getSubject().getId() + "\""
+                + ", \"image_uri\":\"" + getImageUri() + "\""
+                + "}";
     }
 }

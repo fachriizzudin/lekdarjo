@@ -86,14 +86,19 @@ public class AdmIndicatorEcoController {
 
         redirectAttributes.addFlashAttribute("toast", true);
 
-        if (file.isEmpty()) {
-            model.addAttribute("message", "File input can not be empty");
-            return "indicator_economy_add";
-        }
+//        if (file.isEmpty()) {
+//            model.addAttribute("message", "File input can not be empty");
+//            return "indicator_economy_add";
+//        }
 
         try {
-            indicatorService.createIndicator(indicator.apiString(), file);
+            if (file.isEmpty()) {
+                indicatorService.createIndicator(indicator.apiStringWithUri(), null);
+            } else {
+                indicatorService.createIndicator(indicator.apiString(), file);
+            }
         } catch (Exception e) {
+            e.printStackTrace();
             redirectAttributes.addFlashAttribute("success", false);
             redirectAttributes.addFlashAttribute("message", "Penambahan data gagal");
             return "redirect:/admin/indicator/economy";
@@ -125,7 +130,7 @@ public class AdmIndicatorEcoController {
             if (!file.isEmpty()) {
                 indicatorService.updateIndicator(id, indicator.apiString(), file);
             } else {
-                indicatorService.updateIndicator(id, indicator.apiString(), null);
+                indicatorService.updateIndicator(id, indicator.apiStringWithUri(), null);
             }
 
         } catch (Exception e) {

@@ -51,6 +51,7 @@ public class StatisticalNews {
     @JoinColumn(name = "file_fk", referencedColumnName = "id")
     private FileModel document;
 
+    @Lob
     @JsonProperty(value = "document_uri")
     @Column(name = "document_uri")
     private String documentUri;
@@ -137,6 +138,14 @@ public class StatisticalNews {
         return "{" + "\"title\":\"" + getTitle() + "\"" + ", \"abstraction\":\"" + getAbstraction() + "\""
                 + ", \"release_date\":\"" + getFormattedReleaseDate() + "\"" 
                 + ", \"category\":" + getCategory().getId() + "}";
+    }
+
+    public String apiStringWithUri() {
+        return "{" + "\"title\":\"" + getTitle() + "\"" + ", \"abstraction\":\"" + getAbstraction() + "\""
+                + ", \"release_date\":\"" + getFormattedReleaseDate() + "\""
+                + ", \"category\":" + getCategory().getId()
+                + ", \"document_uri\":\"" + getDocumentUri() + "\""
+                + "}";
     }
 }
 

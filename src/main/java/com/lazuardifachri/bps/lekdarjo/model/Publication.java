@@ -73,6 +73,7 @@ public class Publication {
     @JoinColumn(name = "image_fk", referencedColumnName = "id")
     private FileModel image;
 
+    @Lob
     @JsonProperty(value = "image_uri")
     @Column(name = "image_uri")
     private String imageUri;
@@ -82,6 +83,7 @@ public class Publication {
     @JoinColumn(name = "document_fk", referencedColumnName = "id")
     private FileModel document;
 
+    @Lob
     @JsonProperty(value = "document_uri")
     @Column(name = "document_uri")
     private String documentUri;
@@ -278,5 +280,15 @@ public class Publication {
                 + ", \"issn_or_isbn\":\"" + getIssnOrIsbn() + "\"" + ", \"release_date\":\"" +  getFormattedReleaseDate() + "\""
                 + ", \"information\":\"" + getInformation() + "\"" + ", \"subject\":" + getSubject().getId()
                 + ", \"district\":\"" + getDistrict().getCode() + "\"" + "}";
+    }
+
+    public String apiStringWithUri() {
+        return "{" + "\"title\":\"" + getTitle() + "\""
+                + ", \"catalog_no\":\"" + getCatalogNo() + "\"" + ", \"publication_no\":\"" + getPublicationNo() + "\""
+                + ", \"issn_or_isbn\":\"" + getIssnOrIsbn() + "\"" + ", \"release_date\":\"" +  getFormattedReleaseDate() + "\""
+                + ", \"information\":\"" + getInformation() + "\"" + ", \"subject\":" + getSubject().getId()
+                + ", \"district\":\"" + getDistrict().getCode() + "\"" + ", \"image_uri\":\"" + getImageUri() + "\""
+                + ", \"document_uri\":\"" + getDocumentUri() + "\""
+                + "}";
     }
 }

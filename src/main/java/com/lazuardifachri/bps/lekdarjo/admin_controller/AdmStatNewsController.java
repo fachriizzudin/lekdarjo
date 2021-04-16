@@ -87,15 +87,19 @@ public class AdmStatNewsController {
             return "brs_add";
         }
 
-        if (file.isEmpty()) {
-            model.addAttribute("message", "File input can not be empty");
-            return "brs_add";
-        }
+//        if (file.isEmpty()) {
+//            model.addAttribute("message", "File input can not be empty");
+//            return "brs_add";
+//        }
 
         redirectAttributes.addFlashAttribute("toast", true);
 
         try {
-            statisticalNewsService.createStatisticalNews(brs.apiString(), file);
+            if (file.isEmpty()) {
+                statisticalNewsService.createStatisticalNews(brs.apiStringWithUri(), null);
+            } else {
+                statisticalNewsService.createStatisticalNews(brs.apiString(), file);
+            }
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("success", false);
             redirectAttributes.addFlashAttribute("message", "Penambahan data gagal");
@@ -128,7 +132,7 @@ public class AdmStatNewsController {
             if (!file.isEmpty()) {
                 statisticalNewsService.updateStatisticalNews(id, brs.apiString(), file);
             } else {
-                statisticalNewsService.updateStatisticalNews(id, brs.apiString(), null);
+                statisticalNewsService.updateStatisticalNews(id, brs.apiStringWithUri(), null);
             }
 
         } catch (Exception e) {

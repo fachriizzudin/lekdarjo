@@ -88,16 +88,21 @@ public class AdmPublicationController {
             return "publication_add";
         }
 
-        if (file.isEmpty()) {
-            model.addAttribute("message", "File input can not be empty");
-            return "publication_add";
-        }
+//        if (file.isEmpty()) {
+//            model.addAttribute("message", "File input can not be empty");
+//            return "publication_add";
+//        }
 
         redirectAttributes.addFlashAttribute("toast", true);
 
         try {
-            publicationService.createPublication(publication.apiString(), file);
+            if (file.isEmpty()) {
+                publicationService.createPublication(publication.apiStringWithUri(), null);
+            } else {
+                publicationService.createPublication(publication.apiString(), file);
+            }
         } catch (Exception e) {
+            e.printStackTrace();
             redirectAttributes.addFlashAttribute("success", false);
             redirectAttributes.addFlashAttribute("message", "Penambahan data gagal");
             return "redirect:/admin/publication";
@@ -129,10 +134,11 @@ public class AdmPublicationController {
             if (!file.isEmpty()) {
                 publicationService.updatePublication(id, publication.apiString(), file);
             } else {
-                publicationService.updatePublication(id, publication.apiString(), null);
+                publicationService.updatePublication(id, publication.apiStringWithUri(), null);
             }
             
         } catch (Exception e) {
+            e.printStackTrace();
             redirectAttributes.addFlashAttribute("success", false);
             redirectAttributes.addFlashAttribute("message", "Pembaruan data gagal");
             return "redirect:/admin/publication";

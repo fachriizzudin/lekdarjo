@@ -86,13 +86,17 @@ public class AdmIndicatorAgriController {
 
         redirectAttributes.addFlashAttribute("toast", true);
 
-        if (file.isEmpty()) {
-            model.addAttribute("message", "File input can not be empty");
-            return "indicator_agriculture_add";
-        }
+//        if (file.isEmpty()) {
+//            model.addAttribute("message", "File input can not be empty");
+//            return "indicator_agriculture_add";
+//        }
 
         try {
-            indicatorService.createIndicator(indicator.apiString(), file);
+            if (file.isEmpty()) {
+                indicatorService.createIndicator(indicator.apiStringWithUri(), null);
+            } else {
+                indicatorService.createIndicator(indicator.apiString(), file);
+            }
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("success", false);
             redirectAttributes.addFlashAttribute("message", "Penambahan data gagal");
@@ -125,7 +129,7 @@ public class AdmIndicatorAgriController {
             if (!file.isEmpty()) {
                 indicatorService.updateIndicator(id, indicator.apiString(), file);
             } else {
-                indicatorService.updateIndicator(id, indicator.apiString(), null);
+                indicatorService.updateIndicator(id, indicator.apiStringWithUri(), null);
             }
 
         } catch (Exception e) {

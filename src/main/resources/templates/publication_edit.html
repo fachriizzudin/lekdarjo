@@ -103,7 +103,16 @@
                                         <label for="inputFile">File</label>
                                         <input type="file" class="form-control-file" id="inputFile" name="file" >
                                     </div>
-                                    <p>File tersimpan : <a th:href="@{${publication.documentUri}}">link</a></p>
+                                    <div class="form-group">
+                                        <label for="inputImageUri">Link Cover</label>
+                                        <input type="text" class="form-control" id="inputImageUri" th:field="*{imageUri}">
+                                        <span th:if="${#fields.hasErrors('imageUri')}" th:errors="*{imageUri}" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputDocumentUri">Link File</label>
+                                        <input type="text" class="form-control" id="inputDocumentUri" th:field="*{documentUri}">
+                                        <span th:if="${#fields.hasErrors('documentUri')}" th:errors="*{documentUri}" class="text-danger"></span>
+                                    </div>
                                 </div>
                                 <div class="card-footer">
                                     <button type="submit" class="btn btn-info float-right">Submit</button>

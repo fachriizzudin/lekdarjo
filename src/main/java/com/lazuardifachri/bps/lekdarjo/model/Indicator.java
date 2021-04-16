@@ -54,6 +54,7 @@ public class Indicator {
     @JoinColumn(name = "document_fk", referencedColumnName = "id")
     private FileModel document;
 
+    @Lob
     @JsonProperty(value = "document_uri")
     @Column(name = "document_uri")
     private String documentUri;
@@ -139,5 +140,14 @@ public class Indicator {
                 + ", \"release_date\":\"" + getFormattedReleaseDate() + "\"" 
                 + ", \"category\":\"" + getCategory().getId() + "\"" 
                 + ", \"stat_type\":" + getStatType().getCode() + "}";
+    }
+
+    public String apiStringWithUri() {
+        return "{" + "\"title\":\"" + getTitle() + "\""
+                + ", \"release_date\":\"" + getFormattedReleaseDate() + "\""
+                + ", \"category\":\"" + getCategory().getId() + "\""
+                + ", \"stat_type\":" + getStatType().getCode()
+                + ", \"document_uri\":\"" + getDocumentUri() + "\""
+                + "}";
     }
 }

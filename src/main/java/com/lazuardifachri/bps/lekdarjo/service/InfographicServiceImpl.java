@@ -56,25 +56,34 @@ public class InfographicServiceImpl implements InfographicService {
 
         if (infographicRepository.existsByTitle(infographic.getTitle())) throw new BadRequestException(ExceptionMessage.ALREADY_EXIST);
 
-        FileModel imageFile = fileStorageService.createFileObject(file);
+        if (file != null) {
+            FileModel imageFile = fileStorageService.createFileObject(file);
 
-        validationService.validateImageFile(imageFile);
+            validationService.validateImageFile(imageFile);
 
-        infographic.setImage(imageFile);
+            infographic.setImage(imageFile);
+
+            validationService.validateInfographic(infographic);
+
+            Infographic savedInfographic = infographicRepository.save(infographic);
+
+            String imageUri = ServletUriComponentsBuilder
+                    .fromCurrentContextPath()
+                    .path("/api/infographics/images/")
+                    .path(String.valueOf(savedInfographic.getImage().getId()))
+                    .toUriString();
+
+            savedInfographic.setImageUri(imageUri);
+
+            return savedInfographic;
+        }
 
         validationService.validateInfographic(infographic);
 
         Infographic savedInfographic = infographicRepository.save(infographic);
 
-        String imageUri = ServletUriComponentsBuilder
-                .fromCurrentContextPath()
-                .path("/api/infographics/images/")
-                .path(String.valueOf(savedInfographic.getImage().getId()))
-                .toUriString();
-
-        savedInfographic.setImageUri(imageUri);
-
         return savedInfographic;
+
     }
 
     @Override
@@ -105,9 +114,18 @@ public class InfographicServiceImpl implements InfographicService {
             infographic.setTitle(newInfographic.getTitle());
             infographic.setReleaseDate(newInfographic.getReleaseDate());
             infographic.setSubject(newInfographic.getSubject());
+            infographic.setImageUri(newInfographic.getImageUri());
 
             if (file != null) {
-                FileModel imageFile = fileStorageService.updateFileById(String.valueOf(infographic.getImage().getId()), file);
+
+                FileModel imageFile;
+
+                if (infographic.getImage() != null) {
+                    imageFile = fileStorageService.updateFileById(String.valueOf(infographic.getImage().getId()), file);
+                } else {
+                    imageFile = fileStorageService.createFileObject(file);
+                }
+
                 validationService.validateImageFile(imageFile);
                 infographic.setImage(imageFile);
             }
@@ -116,13 +134,15 @@ public class InfographicServiceImpl implements InfographicService {
 
             Infographic savedInfographic = infographicRepository.save(infographic);
 
-            String imageUri = ServletUriComponentsBuilder
-                    .fromCurrentContextPath()
-                    .path("/api/infographics/images/")
-                    .path(String.valueOf(savedInfographic.getImage().getId()))
-                    .toUriString();
+            if (savedInfographic.getImage() != null && newInfographic.getImageUri() == null) {
+                String imageUri = ServletUriComponentsBuilder
+                        .fromCurrentContextPath()
+                        .path("/api/infographics/images/")
+                        .path(String.valueOf(savedInfographic.getImage().getId()))
+                        .toUriString();
 
-            savedInfographic.setImageUri(imageUri);
+                savedInfographic.setImageUri(imageUri);
+            }
 
             return savedInfographic;
 

@@ -57,21 +57,30 @@ public class IndicatorServiceImpl implements IndicatorService{
 
         if (indicatorRepository.existsByTitle(indicator.getTitle())) throw new BadRequestException(ExceptionMessage.ALREADY_EXIST);
 
-        FileModel documentFile = fileStorageService.createFileObject(file);
-        validationService.validateExcelFile(documentFile);
-        indicator.setDocument(documentFile);
+        if (file != null) {
+            FileModel documentFile = fileStorageService.createFileObject(file);
+            validationService.validateExcelFile(documentFile);
+            indicator.setDocument(documentFile);
+
+            validationService.validateIndicator(indicator);
+
+            Indicator savedIndicator = indicatorRepository.save(indicator);
+
+            String documentUri = ServletUriComponentsBuilder
+                    .fromCurrentContextPath()
+                    .path("/api/indicators/files/")
+                    .path(String.valueOf(savedIndicator.getDocument().getId()))
+                    .toUriString();
+
+            savedIndicator.setDocumentUri(documentUri);
+
+            return savedIndicator;
+
+        }
 
         validationService.validateIndicator(indicator);
 
         Indicator savedIndicator = indicatorRepository.save(indicator);
-
-        String documentUri = ServletUriComponentsBuilder
-                .fromCurrentContextPath()
-                .path("/api/indicators/files/")
-                .path(String.valueOf(savedIndicator.getDocument().getId()))
-                .toUriString();
-
-        savedIndicator.setDocumentUri(documentUri);
 
         return savedIndicator;
     }
@@ -108,9 +117,18 @@ public class IndicatorServiceImpl implements IndicatorService{
             indicator.setCategory(newIndicator.getCategory());
             indicator.setReleaseDate(newIndicator.getReleaseDate());
             indicator.setStatType(newIndicator.getStatType());
+            indicator.setDocumentUri(newIndicator.getDocumentUri());
 
             if (file != null) {
-                FileModel documentFile = fileStorageService.updateFileById(String.valueOf(indicator.getDocument().getId()), file);
+
+                FileModel documentFile;
+
+                if (indicator.getDocument() != null) {
+                    documentFile = fileStorageService.updateFileById(String.valueOf(indicator.getDocument().getId()), file);
+                } else {
+                    documentFile = fileStorageService.createFileObject(file);
+                }
+
                 validationService.validateExcelFile(documentFile);
                 indicator.setDocument(documentFile);
             }
@@ -119,13 +137,15 @@ public class IndicatorServiceImpl implements IndicatorService{
 
             Indicator savedIndicator = indicatorRepository.save(indicator);
 
-            String documentUri = ServletUriComponentsBuilder
-                    .fromCurrentContextPath()
-                    .path("/api/indicators/files/")
-                    .path(String.valueOf(savedIndicator.getDocument().getId()))
-                    .toUriString();
+            if (savedIndicator.getDocument() != null && newIndicator.getDocumentUri() == null) {
+                String documentUri = ServletUriComponentsBuilder
+                        .fromCurrentContextPath()
+                        .path("/api/indicators/files/")
+                        .path(String.valueOf(savedIndicator.getDocument().getId()))
+                        .toUriString();
 
-            savedIndicator.setDocumentUri(documentUri);
+                savedIndicator.setDocumentUri(documentUri);
+            }
 
             return savedIndicator;
 

@@ -72,7 +72,11 @@
                                         <label for="inputFile">File input</label>
                                         <input type="file" class="form-control-file" id="inputFile" name="file">
                                     </div>
-                                    <p>File tersimpan : <a th:href="@{${indicator.documentUri}}">link</a></p>
+                                    <div class="form-group">
+                                        <label for="inputDocumentUri">Link File</label>
+                                        <input type="text" class="form-control" id="inputDocumentUri" th:field="*{documentUri}">
+                                        <span th:if="${#fields.hasErrors('documentUri')}" th:errors="*{documentUri}" class="text-danger"></span>
+                                    </div>
                                 </div>
                                 <div class="card-footer">
                                     <button type="submit" class="btn btn-info float-right">Simpan</button>

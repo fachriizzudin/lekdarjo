@@ -72,28 +72,33 @@ public class StatisticalNewsServiceImpl implements StatisticalNewsService {
 
         if (statisticalNewsRepository.existsByTitle(statisticalNews.getTitle())) throw new BadRequestException(ExceptionMessage.ALREADY_EXIST);
 
-        if (file.isEmpty()) 
-            throw new BadRequestException(ExceptionMessage.FILE_REQUIRED);
+        if (file != null) {
+            FileModel documentFile = fileStorageService.createFileObject(file);
 
-        FileModel documentFile = fileStorageService.createFileObject(file);
+            validationService.validatePdfFile(documentFile);
 
-        validationService.validatePdfFile(documentFile);
+            statisticalNews.setDocument(documentFile);
 
-        statisticalNews.setDocument(documentFile);
+            validationService.validateStatisticalNews(statisticalNews);
+
+            StatisticalNews savedStatisticalNews = statisticalNewsRepository.save(statisticalNews);
+
+            String documentUri = ServletUriComponentsBuilder
+                    .fromCurrentContextPath()
+                    .path("/api/statnews/files/")
+                    .path(String.valueOf(savedStatisticalNews.getDocument().getId()))
+                    .toUriString();
+
+            // TERNYATA DOCUMENT URINYA BISA KESAVE WALAUPUN DATA SUDAH DISAVE SEBELUMNYA
+
+            savedStatisticalNews.setDocumentUri(documentUri);
+
+            return savedStatisticalNews;
+        }
 
         validationService.validateStatisticalNews(statisticalNews);
 
         StatisticalNews savedStatisticalNews = statisticalNewsRepository.save(statisticalNews);
-
-        String documentUri = ServletUriComponentsBuilder
-                .fromCurrentContextPath()
-                .path("/api/statnews/files/")
-                .path(String.valueOf(savedStatisticalNews.getDocument().getId()))
-                .toUriString();
-
-        // TERNYATA DOCUMENT URINYA BISA KESAVE WALAUPUN DATA SUDAH DISAVE SEBELUMNYA
-
-        savedStatisticalNews.setDocumentUri(documentUri);
 
         return savedStatisticalNews;
 
@@ -143,15 +148,21 @@ public class StatisticalNewsServiceImpl implements StatisticalNewsService {
         StatisticalNews statisticalNews;
         if (statisticalNewsOptional.isPresent()) {
             statisticalNews = statisticalNewsOptional.get();
-
             StatisticalNews newStatisticalNews = objectMapper.readValue(newsJson, StatisticalNews.class);
-
             statisticalNews.setTitle(newStatisticalNews.getTitle());
             statisticalNews.setReleaseDate(parseComplicatedDate(newStatisticalNews.getReleaseDate()));
             statisticalNews.setAbstraction(newStatisticalNews.getAbstraction());
+            statisticalNews.setDocumentUri(newStatisticalNews.getDocumentUri());
 
             if (file != null) {
-                FileModel documentFile = fileStorageService.updateFileById(String.valueOf(statisticalNews.getDocument().getId()), file);
+                FileModel documentFile;
+
+                if (statisticalNews.getDocument() != null) {
+                    documentFile = fileStorageService.updateFileById(String.valueOf(statisticalNews.getDocument().getId()), file);
+                } else {
+                    documentFile = fileStorageService.createFileObject(file);
+                }
+
                 validationService.validatePdfFile(documentFile);
                 statisticalNews.setDocument(documentFile);
             }
@@ -160,13 +171,16 @@ public class StatisticalNewsServiceImpl implements StatisticalNewsService {
 
             StatisticalNews savedStatisticalNews = statisticalNewsRepository.save(statisticalNews);
 
-            String documentUri = ServletUriComponentsBuilder
-                    .fromCurrentContextPath()
-                    .path("/api/statnews/files/")
-                    .path(String.valueOf(savedStatisticalNews.getDocument().getId()))
-                    .toUriString();
+            if (savedStatisticalNews.getDocument() != null && statisticalNews.getDocumentUri() == null) {
+                log.info("masuk tah?");
+                String documentUri = ServletUriComponentsBuilder
+                        .fromCurrentContextPath()
+                        .path("/api/statnews/files/")
+                        .path(String.valueOf(savedStatisticalNews.getDocument().getId()))
+                        .toUriString();
 
-            savedStatisticalNews.setDocumentUri(documentUri);
+                savedStatisticalNews.setDocumentUri(documentUri);
+            }
 
             return savedStatisticalNews;
 

@@ -65,35 +65,44 @@ public class PublicationServiceImpl implements PublicationService{
 
         if (publicationRepository.existsByTitle(publication.getTitle())) throw new BadRequestException(ExceptionMessage.ALREADY_EXIST);
 
-        FileModel documentFile = fileStorageService.createFileObject(file);
-        validationService.validatePdfFile(documentFile);
-        publication.setDocument(documentFile);
+        if (file != null) {
+            FileModel documentFile = fileStorageService.createFileObject(file);
+            validationService.validatePdfFile(documentFile);
+            publication.setDocument(documentFile);
 
-        FileModel imageFile = fileStorageService.createCoverFromPdf(file);
-        publication.setImage(imageFile);
+            FileModel imageFile = fileStorageService.createCoverFromPdf(file);
+            publication.setImage(imageFile);
+
+
+            validationService.validatePublication(publication);
+
+            Publication savedPublication = publicationRepository.save(publication);
+
+            // set property setelah save ke database untuk mendapatkan id dari file dan cover
+
+            String documentUri = ServletUriComponentsBuilder
+                    .fromCurrentContextPath()
+                    .path("/api/publications/files/")
+                    .path(String.valueOf(savedPublication.getDocument().getId()))
+                    .toUriString();
+
+            String imageUri = ServletUriComponentsBuilder
+                    .fromCurrentContextPath()
+                    .path("/api/publications/images/")
+                    .path(String.valueOf(savedPublication.getImage().getId()))
+                    .toUriString();
+
+            publication.setDocumentUri(documentUri);
+            publication.setImageUri(imageUri);
+
+            return savedPublication;
+        }
 
         validationService.validatePublication(publication);
 
         Publication savedPublication = publicationRepository.save(publication);
 
-        // set property setelah save ke database untuk mendapatkan id dari file dan cover
-
-        String documentUri = ServletUriComponentsBuilder
-                .fromCurrentContextPath()
-                .path("/api/publications/files/")
-                .path(String.valueOf(savedPublication.getDocument().getId()))
-                .toUriString();
-
-        String imageUri = ServletUriComponentsBuilder
-                .fromCurrentContextPath()
-                .path("/api/publications/images/")
-                .path(String.valueOf(savedPublication.getImage().getId()))
-                .toUriString();
-
-        publication.setDocumentUri(documentUri);
-        publication.setImageUri(imageUri);
-
-        return publication;
+        return savedPublication;
     }
 
     @Override
@@ -147,9 +156,19 @@ public class PublicationServiceImpl implements PublicationService{
             publication.setInformation(newPublication.getInformation());
             publication.setSubject(newPublication.getSubject());
             publication.setDistrict(newPublication.getDistrict());
+            publication.setDocumentUri(newPublication.getDocumentUri());
+            publication.setImageUri(newPublication.getImageUri());
 
             if (file != null) {
-                FileModel documentFile = fileStorageService.updateFileById(String.valueOf(publication.getDocument().getId()), file);
+
+                FileModel documentFile;
+
+                if (publication.getDocument() != null) {
+                    documentFile = fileStorageService.updateFileById(String.valueOf(publication.getDocument().getId()), file);
+                } else {
+                    documentFile = fileStorageService.createFileObject(file);
+                }
+
                 validationService.validatePdfFile(documentFile);
                 publication.setDocument(documentFile);
 
@@ -163,20 +182,22 @@ public class PublicationServiceImpl implements PublicationService{
 
             // set property setelah save ke database untuk mendapatkan id dari file dan cover
 
-            String documentUri = ServletUriComponentsBuilder
-                    .fromCurrentContextPath()
-                    .path("/api/publications/files/")
-                    .path(String.valueOf(savedPublication.getDocument().getId()))
-                    .toUriString();
+            if (savedPublication.getDocument() != null && newPublication.getImageUri() == null && newPublication.getDocumentUri() == null) {
+                String documentUri = ServletUriComponentsBuilder
+                        .fromCurrentContextPath()
+                        .path("/api/publications/files/")
+                        .path(String.valueOf(savedPublication.getDocument().getId()))
+                        .toUriString();
 
-            String imageUri = ServletUriComponentsBuilder
-                    .fromCurrentContextPath()
-                    .path("/api/publications/images/")
-                    .path(String.valueOf(savedPublication.getImage().getId()))
-                    .toUriString();
+                String imageUri = ServletUriComponentsBuilder
+                        .fromCurrentContextPath()
+                        .path("/api/publications/images/")
+                        .path(String.valueOf(savedPublication.getImage().getId()))
+                        .toUriString();
 
-            publication.setDocumentUri(documentUri);
-            publication.setImageUri(imageUri);
+                publication.setDocumentUri(documentUri);
+                publication.setImageUri(imageUri);
+            }
 
             return savedPublication;
         } else {
