@@ -87,6 +87,14 @@ public class GraphMetaServiceImpl implements GraphMetaService{
     }
 
     @Override
+    public List<Integer> readAllSerialNumber(Integer include) {
+        List<Integer> options = readAllSerialNumber();
+        options.add(include);
+        Collections.sort(options);
+        return options;
+    }
+
+    @Override
     public GraphMeta readGraphMetaByid(String metaId) {
         Optional<GraphMeta> graphMeta = graphMetaRepository.findBySerialNumber(Integer.parseInt(metaId));
         return graphMeta.orElseThrow(() -> new ResourceNotFoundException(ExceptionMessage.GRAPH_NOT_FOUND));
@@ -101,7 +109,7 @@ public class GraphMetaServiceImpl implements GraphMetaService{
             graphMeta = graphMetaOptional.get();
             graphMeta.setTitle(newGraphMeta.getTitle());
             graphMeta.setSubject(newGraphMeta.getSubject());
-            graphMeta.setHorizontal(newGraphMeta.getHorizontal());
+            graphMeta.setHorizontal("Tahun");
             graphMeta.setVertical(newGraphMeta.getVertical());
             graphMeta.setVerticalUnit(newGraphMeta.getVerticalUnit());
             graphMeta.setDescription(newGraphMeta.getDescription());

@@ -74,7 +74,6 @@ public class AdmGraphController {
         }
 
         log.info(graphMeta.toString());
-
         redirectAttributes.addFlashAttribute("toast", true);
 
         try {
@@ -103,10 +102,8 @@ public class AdmGraphController {
     @GetMapping("/{id}/meta/edit")
     public String graphMetaEditForm(@PathVariable("id") String id, Model model) {
         GraphMeta graphMeta = graphMetaService.readGraphMetaByid(id);
+        List<Integer> options = getSerialNumber(graphMetaService.readAllSerialNumber(graphMeta.getSerialNumber()));
         log.info(graphMeta.toString());
-        List<Integer> options = getSerialNumber(graphMetaService.readAllSerialNumber());
-        options.add(graphMeta.getSerialNumber());
-        Collections.sort(options);
         model.addAttribute("options", options);
         model.addAttribute("graphMeta", graphMeta);
         return "graph_meta_edit";
@@ -115,8 +112,6 @@ public class AdmGraphController {
     @PostMapping("/{id}/meta/edit")
     public String graphMetaEdit(@PathVariable("id") String id, @RequestParam("file") MultipartFile file,
                                 @Valid GraphMeta graphMeta, BindingResult result, RedirectAttributes redirectAttributes) {
-
-        graphMeta.setHorizontal("Tahun");
 
         if (result.hasErrors()) {
             return "graph_meta_edit";
@@ -154,7 +149,6 @@ public class AdmGraphController {
     public String view(@PathVariable("id") String id, Model model) {
         List<Graph> graphs = graphService.readAllGraph(id);
         GraphMeta graphMeta = graphMetaService.readGraphMetaByid(id);
-
         model.addAttribute("graphMeta", graphMeta);
 
         if (graphMeta.getDataType() == 2) {
@@ -198,14 +192,13 @@ public class AdmGraphController {
         GraphMeta graphMeta = graphMetaService.readGraphMetaByid(id);
         Graph graphData = graphService.readById(dataId);
         model.addAttribute("id", id);
+        model.addAttribute("yearOptions", getYearOptions());
 
         if (graphMeta.getDataType() == 2) {
             model.addAttribute("graphData", convertToIntGraph(graphData));
         } else {
             model.addAttribute("graphData", graphData);
         }
-
-        model.addAttribute("yearOptions", getYearOptions());
 
         return "graph_data_edit";
     }
@@ -249,7 +242,7 @@ public class AdmGraphController {
     private List<GenericGraph<Integer>> convertToIntGraphs(List<Graph> graphs) {
         List<GenericGraph<Integer>> genericGraphs = new ArrayList<>();
         for (Graph g : graphs) {
-            genericGraphs.add(new GenericGraph<>(g.getId(), (int) g.getValue().doubleValue(), g.getYear()));
+            genericGraphs.add(convertToIntGraph(g));
         }
         return genericGraphs;
     }

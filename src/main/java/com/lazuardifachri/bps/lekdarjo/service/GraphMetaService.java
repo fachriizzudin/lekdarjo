@@ -16,6 +16,8 @@ public interface GraphMetaService {
 
     List<Integer> readAllSerialNumber();
 
+    List<Integer> readAllSerialNumber(Integer include);
+
     GraphMeta readGraphMetaByid(String metaId);
 
     GraphMeta updateGraphMeta(String metaId, String metaJson, MultipartFile file) throws IOException, ParseException;
