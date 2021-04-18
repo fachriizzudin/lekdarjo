@@ -11,6 +11,7 @@ import org.springframework.boot.context.properties.bind.DefaultValue;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import java.util.Set;
 
@@ -22,6 +23,7 @@ public class GraphMeta {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @NotNull
     @JsonProperty(value = "serial_number")
     @Column(name = "serial_number")
     private Integer serialNumber;
