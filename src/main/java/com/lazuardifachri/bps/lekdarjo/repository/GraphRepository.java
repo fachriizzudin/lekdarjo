@@ -11,13 +11,13 @@ public interface GraphRepository extends JpaRepository<Graph, Long> {
 
     String ORDER = " ORDER by g.year ASC";
 
-    @Query("SELECT new Graph(g.id, g.value, g.year) FROM Graph g WHERE g.meta.id = :id" + ORDER)
-    List<Graph> findAllByGraphMeta(@Param("id") Long id);
+    @Query("SELECT new Graph(g.id, g.value, g.year) FROM Graph g WHERE g.meta.serialNumber = :serialNumber" + ORDER)
+    List<Graph> findAllByGraphMeta(@Param("serialNumber") Integer serialNumber);
 
-    @Query("DELETE FROM Graph g WHERE meta_fk = :id")
-    List<Graph> deleteAllByGraphMeta(@Param("id") Long id);
+    @Query("DELETE FROM Graph g WHERE g.meta.serialNumber = :serialNumber")
+    List<Graph> deleteAllByGraphMeta(@Param("serialNumber") Integer serialNumber);
 
-    @Query("SELECT COUNT(*) FROM Graph g WHERE g.year = :year AND g.meta.id = :id")
-    Long existByYear(@Param("id") Long id, @Param("year") int year);
+    @Query("SELECT COUNT(*) FROM Graph g WHERE g.year = :year AND g.meta.serialNumber = :serialNumber")
+    Long existByYear(@Param("serialNumber") Integer serialNumber, @Param("year") int year);
 
 }

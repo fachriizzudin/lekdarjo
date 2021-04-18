@@ -4,30 +4,37 @@ package com.lazuardifachri.bps.lekdarjo.admin_controller;
 import javax.validation.Valid;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lazuardifachri.bps.lekdarjo.Constant;
 import com.lazuardifachri.bps.lekdarjo.exception.BadRequestException;
 import com.lazuardifachri.bps.lekdarjo.exception.ExceptionMessage;
 import com.lazuardifachri.bps.lekdarjo.model.GenericGraph;
 import com.lazuardifachri.bps.lekdarjo.model.Graph;
 import com.lazuardifachri.bps.lekdarjo.model.GraphMeta;
+import com.lazuardifachri.bps.lekdarjo.model.Infographic;
 import com.lazuardifachri.bps.lekdarjo.service.GraphMetaService;
 import com.lazuardifachri.bps.lekdarjo.service.GraphService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.Year;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
+@RequestMapping("/admin/graph")
 public class AdmGraphController {
 
     Logger log = LoggerFactory.getLogger(AdmGraphController.class);
@@ -41,27 +48,125 @@ public class AdmGraphController {
     @Autowired
     GraphMetaService graphMetaService;
 
-    @GetMapping("/admin/graph")
-    public String list() {
+    @GetMapping("")
+    public String list(Model model) {
+        model.addAttribute("graphMeta", graphMetaService.readAllGraphMeta());
         return "graph";
     }
 
-    @GetMapping("/admin/graph/{id}")
-    public String graph(@PathVariable("id") String id, Model model) {
-        List<Graph> graphs = graphService.readAllGraph(id);
+    @GetMapping("/add")
+    public String graphMetaAddForm(Model model) {
+        List<Integer> options = getSerialNumber(graphMetaService.readAllSerialNumber());
+        model.addAttribute("options", options);
+        model.addAttribute("graphMeta", new GraphMeta());
+        return "graph_meta_add";
+    }
 
-        if (id.equals("5") || id.equals("7") || id.equals("8") || id.equals("10") || id.equals("11")) {
+    @PostMapping("/add")
+    public String graphMetaAdd(@RequestParam("file") MultipartFile file, @Valid GraphMeta graphMeta, BindingResult result,
+                               RedirectAttributes redirectAttributes) {
+
+        graphMeta.setHorizontal("Tahun");
+
+        if (result.hasErrors()) {
+            log.info(result.getFieldError().toString());
+            return "graph_meta_add";
+        }
+
+        log.info(graphMeta.toString());
+
+        redirectAttributes.addFlashAttribute("toast", true);
+
+        try {
+            if (file.isEmpty()) {
+                graphMetaService.createGraphMeta(graphMeta.apiStringWithUri(), null);
+                log.info(graphMeta.apiStringWithUri());
+                log.info("empty file");
+            } else {
+                graphMetaService.createGraphMeta(graphMeta.apiString(), file);
+                log.info(graphMeta.apiString());
+                log.info("file");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("success", false);
+            redirectAttributes.addFlashAttribute("message", "Penambahan data gagal");
+            return "redirect:/admin/graph";
+        }
+
+        redirectAttributes.addFlashAttribute("success", true);
+        redirectAttributes.addFlashAttribute("message", "Penambahan data berhasil");
+
+        return "redirect:/admin/graph";
+    }
+
+    @GetMapping("/{id}/meta/edit")
+    public String graphMetaEditForm(@PathVariable("id") String id, Model model) {
+        GraphMeta graphMeta = graphMetaService.readGraphMetaByid(id);
+        log.info(graphMeta.toString());
+        List<Integer> options = getSerialNumber(graphMetaService.readAllSerialNumber());
+        options.add(graphMeta.getSerialNumber());
+        Collections.sort(options);
+        model.addAttribute("options", options);
+        model.addAttribute("graphMeta", graphMeta);
+        return "graph_meta_edit";
+    }
+
+    @PostMapping("/{id}/meta/edit")
+    public String graphMetaEdit(@PathVariable("id") String id, @RequestParam("file") MultipartFile file,
+                                @Valid GraphMeta graphMeta, BindingResult result, RedirectAttributes redirectAttributes) {
+
+        graphMeta.setHorizontal("Tahun");
+
+        if (result.hasErrors()) {
+            return "graph_meta_edit";
+        }
+
+        log.info(graphMeta.toString());
+
+        redirectAttributes.addFlashAttribute("toast", true);
+
+        try {
+            if (!file.isEmpty()) {
+                graphMetaService.updateGraphMeta(id, graphMeta.apiString(), file);
+            } else {
+                graphMetaService.updateGraphMeta(id, graphMeta.apiStringWithUri(), null);
+            }
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("success", false);
+            redirectAttributes.addFlashAttribute("message", "Pembaruan data gagal");
+            return "redirect:/admin/graph/" + id;
+        }
+
+        redirectAttributes.addFlashAttribute("success", true);
+        redirectAttributes.addFlashAttribute("message", "Pembaruan data berhasil");
+
+        return "redirect:/admin/graph/" + id;
+    }
+
+    @GetMapping("/delete/{id}")
+    public String graphMetaDelete(@PathVariable("id") String id) {
+        graphMetaService.deleteGraphMeta(id);
+        return "redirect:/admin/graph";
+    }
+
+    @GetMapping("/{id}")
+    public String view(@PathVariable("id") String id, Model model) {
+        List<Graph> graphs = graphService.readAllGraph(id);
+        GraphMeta graphMeta = graphMetaService.readGraphMetaByid(id);
+
+        model.addAttribute("graphMeta", graphMeta);
+
+        if (graphMeta.getDataType() == 2) {
             model.addAttribute("graphs", convertToIntGraphs(graphs));
         } else {
             model.addAttribute("graphs", graphService.readAllGraph(id));
         }
 
-        model.addAttribute("graphMeta", graphMetaService.readGraphMetaByid(id));
-
         return "graph_list";
     }
 
-    @GetMapping("/admin/graph/{id}/add")
+    @GetMapping("/{id}/add")
     public String graphDataAddForm(@PathVariable("id") String id, Model model) {
         model.addAttribute("id", id);
         model.addAttribute("graphData", new Graph());
@@ -69,10 +174,11 @@ public class AdmGraphController {
         return "graph_data_add";
     }
 
-    @PostMapping("/admin/graph/{id}/add")
+    @PostMapping("/{id}/add")
     public String graphDataAdd(@PathVariable("id") String id, @Valid Graph graphData, BindingResult result, Model model,
                                RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
+            log.info(result.getFieldError().toString());
             redirectAttributes.addFlashAttribute("message", "Use decimal format with periods \".\" instead of commas");
             return "redirect:/admin/graph/" + id + "/add";
         }
@@ -80,20 +186,20 @@ public class AdmGraphController {
         try {
             graphService.createGraph(objectMapper.writeValueAsString(graphData), id);
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("message", "Use decimal format with periods \".\" instead of commas");
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
             return "redirect:/admin/graph/" + id + "/add";
         }
 
         return "redirect:/admin/graph/" + id;
     }
 
-    @GetMapping("/admin/graph/{id}/edit/{dataId}")
+    @GetMapping("/{id}/edit/{dataId}")
     public String graphDataEditForm(@PathVariable("id") String id, @PathVariable("dataId") String dataId, Model model) {
-
+        GraphMeta graphMeta = graphMetaService.readGraphMetaByid(id);
         Graph graphData = graphService.readById(dataId);
         model.addAttribute("id", id);
 
-        if (id.equals("5") || id.equals("7") || id.equals("8") || id.equals("10") || id.equals("11")) {
+        if (graphMeta.getDataType() == 2) {
             model.addAttribute("graphData", convertToIntGraph(graphData));
         } else {
             model.addAttribute("graphData", graphData);
@@ -104,7 +210,7 @@ public class AdmGraphController {
         return "graph_data_edit";
     }
 
-    @PostMapping("/admin/graph/{id}/edit/{dataId}")
+    @PostMapping("/{id}/edit/{dataId}")
     public String graphDataEdit(@PathVariable("id") String id, @PathVariable("dataId") String dataId,
             @Valid Graph graphData, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
@@ -115,39 +221,29 @@ public class AdmGraphController {
         try {
             graphService.updateGraph(dataId, objectMapper.writeValueAsString(graphData), id);
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("message", ExceptionMessage.YEAR_EXIST);
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
             return "redirect:/admin/graph/" + id + "/edit/" + dataId;
         }
 
         return "redirect:/admin/graph/" + id;
     }
 
-    @GetMapping("/admin/graph/{id}/delete/{dataId}")
+    @GetMapping("/{id}/delete/{dataId}")
     public String graphDataDelete(@PathVariable("id") String id, @PathVariable("dataId") String dataId) {
         graphService.deleteGraph(dataId);
         return "redirect:/admin/graph/" + id;
     }
 
-    @GetMapping("/admin/graph/{id}/meta/edit")
-    public String graphMetaEditForm(@PathVariable("id") String id, Model model) {
-        GraphMeta graphMeta = graphMetaService.readGraphMetaByid(id);
-        model.addAttribute("graphMeta", graphMeta);
-        return "graph_meta_edit";
-    }
-
-    @PostMapping("/admin/graph/{id}/meta/edit")
-    public String graphMetaEdit(@PathVariable("id") String id, @Valid GraphMeta graphMeta, BindingResult result) {
-        if (result.hasErrors()) {
-            return "graph_meta_edit";
+    private List<Integer> getSerialNumber(List<Integer> numberOwned) {
+        List<Integer> options = new ArrayList<>();
+        int i = 1;
+        while (options.size() <=  10) {
+            if (!numberOwned.contains(i)) {
+                options.add(i);
+            }
+            i++;
         }
-
-        try {
-            graphMetaService.updateGraphMeta(id, graphMeta.apiString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return "redirect:/admin/graph/" + id;
+        return options;
     }
 
     private List<GenericGraph<Integer>> convertToIntGraphs(List<Graph> graphs) {

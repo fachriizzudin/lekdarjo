@@ -22,18 +22,18 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-md-6">
-            <div class="card card-info">
+            <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Edit Meta Grafik</h3>
+                <h3 class="card-title">Tambah Grafik</h3>
               </div>
-              <form role="form" th:action="@{/admin/graph/{id}/meta/edit(id=${graphMeta.serialNumber})}" th:object="${graphMeta}" enctype="multipart/form-data"
+              <form role="form" th:action="@{/admin/graph/add}" th:object="${graphMeta}" enctype="multipart/form-data"
                 method="post">
                 <div class="card-body">
                   <div class="form-group">
                     <label for="inputSerialNumber">Nomor urut</label>
-                    <select class="form-control custom-select" id="inputSerialNumber" th:field="*{serialNumber}" disabled>
+                    <select class="form-control custom-select" id="inputSerialNumber" th:field="*{serialNumber}">
                       <option th:each="i : ${options}" th:value="${i}" th:text="${i}"
-                              th:selected="${i} == ${graphMeta.serialNumber}"></option>
+                              th:selected="${i} == ${options[0]}"></option>
                     </select>
                   </div>
                   <div class="form-group">
@@ -63,7 +63,7 @@
                   </div>
                   <div class="form-group">
                     <label for="inputHorizontal">Horizontal</label>
-                    <input type="text" class="form-control" id="inputHorizontal" th:field="*{horizontal}" disabled>
+                    <input type="text" class="form-control" id="inputHorizontal" th:value="Tahun" disabled>
                     <span th:if="${#fields.hasErrors('horizontal')}" th:errors="*{horizontal}"
                       class="text-danger"></span>
                   </div>
@@ -102,7 +102,7 @@
                   </div>
                 </div>
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-info float-right">Simpan</button>
+                  <button type="submit" class="btn btn-primary float-right">Submit</button>
                 </div>
               </form>
             </div>

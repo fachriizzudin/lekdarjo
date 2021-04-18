@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -36,7 +37,7 @@ public class GraphServiceImpl implements GraphService{
     Logger log = LoggerFactory.getLogger(GraphServiceImpl.class);
 
     @Override
-    public List<Graph> createGraphBulk(String graphJson, String metaId) throws IOException, ParseException {
+    public List<Graph> createGraphBulk(String graphJson, String metaId) throws IOException {
 
         GraphMeta graphMeta = graphMetaService.readGraphMetaByid(metaId);
 
@@ -51,7 +52,7 @@ public class GraphServiceImpl implements GraphService{
     }
 
     @Override
-    public Graph createGraph(String graphJson, String metaId) throws IOException, ParseException {
+    public Graph createGraph(String graphJson, String metaId) throws IOException {
 
         GraphMeta graphMeta = graphMetaService.readGraphMetaByid(metaId);
 
@@ -60,7 +61,7 @@ public class GraphServiceImpl implements GraphService{
         log.info(graphJson);
         log.info(metaId);
 
-        if (graphRepository.existByYear(Long.parseLong(metaId), data.getYear()) > 0) throw new BadRequestException(ExceptionMessage.ALREADY_EXIST);
+        if (graphRepository.existByYear(Integer.parseInt(metaId), data.getYear()) > 0) throw new BadRequestException(ExceptionMessage.YEAR_EXIST);
 
         data.setMeta(graphMeta);
 
@@ -69,7 +70,7 @@ public class GraphServiceImpl implements GraphService{
 
     @Override
     public List<Graph> readAllGraph(String metaId) {
-        List<Graph> graphs = graphRepository.findAllByGraphMeta(Long.parseLong(metaId));
+        List<Graph> graphs = graphRepository.findAllByGraphMeta(Integer.parseInt(metaId));
         return graphs;
     }
 
@@ -87,6 +88,9 @@ public class GraphServiceImpl implements GraphService{
         Graph graph = readById(dataId);
 
         Graph newGraph = objectMapper.readValue(dataJson, Graph.class);
+
+        if (graphRepository.existByYear(Integer.parseInt(metaId), newGraph.getYear()) > 0 && newGraph.getYear() != graph.getYear()) throw new BadRequestException(ExceptionMessage.YEAR_EXIST);
+
         graph.setValue(newGraph.getValue());
         graph.setYear(newGraph.getYear());
         graph.setMeta(graphMeta);

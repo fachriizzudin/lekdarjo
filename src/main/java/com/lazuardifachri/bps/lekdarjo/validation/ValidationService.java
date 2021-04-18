@@ -70,7 +70,7 @@ public class ValidationService {
     }
 
     public void validateImageFile(FileModel file) {
-        if (file.getType().equals("image/jpeg") || file.getType().equals("image/png")) {
+        if (file.getType().equals("image/jpeg") || file.getType().equals("image/png") || file.getType().equals("image/svg+xml")) {
             Set<ConstraintViolation<FileModel>> violations = validator.validate(file);
             if (!violations.isEmpty()) {
                 throw new ConstraintViolationException(violations);

@@ -1,6 +1,7 @@
 package com.lazuardifachri.bps.lekdarjo.rest_controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.lazuardifachri.bps.lekdarjo.model.GenericGraph;
 import com.lazuardifachri.bps.lekdarjo.model.Graph;
 import com.lazuardifachri.bps.lekdarjo.model.GraphMeta;
 import com.lazuardifachri.bps.lekdarjo.service.GraphMetaService;
@@ -37,9 +38,6 @@ public class GraphController {
         return new ResponseEntity<>("Created", HttpStatus.OK);
     }
 
-
-
-
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<String> addGraphData(@RequestPart(name = "id") String id,
@@ -56,12 +54,15 @@ public class GraphController {
     public ResponseEntity<Map<String, Object>> getAllGraphData(@PathVariable String id) {
 
         List<Graph> data = graphService.readAllGraph(id);
-
         GraphMeta graphMeta = graphMetaService.readGraphMetaByid(id);
 
         Map<String, Object> response = new HashMap<>();
 
-        response.put("data", data);
+        if (graphMeta.getDataType() == 2) {
+            response.put("data", convertToIntGraphs(data));
+        } else {
+            response.put("data", data);
+        }
         response.put("meta", graphMeta);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -86,4 +87,11 @@ public class GraphController {
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
+    private List<GenericGraph<Integer>> convertToIntGraphs(List<Graph> graphs) {
+        List<GenericGraph<Integer>> genericGraphs = new ArrayList<>();
+        for (Graph g : graphs) {
+            genericGraphs.add(new GenericGraph<>(g.getId(), (int) g.getValue().doubleValue(), g.getYear()));
+        }
+        return genericGraphs;
+    }
 }

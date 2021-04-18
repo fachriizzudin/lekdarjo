@@ -2,17 +2,21 @@ package com.lazuardifachri.bps.lekdarjo.rest_controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lazuardifachri.bps.lekdarjo.model.FileModel;
 import com.lazuardifachri.bps.lekdarjo.model.GraphMeta;
 import com.lazuardifachri.bps.lekdarjo.repository.GraphMetaRepository;
+import com.lazuardifachri.bps.lekdarjo.service.FileStorageService;
 import com.lazuardifachri.bps.lekdarjo.service.GraphMetaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -24,18 +28,15 @@ import java.util.*;
 public class GraphMetaController {
 
     @Autowired
-    ObjectMapper objectMapper;
-
-    @Autowired
     GraphMetaService graphMetaService;
 
     @Autowired
-    GraphMetaRepository graphMetaRepository;
+    FileStorageService fileStorageService;
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<String> addGraphMeta(@RequestPart("meta") String metaJson) throws IOException, ParseException {
-        graphMetaService.createGraphMeta(metaJson);
+    public ResponseEntity<String> addGraphMeta(@RequestPart("meta") String metaJson, @RequestPart("image") MultipartFile image) throws IOException, ParseException {
+        graphMetaService.createGraphMeta(metaJson, image);
         return new ResponseEntity<>("Created", HttpStatus.CREATED);
     }
 
@@ -43,13 +44,7 @@ public class GraphMetaController {
     @GetMapping(value = "")
     public ResponseEntity<List<GraphMeta>> getAllGraphMeta(@RequestParam(defaultValue = "0") int page,
                                                            @RequestParam(defaultValue = "3") int size) {
-
-        List<GraphMeta> graphMetas = new ArrayList<>();
-        Pageable wholePage = Pageable.unpaged();
-        Page<GraphMeta> pageGraphMeta = null;
-        pageGraphMeta = graphMetaService.readAllGraphMeta(wholePage);
-        graphMetas = pageGraphMeta.getContent();
-
+        List<GraphMeta> graphMetas  = graphMetaService.readAllGraphMeta();
         return new ResponseEntity<>(graphMetas, HttpStatus.OK);
     }
 
@@ -62,8 +57,8 @@ public class GraphMetaController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(value = "", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<String> updateGraphData(@RequestPart(name = "id") String id, @RequestPart(name = "meta") String metaJson) throws IOException, ParseException {
-        graphMetaService.updateGraphMeta(id, metaJson);
+    public ResponseEntity<String> updateGraphData(@RequestPart(name = "id") String id, @RequestPart(name = "meta") String metaJson, @RequestPart("image") MultipartFile image) throws IOException, ParseException {
+        graphMetaService.updateGraphMeta(id, metaJson, image);
         return new ResponseEntity<>("Updated", HttpStatus.CREATED);
     }
 
@@ -74,5 +69,16 @@ public class GraphMetaController {
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
+    @PreAuthorize("hasRole('USER')")
+    @GetMapping(value = "/images/{id}")
+    public ResponseEntity<byte[]> getGraphMetaImage(@PathVariable String id) {
+
+        FileModel indicatorFile = fileStorageService.readFileById(id);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + indicatorFile.getName() + "\"");
+        headers.add("Content-Type", indicatorFile.getType());
+        return new ResponseEntity<>(indicatorFile.getBytes(), headers, HttpStatus.OK);
+    }
 
 }

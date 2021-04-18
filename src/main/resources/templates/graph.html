@@ -6,6 +6,19 @@
 <body>
     <div th:replace="general.html :: navbar"></div>
 
+    <div class="position-absolute w-100 d-flex flex-column p-4" th:if="${toast} == true">
+        <div class="toast ml-auto" th:classappend="${success} ? bg-success : bg-danger" style="z-index: 1; position: fixed; top: 75px; right: 25px;" role="alert"
+             data-delay="700" data-autohide="false">
+            <div class="toast-header">
+                <strong class="mr-auto">Info</strong>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="toast-body" th:text="${message}"></div>
+        </div>
+    </div>
+
     <div class="content-wrapper" style="margin-left: 0px;">
 
         <div class="content-header">
@@ -25,94 +38,30 @@
                     <div class="col-md-6">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Daftar Grafik</h3>
+                                <a class="btn btn-primary btn-sm" th:href="@{/admin/graph/add}"><i
+                                        class="fas fa-plus mr-1"></i>Tambah</a>
                             </div>
                             <div class="card-body p-0">
                                 <table class="table table-striped">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
+                                            <th>Nomor Urut</th>
                                             <th>Judul</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>1.</td>
-                                            <td>Persentase Penduduk Miskin</td>
-                                            <td><a class="btn btn-info btn-sm" th:href="@{/admin/graph/1}"><i
-                                                        class="fas fa-pencil-alt mr-1"></i>Update</td>
-                                        </tr>
-                                        <tr>
-                                            <td>2.</td>
-                                            <td>Tingkat Pengangguran Terbuka</td>
-                                            <td><a class="btn btn-info btn-sm" th:href="@{/admin/graph/2}"><i
-                                                        class="fas fa-pencil-alt mr-1"></i>Update</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>3.</td>
-                                            <td>Rasio Gini</td>
-                                            <td><a class="btn btn-info btn-sm" th:href="@{/admin/graph/13}"><i
-                                                    class="fas fa-pencil-alt mr-1"></i>Update</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>4.</td>
-                                            <td>Inflasi</td>
-                                            <td><a class="btn btn-info btn-sm" th:href="@{/admin/graph/3}"><i
-                                                        class="fas fa-pencil-alt mr-1"></i>Update</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>5.</td>
-                                            <td>Pertumbuhan Ekonomi</td>
-                                            <td><a class="btn btn-info btn-sm" th:href="@{/admin/graph/4}"><i
-                                                        class="fas fa-pencil-alt mr-1"></i>Update</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>6.</td>
-                                            <td>PDRB Atas Dasar Harga Berlaku</td>
-                                            <td><a class="btn btn-info btn-sm" th:href="@{/admin/graph/5}"><i
-                                                        class="fas fa-pencil-alt mr-1"></i>Update</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>7.</td>
-                                            <td>Indeks Pembangunan Manusia</td>
-                                            <td><a class="btn btn-info btn-sm" th:href="@{/admin/graph/6}"><i
-                                                        class="fas fa-pencil-alt mr-1"></i>Update</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>8.</td>
-                                            <td>Penduduk Sidoarjo Menurut Jenis Kelamin (Laki-Laki)</td>
-                                            <td><a class="btn btn-info btn-sm" th:href="@{/admin/graph/7}"><i
-                                                        class="fas fa-pencil-alt mr-1"></i>Update</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>9.</td>
-                                            <td>Penduduk Sidoarjo Menurut Jenis Kelamin (Perempuan) </td>
-                                            <td><a class="btn btn-info btn-sm" th:href="@{/admin/graph/8}"><i
-                                                        class="fas fa-pencil-alt mr-1"></i>Update</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>10.</td>
-                                            <td>Produksi Padi</td>
-                                            <td><a class="btn btn-info btn-sm" th:href="@{/admin/graph/9}"><i
-                                                    class="fas fa-pencil-alt mr-1"></i>Update</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>11.</td>
-                                            <td>Luas Panen</td>
-                                            <td><a class="btn btn-info btn-sm" th:href="@{/admin/graph/10}"><i
-                                                    class="fas fa-pencil-alt mr-1"></i>Update</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>12.</td>
-                                            <td>Industri Besar Sedang</td>
-                                            <td><a class="btn btn-info btn-sm" th:href="@{/admin/graph/11}"><i
-                                                    class="fas fa-pencil-alt mr-1"></i>Update</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>13.</td>
-                                            <td>Luas Wilayah</td>
-                                            <td><a class="btn btn-info btn-sm" th:href="@{/admin/graph/12}"><i
-                                                    class="fas fa-pencil-alt mr-1"></i>Update</a></td>
+                                        <tr th:each="gm : ${graphMeta}">
+                                            <td th:text="${gm.serialNumber}"></td>
+                                            <td th:text="${gm.title}"></td>
+                                            <td style="text-align: center;">
+                                                <div class="btn-group btn-group-sm">
+                                                    <a th:href="@{/admin/graph/{id}(id=${gm.serialNumber})}" class="btn btn-info"><i class="fas fa-pencil-alt"></i></a>
+                                                    <button type="button" class="btn btn-danger"
+                                                            th:attr=" data-id=${gm.serialNumber}" data-toggle="modal"
+                                                            data-target="#modal-delete"><i
+                                                            class="fas fa-trash"></i></button>
+                                                </div>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -122,6 +71,29 @@
                 </div>
 
             </div>
+
+            <div class="modal fade" id="modal-delete">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Konfirmasi Delete</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body text-center">
+                            <p>Hapus data?</p>
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <a class="btn btn-danger" id="delete-confirm">Delete</a>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+
         </section>
 
     </div>
@@ -129,6 +101,15 @@
     <div th:replace="general.html :: footer"></div>
 
     <div th:replace="general.html :: javascripts"></div>
+
+    <script>
+        $('#modal-delete').on('show.bs.modal', function (event) {
+            console.log("modal default");
+            var id = $(event.relatedTarget).data('id');
+            $(this).find("#delete-confirm").attr("href", "/admin/graph/delete/" + id);
+        });
+        $('.toast').toast('show');
+    </script>
 </body>
 
 </html>
