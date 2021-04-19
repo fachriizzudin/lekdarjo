@@ -66,8 +66,6 @@ public class AdmGraphController {
     public String graphMetaAdd(@RequestParam("file") MultipartFile file, @Valid GraphMeta graphMeta, BindingResult result,
                                RedirectAttributes redirectAttributes) {
 
-        graphMeta.setHorizontal("Tahun");
-
         if (result.hasErrors()) {
             log.info(result.getFieldError().toString());
             return "graph_meta_add";

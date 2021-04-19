@@ -45,6 +45,8 @@ public class GraphMetaServiceImpl implements GraphMetaService{
     public GraphMeta createGraphMeta(String graphJson, MultipartFile file) throws IOException, ParseException {
         GraphMeta graphMeta = objectMapper.readValue(graphJson, GraphMeta.class);
 
+        graphMeta.setHorizontal("Tahun");
+
         if (file != null) {
             FileModel imageFile = fileStorageService.createFileObject(file);
 
