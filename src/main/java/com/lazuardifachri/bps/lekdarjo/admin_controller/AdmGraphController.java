@@ -100,7 +100,9 @@ public class AdmGraphController {
     @GetMapping("/{id}/meta/edit")
     public String graphMetaEditForm(@PathVariable("id") String id, Model model) {
         GraphMeta graphMeta = graphMetaService.readGraphMetaByid(id);
-        List<Integer> options = getSerialNumber(graphMetaService.readAllSerialNumber(graphMeta.getSerialNumber()));
+        List<Integer> options = getSerialNumber(graphMetaService.readAllSerialNumber());
+        options.add(graphMeta.getSerialNumber());
+        Collections.sort(options);
         log.info(graphMeta.toString());
         model.addAttribute("options", options);
         model.addAttribute("graphMeta", graphMeta);
