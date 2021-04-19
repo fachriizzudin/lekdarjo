@@ -112,6 +112,7 @@ public class AdmGraphController {
                                 @Valid GraphMeta graphMeta, BindingResult result, RedirectAttributes redirectAttributes) {
 
         if (result.hasErrors()) {
+            log.info(result.getFieldError().toString());
             return "graph_meta_edit";
         }
 
