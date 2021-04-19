@@ -151,6 +151,7 @@ public class StatisticalNewsServiceImpl implements StatisticalNewsService {
             StatisticalNews newStatisticalNews = objectMapper.readValue(newsJson, StatisticalNews.class);
             statisticalNews.setTitle(newStatisticalNews.getTitle());
             statisticalNews.setReleaseDate(parseComplicatedDate(newStatisticalNews.getReleaseDate()));
+            statisticalNews.setCategory(newStatisticalNews.getCategory());
             statisticalNews.setAbstraction(newStatisticalNews.getAbstraction());
             statisticalNews.setDocumentUri(newStatisticalNews.getDocumentUri());
 
