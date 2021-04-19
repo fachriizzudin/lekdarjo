@@ -31,7 +31,7 @@
                 <div class="card-body">
                   <div class="form-group">
                     <label for="inputSerialNumber">Nomor urut</label>
-                    <select class="form-control custom-select" id="inputSerialNumber" th:field="*{serialNumber}" disabled>
+                    <select class="form-control custom-select" id="inputSerialNumber" th:field="*{serialNumber}">
                       <option th:each="i : ${options}" th:value="${i}" th:text="${i}"
                               th:selected="${i} == ${graphMeta.serialNumber}"></option>
                     </select>
