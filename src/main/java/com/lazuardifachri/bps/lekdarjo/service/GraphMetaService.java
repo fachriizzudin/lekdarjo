@@ -16,6 +16,8 @@ public interface GraphMetaService {
 
     List<Integer> readAllSerialNumber();
 
+    Long getGraphMetaCount();
+
     List<Integer> readAllSerialNumber(Integer include);
 
     GraphMeta readGraphMetaByid(String metaId);

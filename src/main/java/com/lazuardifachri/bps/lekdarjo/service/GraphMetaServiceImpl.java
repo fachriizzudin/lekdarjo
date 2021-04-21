@@ -97,6 +97,11 @@ public class GraphMetaServiceImpl implements GraphMetaService{
     }
 
     @Override
+    public Long getGraphMetaCount() {
+        return graphMetaRepository.count();
+    }
+
+    @Override
     public GraphMeta readGraphMetaByid(String metaId) {
         Optional<GraphMeta> graphMeta = graphMetaRepository.findBySerialNumber(Integer.parseInt(metaId));
         return graphMeta.orElseThrow(() -> new ResourceNotFoundException(ExceptionMessage.GRAPH_NOT_FOUND));

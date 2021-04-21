@@ -49,6 +49,13 @@ public class GraphMetaController {
     }
 
     @PreAuthorize("hasRole('USER')")
+    @GetMapping(value = "/count")
+    public ResponseEntity<Long> getGraphMetaCount() {
+        Long graphMetasCount  = graphMetaService.getGraphMetaCount();
+        return new ResponseEntity<>(graphMetasCount, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('USER')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<GraphMeta> getGraphMetaById(@PathVariable String id) {
         GraphMeta graphMeta = graphMetaService.readGraphMetaByid(id);
