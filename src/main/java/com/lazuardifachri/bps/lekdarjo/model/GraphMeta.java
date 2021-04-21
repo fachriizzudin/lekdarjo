@@ -73,7 +73,6 @@ public class GraphMeta {
     @Column(name = "image_uri")
     private String imageUri;
 
-    @JsonIgnore
     @OneToMany(mappedBy="meta", cascade = CascadeType.ALL)
     private Set<Graph> graphs;
 
