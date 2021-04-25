@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lazuardifachri.bps.lekdarjo.Constant;
+import com.lazuardifachri.bps.lekdarjo.exception.BadRequestException;
 import com.lazuardifachri.bps.lekdarjo.model.Indicator;
 import com.lazuardifachri.bps.lekdarjo.service.IndicatorService;
 
@@ -31,9 +32,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class AdmIndicatorAgriController {
 
     Logger log = LoggerFactory.getLogger(AdmIndicatorAgriController.class);
-
-    @Autowired
-    ObjectMapper objectMapper;
 
     @Autowired
     IndicatorService indicatorService;
@@ -79,7 +77,7 @@ public class AdmIndicatorAgriController {
 
     @PostMapping("/add")
     public String indicatorAdd(@RequestParam("file") MultipartFile file, @Valid Indicator indicator, BindingResult result,
-                               Model model, RedirectAttributes redirectAttributes) {
+                               RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             return "indicator_agriculture_add";
         }
@@ -97,6 +95,10 @@ public class AdmIndicatorAgriController {
             } else {
                 indicatorService.createIndicator(indicator.apiString(), file);
             }
+        }catch (BadRequestException e) {
+            redirectAttributes.addFlashAttribute("success", false);
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+            return "redirect:/admin/indicator/agriculture/add";
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("success", false);
             redirectAttributes.addFlashAttribute("message", "Penambahan data gagal");

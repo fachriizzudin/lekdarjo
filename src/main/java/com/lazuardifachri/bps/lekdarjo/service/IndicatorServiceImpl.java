@@ -2,6 +2,7 @@ package com.lazuardifachri.bps.lekdarjo.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lazuardifachri.bps.lekdarjo.Utils;
 import com.lazuardifachri.bps.lekdarjo.exception.BadRequestException;
 import com.lazuardifachri.bps.lekdarjo.exception.ExceptionMessage;
 import com.lazuardifachri.bps.lekdarjo.exception.ResourceNotFoundException;
@@ -78,11 +79,15 @@ public class IndicatorServiceImpl implements IndicatorService{
 
         }
 
+        if (indicator.getDocumentUri().isEmpty()) {
+            throw new BadRequestException(ExceptionMessage.FILE_OR_URI_REQUIRED);
+        }
+
+        indicator.setDocumentUri(Utils.formatUrlFromBps(indicator.getDocumentUri()));
+
         validationService.validateIndicator(indicator);
 
-        Indicator savedIndicator = indicatorRepository.save(indicator);
-
-        return savedIndicator;
+        return indicatorRepository.save(indicator);
     }
 
     @Override
@@ -117,7 +122,8 @@ public class IndicatorServiceImpl implements IndicatorService{
             indicator.setCategory(newIndicator.getCategory());
             indicator.setReleaseDate(newIndicator.getReleaseDate());
             indicator.setStatType(newIndicator.getStatType());
-            indicator.setDocumentUri(newIndicator.getDocumentUri());
+            // indicator.setDocumentUri(newIndicator.getDocumentUri());
+            indicator.setDocumentUri(Utils.formatUrlFromBps(indicator.getDocumentUri()));
 
             if (file != null) {
 

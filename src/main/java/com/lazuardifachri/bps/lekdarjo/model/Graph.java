@@ -31,6 +31,13 @@ public class Graph {
         this.year = year;
     }
 
+    public Graph(long id, @NotNull Double value, @NotNull int year, GraphMeta meta) {
+        this.id = id;
+        this.value = value;
+        this.year = year;
+        this.meta = meta;
+    }
+
     public Graph() {
     }
 

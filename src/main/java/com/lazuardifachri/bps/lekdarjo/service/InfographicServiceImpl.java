@@ -2,6 +2,7 @@ package com.lazuardifachri.bps.lekdarjo.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lazuardifachri.bps.lekdarjo.Utils;
 import com.lazuardifachri.bps.lekdarjo.exception.BadRequestException;
 import com.lazuardifachri.bps.lekdarjo.exception.ExceptionMessage;
 import com.lazuardifachri.bps.lekdarjo.exception.ResourceNotFoundException;
@@ -78,11 +79,15 @@ public class InfographicServiceImpl implements InfographicService {
             return savedInfographic;
         }
 
+        if (infographic.getImageUri().isEmpty()) {
+            throw new BadRequestException(ExceptionMessage.FILE_OR_URI_REQUIRED);
+        }
+
+        infographic.setImageUri(Utils.formatUrlFromBps(infographic.getImageUri()));
+
         validationService.validateInfographic(infographic);
 
-        Infographic savedInfographic = infographicRepository.save(infographic);
-
-        return savedInfographic;
+        return infographicRepository.save(infographic);
 
     }
 
@@ -114,7 +119,8 @@ public class InfographicServiceImpl implements InfographicService {
             infographic.setTitle(newInfographic.getTitle());
             infographic.setReleaseDate(newInfographic.getReleaseDate());
             infographic.setSubject(newInfographic.getSubject());
-            infographic.setImageUri(newInfographic.getImageUri());
+            // infographic.setImageUri(newInfographic.getImageUri());
+            infographic.setImageUri(Utils.formatUrlFromBps(infographic.getImageUri()));
 
             if (file != null) {
 

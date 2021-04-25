@@ -64,26 +64,27 @@ public class AdmGraphController {
 
     @PostMapping("/add")
     public String graphMetaAdd(@RequestParam("file") MultipartFile file, @Valid GraphMeta graphMeta, BindingResult result,
-                               RedirectAttributes redirectAttributes) {
+                               RedirectAttributes redirectAttributes, Model model) {
 
         if (result.hasErrors()) {
             log.info(result.getFieldError().toString());
+            List<Integer> options = getSerialNumber(graphMetaService.readAllSerialNumber());
+            model.addAttribute("options", options);
             return "graph_meta_add";
         }
 
-        log.info(graphMeta.toString());
         redirectAttributes.addFlashAttribute("toast", true);
 
         try {
             if (file.isEmpty()) {
                 graphMetaService.createGraphMeta(graphMeta.apiStringWithUri(), null);
-                log.info(graphMeta.apiStringWithUri());
-                log.info("empty file");
             } else {
                 graphMetaService.createGraphMeta(graphMeta.apiString(), file);
-                log.info(graphMeta.apiString());
-                log.info("file");
             }
+        } catch (BadRequestException e) {
+            redirectAttributes.addFlashAttribute("success", false);
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+            return "redirect:/admin/graph/add";
         } catch (Exception e) {
             e.printStackTrace();
             redirectAttributes.addFlashAttribute("success", false);

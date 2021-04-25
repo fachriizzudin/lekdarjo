@@ -96,6 +96,7 @@
                                         <label for="inputDocumentUri">Link File</label>
                                         <input type="text" class="form-control" id="inputDocumentUri" th:field="*{documentUri}">
                                         <span th:if="${#fields.hasErrors('documentUri')}" th:errors="*{documentUri}" class="text-danger"></span>
+                                        <p th:text="${message}" class="text-danger"></p>
                                     </div>
                                 </div>
                                 <div class="card-footer">

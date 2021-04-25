@@ -35,6 +35,7 @@
                       <option th:each="i : ${options}" th:value="${i}" th:text="${i}"
                               th:selected="${i} == ${graphMeta.serialNumber}"></option>
                     </select>
+                    <p th:if="${#fields.hasErrors('serialNumber')}" th:errors="*{serialNumber}" class="text-danger"></p>
                   </div>
                   <div class="form-group">
                     <label for="inputTitle">Judul</label>
@@ -74,14 +75,14 @@
                     <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
                       class="text-danger"></span>
                   </div>
-                  <div class="form-group">
-                    <label for="inputGraphType">Tipe Grafik</label>
-                    <select class="form-control custom-select" id="inputGraphType" th:field="*{graphType}">
-                      <option th:value="1">Standar</option>
-                      <option th:value="2">Simpel</option>
-                    </select>
-                    <span th:if="${#fields.hasErrors('graphType')}" th:errors="*{graphType}" class="text-danger"></span>
-                  </div>
+<!--                  <div class="form-group">-->
+<!--                    <label for="inputGraphType">Tipe Grafik</label>-->
+<!--                    <select class="form-control custom-select" id="inputGraphType" th:field="*{graphType}">-->
+<!--                      <option th:value="1">Standar</option>-->
+<!--                      <option th:value="2">Simpel</option>-->
+<!--                    </select>-->
+<!--                    <span th:if="${#fields.hasErrors('graphType')}" th:errors="*{graphType}" class="text-danger"></span>-->
+<!--                  </div>-->
                   <div class="form-group">
                     <label for="inputDataType">Tipe Data</label>
                     <select class="form-control custom-select" id="inputDataType" th:field="*{dataType}">
@@ -92,6 +93,7 @@
                   </div>
                   <div class="form-group">
                     <label for="inputFile">Image Input (SVG)</label>
+                    <p>*warna untuk subjek sosial #205D96, ekonomi #ED6E21, dan pertanian #91C32E</p>
                     <input type="file" class="form-control-file" id="inputFile" name="file">
                     <p th:text="${message}" class="text-danger"></p>
                   </div>
@@ -99,6 +101,7 @@
                     <label for="inputImageUri">Link Image</label>
                     <input type="text" class="form-control" id="inputImageUri" th:field="*{imageUri}">
                     <span th:if="${#fields.hasErrors('imageUri')}" th:errors="*{imageUri}" class="text-danger"></span>
+                    <p th:text="${message}" class="text-danger"></p>
                   </div>
                 </div>
                 <div class="card-footer">

@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lazuardifachri.bps.lekdarjo.Constant;
+import com.lazuardifachri.bps.lekdarjo.exception.BadRequestException;
 import com.lazuardifachri.bps.lekdarjo.model.Indicator;
 import com.lazuardifachri.bps.lekdarjo.service.IndicatorService;
 
@@ -31,9 +32,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class AdmIndicatorSosController {
 
     Logger log = LoggerFactory.getLogger(AdmIndicatorSosController.class);
-
-    @Autowired
-    ObjectMapper objectMapper;
 
     @Autowired
     IndicatorService indicatorService;
@@ -78,8 +76,8 @@ public class AdmIndicatorSosController {
     }
 
     @PostMapping("/add")
-    public String indicatorAdd(@RequestParam("file") MultipartFile file, @Valid Indicator indicator, BindingResult result, Model model, 
-            RedirectAttributes redirectAttributes) {
+    public String indicatorAdd(@RequestParam("file") MultipartFile file, @Valid Indicator indicator, BindingResult result,
+                               RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             return "indicator_social_add";
         }
@@ -97,6 +95,10 @@ public class AdmIndicatorSosController {
             } else {
                 indicatorService.createIndicator(indicator.apiString(), file);
             }
+        } catch (BadRequestException e) {
+            redirectAttributes.addFlashAttribute("success", false);
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+            return "redirect:/admin/indicator/social/add";
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("success", false);
             redirectAttributes.addFlashAttribute("message", "Penambahan data gagal");

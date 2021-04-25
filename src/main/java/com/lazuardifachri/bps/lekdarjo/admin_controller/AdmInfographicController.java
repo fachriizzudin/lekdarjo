@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lazuardifachri.bps.lekdarjo.Constant;
+import com.lazuardifachri.bps.lekdarjo.exception.BadRequestException;
 import com.lazuardifachri.bps.lekdarjo.model.Infographic;
 import com.lazuardifachri.bps.lekdarjo.service.InfographicService;
 
@@ -31,9 +32,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class AdmInfographicController {
     
     Logger log = LoggerFactory.getLogger(AdmInfographicController.class);
-
-    @Autowired
-    ObjectMapper objectMapper;
 
     @Autowired
     InfographicService infographicService;
@@ -99,6 +97,10 @@ public class AdmInfographicController {
             } else {
                 infographicService.createInfographic(infographic.apiString(), file);
             }
+        } catch (BadRequestException e) {
+            redirectAttributes.addFlashAttribute("success", false);
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+            return "redirect:/admin/infographic/add";
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("success", false);
             redirectAttributes.addFlashAttribute("message", "Penambahan data gagal");

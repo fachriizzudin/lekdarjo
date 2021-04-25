@@ -2,6 +2,7 @@ package com.lazuardifachri.bps.lekdarjo.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lazuardifachri.bps.lekdarjo.Utils;
 import com.lazuardifachri.bps.lekdarjo.exception.BadRequestException;
 import com.lazuardifachri.bps.lekdarjo.exception.ExceptionMessage;
 import com.lazuardifachri.bps.lekdarjo.exception.ResourceNotFoundException;
@@ -45,9 +46,6 @@ public class PublicationServiceImpl implements PublicationService{
 
     @Autowired
     PublicationRepository publicationRepository;
-
-    @Autowired
-    FileStorageRepository fileStorageRepository;
 
     private Publication parsePubJsonString(String pubJson) throws JsonProcessingException, ParseException {
 
@@ -98,11 +96,15 @@ public class PublicationServiceImpl implements PublicationService{
             return savedPublication;
         }
 
+        if (publication.getDocumentUri().isEmpty() || publication.getImageUri().isEmpty()) {
+            throw new BadRequestException(ExceptionMessage.FILE_OR_URI_REQUIRED);
+        }
+
+        publication.setDocumentUri(Utils.formatUrlFromBps(publication.getDocumentUri()));
+
         validationService.validatePublication(publication);
 
-        Publication savedPublication = publicationRepository.save(publication);
-
-        return savedPublication;
+        return publicationRepository.save(publication);
     }
 
     @Override
@@ -156,7 +158,8 @@ public class PublicationServiceImpl implements PublicationService{
             publication.setInformation(newPublication.getInformation());
             publication.setSubject(newPublication.getSubject());
             publication.setDistrict(newPublication.getDistrict());
-            publication.setDocumentUri(newPublication.getDocumentUri());
+            // publication.setDocumentUri(newPublication.getDocumentUri());
+            publication.setDocumentUri(Utils.formatUrlFromBps(publication.getDocumentUri()));
             publication.setImageUri(newPublication.getImageUri());
 
             if (file != null) {

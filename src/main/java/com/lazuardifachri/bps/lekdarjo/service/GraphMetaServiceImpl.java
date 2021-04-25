@@ -1,6 +1,8 @@
 package com.lazuardifachri.bps.lekdarjo.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lazuardifachri.bps.lekdarjo.admin_controller.AdmGraphController;
+import com.lazuardifachri.bps.lekdarjo.exception.BadRequestException;
 import com.lazuardifachri.bps.lekdarjo.exception.ExceptionMessage;
 import com.lazuardifachri.bps.lekdarjo.exception.ResourceNotFoundException;
 import com.lazuardifachri.bps.lekdarjo.model.FileModel;
@@ -8,7 +10,10 @@ import com.lazuardifachri.bps.lekdarjo.model.Graph;
 import com.lazuardifachri.bps.lekdarjo.model.GraphMeta;
 import com.lazuardifachri.bps.lekdarjo.model.Infographic;
 import com.lazuardifachri.bps.lekdarjo.repository.GraphMetaRepository;
+import com.lazuardifachri.bps.lekdarjo.repository.GraphRepository;
 import com.lazuardifachri.bps.lekdarjo.validation.ValidationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
@@ -20,14 +25,14 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.time.Year;
+import java.util.*;
 
 @Transactional
 @Service
 public class GraphMetaServiceImpl implements GraphMetaService{
+
+    Logger log = LoggerFactory.getLogger(GraphMetaServiceImpl.class);
 
     @Autowired
     ObjectMapper objectMapper;
@@ -41,11 +46,15 @@ public class GraphMetaServiceImpl implements GraphMetaService{
     @Autowired
     GraphMetaRepository graphMetaRepository;
 
+    @Autowired
+    GraphRepository graphRepository;
+
     @Override
-    public GraphMeta createGraphMeta(String graphJson, MultipartFile file) throws IOException, ParseException {
+    public GraphMeta createGraphMeta(String graphJson, MultipartFile file) throws IOException {
         GraphMeta graphMeta = objectMapper.readValue(graphJson, GraphMeta.class);
 
         graphMeta.setHorizontal("Tahun");
+        graphMeta.setGraphType(1);
 
         if (file != null) {
             FileModel imageFile = fileStorageService.createFileObject(file);
@@ -66,12 +75,26 @@ public class GraphMetaServiceImpl implements GraphMetaService{
 
             savedGraphMeta.setImageUri(imageUri);
 
+            // untuk menghindari data null pada saat graph baru dibuat
+            int year = Year.now().getValue();
+            Graph initiateGraph = new Graph(0,1.0, year, savedGraphMeta);
+            graphRepository.save(initiateGraph);
+
             return savedGraphMeta;
+        }
+
+        if (graphMeta.getImageUri().isEmpty()) {
+            throw new BadRequestException(ExceptionMessage.FILE_OR_URI_REQUIRED);
         }
 
         validationService.validateGraphMeta(graphMeta);
 
         GraphMeta savedGraphMeta = graphMetaRepository.save(graphMeta);
+
+        // untuk menghindari data null pada saat graph baru dibuat
+        int year = Year.now().getValue();
+        Graph initiateGraph = new Graph(0,1.0, year, savedGraphMeta);
+        graphRepository.save(initiateGraph);
 
         return savedGraphMeta;
     }
@@ -79,7 +102,7 @@ public class GraphMetaServiceImpl implements GraphMetaService{
     @Override
     public List<GraphMeta> readAllGraphMeta() {
         List<GraphMeta> graphMetas = graphMetaRepository.findAll();
-        Collections.sort(graphMetas, Comparator.comparing(GraphMeta::getSerialNumber));
+        graphMetas.sort(Comparator.comparing(GraphMeta::getSerialNumber));
         return graphMetas;
     }
 
@@ -108,7 +131,7 @@ public class GraphMetaServiceImpl implements GraphMetaService{
     }
 
     @Override
-    public GraphMeta updateGraphMeta(String metaId, String metaJson, MultipartFile file) throws IOException, ParseException {
+    public GraphMeta updateGraphMeta(String metaId, String metaJson, MultipartFile file) throws IOException {
         Optional<GraphMeta> graphMetaOptional = graphMetaRepository.findBySerialNumber(Integer.parseInt(metaId));
         GraphMeta newGraphMeta = objectMapper.readValue(metaJson, GraphMeta.class);
         GraphMeta graphMeta;
@@ -120,7 +143,7 @@ public class GraphMetaServiceImpl implements GraphMetaService{
             graphMeta.setVertical(newGraphMeta.getVertical());
             graphMeta.setVerticalUnit(newGraphMeta.getVerticalUnit());
             graphMeta.setDescription(newGraphMeta.getDescription());
-            graphMeta.setGraphType(newGraphMeta.getGraphType());
+            graphMeta.setGraphType(1);
             graphMeta.setDataType(newGraphMeta.getDataType());
             graphMeta.setImageUri(newGraphMeta.getImageUri());
 
@@ -138,6 +161,12 @@ public class GraphMetaServiceImpl implements GraphMetaService{
 
             }
 
+            // sepertinya tidak perlu dilakukan pada saat update karena pada update sudah
+            // ada default url yang tersimpan
+//            if (graphMeta.getImageUri().isEmpty()) {
+//                throw new BadRequestException(ExceptionMessage.FILE_OR_URI_REQUIRED);
+//            }
+            
             validationService.validateGraphMeta(graphMeta);
 
             GraphMeta savedGraphMeta = graphMetaRepository.save(graphMeta);

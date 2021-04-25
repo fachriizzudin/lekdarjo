@@ -18,4 +18,5 @@ public class ExceptionMessage {
     public final static String YEAR_EXIST = "Data already exist in database";
     public final static String DISTRICT_NOT_FOUND = "District with the specified code was not found";
     public final static String FILE_REQUIRED = "File upload is required";
+    public final static String FILE_OR_URI_REQUIRED = "File upload or file url is required (select one)";
 }

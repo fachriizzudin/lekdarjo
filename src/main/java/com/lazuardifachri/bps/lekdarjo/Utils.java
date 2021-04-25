@@ -9,10 +9,20 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 
 public class Utils {
+
+    public static String formatUrlFromBps(String url) {
+        if (url.contains("sidoarjokab.bps.go.id") && !url.endsWith("=")) {
+            String[] urlArray = url.split("=");
+            String[] urlArrayCleaned = Arrays.copyOf(urlArray, urlArray.length -1);
+            return String.join("=",urlArrayCleaned).concat("=");
+        }
+        return url;
+    }
 
     public static Date parseComplicatedDate(Date date) throws ParseException {
         DateTimeFormatter f = DateTimeFormatter.ofPattern( "E MMM dd HH:mm:ss z uuuu" )

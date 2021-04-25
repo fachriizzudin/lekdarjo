@@ -3,6 +3,7 @@ package com.lazuardifachri.bps.lekdarjo.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lazuardifachri.bps.lekdarjo.Utils;
 import com.lazuardifachri.bps.lekdarjo.exception.BadRequestException;
 import com.lazuardifachri.bps.lekdarjo.exception.ExceptionMessage;
 import com.lazuardifachri.bps.lekdarjo.exception.ResourceNotFoundException;
@@ -43,9 +44,6 @@ public class StatisticalNewsServiceImpl implements StatisticalNewsService {
 
     @Autowired
     FileStorageService fileStorageService;
-
-    @Autowired
-    CategoryRepository categoryRepository;
 
     @Autowired
     ValidationService validationService;
@@ -91,17 +89,22 @@ public class StatisticalNewsServiceImpl implements StatisticalNewsService {
                     .toUriString();
 
             // TERNYATA DOCUMENT URINYA BISA KESAVE WALAUPUN DATA SUDAH DISAVE SEBELUMNYA
+            // uwaw
 
             savedStatisticalNews.setDocumentUri(documentUri);
 
             return savedStatisticalNews;
         }
 
+        if (statisticalNews.getDocumentUri().isEmpty()) {
+            throw new BadRequestException(ExceptionMessage.FILE_OR_URI_REQUIRED);
+        }
+
+        statisticalNews.setDocumentUri(Utils.formatUrlFromBps(statisticalNews.getDocumentUri()));
+
         validationService.validateStatisticalNews(statisticalNews);
 
-        StatisticalNews savedStatisticalNews = statisticalNewsRepository.save(statisticalNews);
-
-        return savedStatisticalNews;
+        return statisticalNewsRepository.save(statisticalNews);
 
     }
 
@@ -154,7 +157,8 @@ public class StatisticalNewsServiceImpl implements StatisticalNewsService {
             statisticalNews.setReleaseDate(parseComplicatedDate(newStatisticalNews.getReleaseDate()));
             statisticalNews.setCategory(newStatisticalNews.getCategory());
             statisticalNews.setAbstraction(newStatisticalNews.getAbstraction());
-            statisticalNews.setDocumentUri(newStatisticalNews.getDocumentUri());
+            // statisticalNews.setDocumentUri(newStatisticalNews.getDocumentUri());
+            statisticalNews.setDocumentUri(Utils.formatUrlFromBps(statisticalNews.getDocumentUri()));
 
             if (file != null) {
                 FileModel documentFile;

@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lazuardifachri.bps.lekdarjo.Constant;
+import com.lazuardifachri.bps.lekdarjo.exception.BadRequestException;
 import com.lazuardifachri.bps.lekdarjo.service.PublicationService;
 import com.lazuardifachri.bps.lekdarjo.model.Publication;
 
@@ -32,9 +33,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class AdmPublicationController {
 
     Logger log = LoggerFactory.getLogger(AdmPublicationController.class);
-
-    @Autowired
-    ObjectMapper objectMapper;
 
     @Autowired
     PublicationService publicationService;
@@ -83,7 +81,7 @@ public class AdmPublicationController {
 
     @PostMapping("/add")
     public String publicationAdd(@RequestParam("file") MultipartFile file, @Valid Publication publication, BindingResult result,
-                                 Model model, RedirectAttributes redirectAttributes) {
+                                 RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             return "publication_add";
         }
@@ -101,6 +99,10 @@ public class AdmPublicationController {
             } else {
                 publicationService.createPublication(publication.apiString(), file);
             }
+        } catch (BadRequestException e) {
+            redirectAttributes.addFlashAttribute("success", false);
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+            return "redirect:/admin/publication/add";
         } catch (Exception e) {
             e.printStackTrace();
             redirectAttributes.addFlashAttribute("success", false);

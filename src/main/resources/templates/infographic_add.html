@@ -64,6 +64,7 @@
                                         <label for="inputImageUri">Link Image</label>
                                         <input type="text" class="form-control" id="inputImageUri" th:field="*{imageUri}">
                                         <span th:if="${#fields.hasErrors('imageUri')}" th:errors="*{imageUri}" class="text-danger"></span>
+                                        <p th:text="${message}" class="text-danger"></p>
                                     </div>
                                 </div>
                                 <div class="card-footer">

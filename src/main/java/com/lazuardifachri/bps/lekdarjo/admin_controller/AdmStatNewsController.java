@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lazuardifachri.bps.lekdarjo.Constant;
+import com.lazuardifachri.bps.lekdarjo.exception.BadRequestException;
 import com.lazuardifachri.bps.lekdarjo.model.StatisticalNews;
 import com.lazuardifachri.bps.lekdarjo.service.StatisticalNewsService;
 
@@ -32,9 +33,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class AdmStatNewsController {
 
     Logger log = LoggerFactory.getLogger(AdmStatNewsController.class);
-
-    @Autowired
-    ObjectMapper objectMapper;
 
     @Autowired
     StatisticalNewsService statisticalNewsService;
@@ -81,8 +79,8 @@ public class AdmStatNewsController {
     }
 
     @PostMapping("/add")
-    public String brsAdd(@RequestParam("file") MultipartFile file, @Valid StatisticalNews brs, BindingResult result, 
-            Model model, RedirectAttributes redirectAttributes) {
+    public String brsAdd(@RequestParam("file") MultipartFile file, @Valid StatisticalNews brs, BindingResult result,
+                         RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             return "brs_add";
         }
@@ -100,6 +98,10 @@ public class AdmStatNewsController {
             } else {
                 statisticalNewsService.createStatisticalNews(brs.apiString(), file);
             }
+        } catch (BadRequestException e) {
+            redirectAttributes.addFlashAttribute("success", false);
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+            return "redirect:/admin/brs/add";
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("success", false);
             redirectAttributes.addFlashAttribute("message", "Penambahan data gagal");
