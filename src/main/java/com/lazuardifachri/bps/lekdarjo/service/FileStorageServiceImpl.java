@@ -32,9 +32,6 @@ public class FileStorageServiceImpl implements FileStorageService {
     @Autowired
     FileStorageRepository fileStorageRepository;
 
-    @Autowired
-    ValidationService validationService;
-
     @Override
     public FileModel createFileObject(MultipartFile file) throws IOException {
         log.info("content Type: " + file.getContentType());
