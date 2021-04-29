@@ -44,7 +44,6 @@ public class GraphMeta {
     @DoubleQuoteConstraint
     private String vertical;
 
-    @NotEmpty
     @JsonProperty(value = "vertical_unit")
     @Column(name = "vertical_unit")
     @DoubleQuoteConstraint
